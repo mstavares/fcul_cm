@@ -1,0 +1,30 @@
+<resources>
+
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_bad_login_or_password">Bad login or password</string>
+    <string name="error_login_cancelled">Login cancelled</string>
+    <string name="succeeded_authentication">Authentication Succeeded</string>
+    <string name="succeeded_registration">User registered successfully </string>
+    <string name="wait_connecting_with_server">Establishing connection with the server…</string>
+
+    <!-- Strings related to sensors -->
+    <string name="error_sensor_not_found_title">Feature not detected</string>
+    <string name="sensor_not_found_message">NSense did not find the %s on your device. \n
+        NSense cannot proceed without it.</string>
+    <string name="Accelerometer">accelerometer</string>
+
+    <!-- App description -->
+    <string name="app_name">Parkinson Daily Basis</string>
+    <string name="service_name">Parkinson Daily Basis Service</string>
+
+</resources>

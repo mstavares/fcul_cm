@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/miguel/.android/build-cache/3fb14aa064c0e1e02fbcbdaaee71915cbdae6000/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6a2bcb61342d09fe9acf55c9daf63961c8866cc0">
+        <dex dex="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_cab4130ab15f09302e433d7fa0e1b161d69d77bb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/miguel/.android/build-cache/157f494f2b89b48e2f42bae2aeacd5228efadc6c/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="27255376195ea8719ca07f8182140b043697088c">
+        <dex dex="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1ec9cac537461383867b699dbb27c17a4a8e72a2/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_3e84d9e3b5a6d269c0f225b37a0b617575c5ab65/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="684deee68988124cd1f156918f90349b99a6f196">
+        <dex dex="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_a1488d278b304c7f8b548137153b347e804739c9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/miguel/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife-annotations/8.8.1/bc373fb6bc7bca3035041b924f158fd2b946ee8d/butterknife-annotations-8.8.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="bc373fb6bc7bca3035041b924f158fd2b946ee8d">
+        <dex dex="/home/miguel/AndroidStudioProjects/PDB/app/build/intermediates/transforms/dex/debug/folders/1000/10/butterknife-annotations-8.8.1_0c880ae23d75f28408bb6fb9073ea5e20a6d3ccd/classes.dex" />
+    </item>
+
+</items>
