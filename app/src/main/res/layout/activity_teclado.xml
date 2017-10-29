@@ -1,408 +1,384 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_matricula"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:weightSum="1">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:text="@string/score"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            android:text="@string/score"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_weight="1"
+        android:text="@string/time"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="124dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="35dp"
+        android:layout_weight="1"
+        android:text="Banana"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/str_word"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="40sp"
-            android:text="Banana" />
-    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/word">
 
-        <EditText
-            android:id="@+id/str_input"
+        <TextView
+            android:id="@+id/input"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="30sp"
+            android:editable="false"
             android:ems="4"
             android:gravity="center_horizontal"
-            android:editable="false"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/btn_Q"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            style="@style/Widget.AppCompat.Button"
-            android:text="@string/bt_Q"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="A"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
+
         <Button
-            android:id="@+id/btn_W"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_W"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="B"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
         <Button
-            android:id="@+id/btn_E"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_E"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="C"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
         <Button
-            android:id="@+id/btn_R"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_R"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="D"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_T"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:layout_marginBottom="2dp"
-            android:minHeight="55dp"
-            android:text="@string/bt_T"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
-            android:id="@+id/btn_Y"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            style="@style/Widget.AppCompat.Button"
-            android:text="@string/bt_Y"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="E"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_U"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_U"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="F"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_I"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_I"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_O"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_O"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_P"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:layout_marginBottom="2dp"
-            android:minHeight="55dp"
-            android:text="@string/bt_P"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="G"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="H"
+            android:textColor="#333"
+            android:textSize="25sp" />
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <Button
-            android:id="@+id/btn_A"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_A"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="I"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_S"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_S"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_D"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_D"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_F"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_F"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_G"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:layout_marginBottom="2dp"
-            android:minHeight="55dp"
-            android:text="@string/bt_G"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="J"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="L"
+            android:textColor="#333"
+            android:textSize="25sp" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="M"
+            android:textColor="#333"
+            android:textSize="25sp" />
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout5"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginTop="66dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout4">
 
         <Button
-            android:id="@+id/btn_H"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            style="@style/Widget.AppCompat.Button"
-            android:text="@string/bt_H"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="N"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_J"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_J"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="O"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
         <Button
-            android:id="@+id/btn_K"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_K"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="P"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
         <Button
-            android:id="@+id/btn_L"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/bt_L"
-            style="@style/Widget.AppCompat.Button"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="Q"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-        <Button
-            android:id="@+id/btn_Z"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:layout_marginBottom="2dp"
-            android:minHeight="55dp"
-            android:text="@string/bt_Z"
-            style="@style/Widget.AppCompat.Button"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
+            android:textSize="25sp" />
+
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout6"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
         <Button
-            android:id="@+id/btn_X"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_X"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="R"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
-        <Button
-            android:id="@+id/btn_C"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_C"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_V"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -410,15 +386,14 @@
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_V"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="S"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
-
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_B"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -426,14 +401,14 @@
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_B"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="T"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_N"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -441,49 +416,39 @@
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_N"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="U"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout7"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
         <Button
-            android:id="@+id/btn_done"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_DONE"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="V"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/btn_M"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_M"
-            android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick"/>
-
-        <Button
-            android:id="@+id/btn_del"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -491,12 +456,45 @@
             android:layout_marginStart="2dp"
             android:layout_weight="1"
             android:background="#ddd"
-            android:minHeight="55dp"
-            android:text="@string/bt_DEL"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="X"
             android:textColor="#333"
-            android:textSize="25sp"
-            android:onClick="onClick" />
+            android:textSize="25sp" />
+
+
+        <Button
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="Z"
+            android:textColor="#333"
+            android:textSize="25sp" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="#ddd"
+            android:minHeight="65dp"
+            android:onClick="onClick"
+            android:tag="letter"
+            android:text="-"
+            android:textColor="#333"
+            android:textSize="25sp" />
+
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

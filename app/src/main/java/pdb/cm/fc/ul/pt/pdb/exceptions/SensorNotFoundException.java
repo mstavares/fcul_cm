@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.activities.exceptions.SensorNotFoundActivity;
+import pdb.cm.fc.ul.pt.pdb.activities.dialog.MessageDialogActivity;
 
 public class SensorNotFoundException extends Exception {
 
@@ -13,9 +13,9 @@ public class SensorNotFoundException extends Exception {
     }
 
     public void showDialogError(Context context) {
-        context.startActivity(new Intent(context, SensorNotFoundActivity.class)
-                .putExtra(SensorNotFoundActivity.EXTRA_TITLE, context.getString(R.string.error_sensor_not_found_title))
-                .putExtra(SensorNotFoundActivity.EXTRA_TITLE, getMessage())
+        context.startActivity(new Intent(context, MessageDialogActivity.class)
+                .putExtra(MessageDialogActivity.EXTRA_TITLE, context.getString(R.string.error_sensor_not_found_title))
+                .putExtra(MessageDialogActivity.EXTRA_TITLE, getMessage())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         );
     }

@@ -19,7 +19,7 @@ public class Accelerometer implements SensorEventListener {
     /** This variable is used to debug MotionManager class */
     private static final String TAG = Accelerometer.class.getSimpleName();
 
-    private static ArrayList<AccelerometerListener> sListeners = new ArrayList<>();
+    private AccelerometerListener.onSensorChanged mListener;
 
     /** Indicates whether or not Accelerometer Sensor is running */
     private boolean mIsRunning = false;
@@ -31,18 +31,11 @@ public class Accelerometer implements SensorEventListener {
      * This method is the constructor of MotionManager class
      * @param context application context
      */
-    public Accelerometer(Context context) throws SensorNotFoundException {
+    Accelerometer(Context context, AccelerometerListener.onSensorChanged listener) throws SensorNotFoundException {
         Log.i(TAG, "Accelerometer constructor was invoked");
         checkIfAccelerometerIsAvailable(context);
+        mListener = listener;
         start(context);
-    }
-
-    public static void registerListener(AccelerometerListener listener) {
-        sListeners.add(listener);
-    }
-
-    public static void unRegisterListener(AccelerometerListener listener) {
-        sListeners.remove(listener);
     }
 
     private void checkIfAccelerometerIsAvailable(Context context) throws SensorNotFoundException {
@@ -67,8 +60,7 @@ public class Accelerometer implements SensorEventListener {
      */
     @Override
     public void onSensorChanged(final SensorEvent event) {
-        for(AccelerometerListener listener : sListeners)
-            listener.onSensorChanged(event.values[0], event.values[1], event.values[2]);
+        mListener.onSensorChanged(event.values[0], event.values[1], event.values[2]);
     }
 
     /**
@@ -93,7 +85,7 @@ public class Accelerometer implements SensorEventListener {
     /**
      * This method checks if the accelerometer is running, if it's running stops it
      */
-    public void close(){
+    void close(){
         Log.i(TAG, "close was invoked");
         if(mIsRunning){
             stopListening();

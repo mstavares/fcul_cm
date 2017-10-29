@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pdb.cm.fc.ul.pt.pdb">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,19 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" />
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.doente.PontuacoesActivity" />
         <activity android:name=".activities.medico.MedicoMainActivity" />
         <activity android:name=".activities.medico.DoenteDetalhesActivity" />
-        <activity android:name=".activities.doente.TecladoActivity" />
+        <activity
+            android:name=".activities.doente.TecladoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.doente.EsferaActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.doente.DoenteMainActivity" />
-        <activity android:name=".activities.exceptions.SensorNotFoundActivity" />
+        <activity
+            android:name=".activities.dialog.MessageDialogActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomDialog" />
         <service android:name=".services.android.ApplicationService" />
     </application>
 

@@ -19,44 +19,22 @@
 
     <!-- Strings related to sensors -->
     <string name="error_sensor_not_found_title">Feature not detected</string>
-    <string name="sensor_not_found_message">NSense did not find the %s on your device. \n
-        NSense cannot proceed without it.</string>
+    <string name="sensor_not_found_message">Parkinson Daily Basis did not find the %s on your device. \n
+        Parkinson Daily Basis cannot proceed without it.</string>
     <string name="Accelerometer">accelerometer</string>
 
     <!-- App description -->
     <string name="app_name">Parkinson Daily Basis</string>
     <string name="service_name">Parkinson Daily Basis Service</string>
 
-    <!-- Teclado -->
+    <!-- Games -->
+    <string name="time">Time: %1$d</string>
     <string name="score">Score: %1$d</string>
 
-    <string name="bt_Q">Q</string>
-    <string name="bt_W">W</string>
-    <string name="bt_E">E</string>
-    <string name="bt_R">R</string>
-    <string name="bt_T">T</string>
-    <string name="bt_Y">Y</string>
-    <string name="bt_U">U</string>
-    <string name="bt_I">I</string>
-    <string name="bt_O">O</string>
-    <string name="bt_P">P</string>
-    <string name="bt_A">A</string>
-    <string name="bt_S">S</string>
-    <string name="bt_D">D</string>
-    <string name="bt_F">F</string>
-    <string name="bt_G">G</string>
-    <string name="bt_H">H</string>
-    <string name="bt_J">J</string>
-    <string name="bt_K">K</string>
-    <string name="bt_L">L</string>
-    <string name="bt_Z">Z</string>
-    <string name="bt_X">X</string>
-    <string name="bt_C">C</string>
-    <string name="bt_V">V</string>
-    <string name="bt_B">B</string>
-    <string name="bt_N">N</string>
-    <string name="bt_M">M</string>
-    <string name="bt_DONE">DONE</string>
-    <string name="bt_DEL">DEL</string>
+    <!-- Keyboard -->
+    <string name="faults">Faults: %1$d</string>
+    <string name="win_title">Congratulations!</string>
+    <string name="win_message">Your score is %1$d.</string>
+
 
 </resources>

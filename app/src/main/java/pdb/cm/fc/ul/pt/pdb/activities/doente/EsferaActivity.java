@@ -11,9 +11,10 @@ import android.view.Display;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.Accelerometer;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
+import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 import pdb.cm.fc.ul.pt.pdb.views.BallView;
 
-public class EsferaActivity extends AppCompatActivity implements AccelerometerListener {
+public class EsferaActivity extends AppCompatActivity implements AccelerometerListener.onSensorChanged {
 
     private static final String TAG = EsferaActivity.class.getSimpleName();
     private BallView mBallView;
@@ -28,7 +29,7 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
 
     private void setup() {
         mBallView = new BallView(this);
-        Accelerometer.registerListener(this);
+        AccelerometerManager.registerListener(this);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
 
     @Override
     public void onDestroy() {
-        Accelerometer.unRegisterListener(this);
+        AccelerometerManager.unRegisterListener(this);
         super.onDestroy();
     }
 

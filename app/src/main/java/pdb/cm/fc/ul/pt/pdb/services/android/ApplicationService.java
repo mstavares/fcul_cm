@@ -15,6 +15,7 @@ import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.SplashActivity;
 import pdb.cm.fc.ul.pt.pdb.exceptions.SensorNotFoundException;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.Accelerometer;
+import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 
 
 public class ApplicationService extends Service {
@@ -23,7 +24,7 @@ public class ApplicationService extends Service {
 
     private static final int SERVICE_ID = 112;
 
-    private Accelerometer mAccelerometer;
+    private AccelerometerManager mAccelerometerManager;
 
     @Nullable
     @Override
@@ -38,7 +39,7 @@ public class ApplicationService extends Service {
 			/* Enable the notification icon */
             runAsForeground();
 			/* Initializing the sensors */
-            mAccelerometer = new Accelerometer(this);
+            mAccelerometerManager = new AccelerometerManager(this);
         } catch (SensorNotFoundException e) {
             e.showDialogError(this);
         }
@@ -72,8 +73,8 @@ public class ApplicationService extends Service {
     }
 
     public void close() {
-        if(mAccelerometer != null)
-            mAccelerometer.close();
+        if(mAccelerometerManager != null)
+            mAccelerometerManager.close();
     }
 
     @Override
