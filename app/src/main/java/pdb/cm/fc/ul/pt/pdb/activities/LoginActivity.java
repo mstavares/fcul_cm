@@ -2,7 +2,10 @@ package pdb.cm.fc.ul.pt.pdb.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -10,6 +13,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +33,10 @@ import pdb.cm.fc.ul.pt.pdb.presenters.LoginPresenter;
  */
 public class LoginActivity extends AppCompatActivity implements Login.View {
 
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
+
     /** UI references. */
     @BindView(R.id.email) EditText mEmailView;
     @BindView(R.id.password) EditText mPasswordView;
@@ -34,11 +47,17 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
     /** MVP Presenter */
     private Login.Presenter mPresenter;
 
+    private static final String TAG = "LoginActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setup();
+
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
     }
 
     private void setup() {
@@ -58,7 +77,8 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
         /** Store values at the time of the login attempt. */
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        mPresenter.onAttemptLogin(email, password);
+        //mPresenter.onAttemptLogin(email, password);
+        signIn(email, password);
     }
 
     private void resetErrors() {
@@ -75,6 +95,64 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         mWaitMessageView.setVisibility(show ? View.VISIBLE : View.GONE);
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    private void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
+        if (!validateForm()) {
+            return;
+        }
+
+        onShowProgressBar();
+
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            onLoginOk();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            onLoginError();
+                        }
+
+                        // [START_EXCLUDE]
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        showProgress(false);
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String email = mEmailView.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            onEmptyEmail();
+            valid = false;
+        } else {
+            mEmailView.setError(null);
+        }
+
+        String password = mPasswordView.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            onEmptyPassword();
+            valid = false;
+        } else {
+            mPasswordView.setError(null);
+        }
+
+        return valid;
     }
 
     @Override

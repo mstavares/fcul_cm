@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "474959471736",
+    "firebase_url": "https://fcul-cm.firebaseio.com",
+    "project_id": "fcul-cm",
+    "storage_bucket": "fcul-cm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474959471736:android:65c311c381897e25",
+        "android_client_info": {
+          "package_name": "pdb.cm.fc.ul.pt.pdb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474959471736-fk2vf6aq16r57dphrtp8fr8vkr70kp09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl58cTO9DItsilIiGMx5dODdFIWMSy75k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
