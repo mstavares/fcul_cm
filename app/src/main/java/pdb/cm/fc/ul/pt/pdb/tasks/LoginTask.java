@@ -1,18 +1,21 @@
 package pdb.cm.fc.ul.pt.pdb.tasks;
 
 
-import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import pdb.cm.fc.ul.pt.pdb.interfaces.Login;
 import pdb.cm.fc.ul.pt.pdb.models.LoginCredentials;
 
-public class LoginTask extends AsyncTask<Void, Void, LoginTask.Results> {
+public class LoginTask implements OnCompleteListener {
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private static final String TAG = LoginTask.class.getSimpleName();
 
-    enum Results {AUTHENTICATED, REGISTERED, FAILED};
+    private FirebaseAuth mFirebaseAuth;
     private Login.Presenter mPresenter;
     private LoginCredentials mLoginCredentials;
 
@@ -20,45 +23,22 @@ public class LoginTask extends AsyncTask<Void, Void, LoginTask.Results> {
     public LoginTask(Login.Presenter presenter, LoginCredentials loginCredentials) {
         mPresenter = presenter;
         mLoginCredentials = loginCredentials;
+        mFirebaseAuth = FirebaseAuth.getInstance();
+    }
+
+    public void executeLogin() {
+        mFirebaseAuth.signInWithEmailAndPassword(mLoginCredentials.getEmail(), mLoginCredentials.getPassword())
+                .addOnCompleteListener(this);
     }
 
     @Override
-    protected Results doInBackground(Void... params) {
-        // TODO: attempt authentication against a network service.
-
-        try {
-            // Simulate network access.
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            return Results.FAILED;
-        }
-
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(mLoginCredentials.getEmail())) {
-                if(pieces[1].equals(mLoginCredentials.getPassword())) {
-                    return Results.AUTHENTICATED;
-                }
-            }
-        }
-
-        // TODO: register the new account here.
-        return Results.REGISTERED;
-    }
-
-    @Override
-    protected void onPostExecute(final Results result) {
-        if (result == Results.AUTHENTICATED) {
+    public void onComplete(@NonNull Task task) {
+        if(task.isSuccessful()) {
+            Log.i(TAG, "Authentication successful");
             mPresenter.onLoginOk();
-        } else if (result == Results.REGISTERED) {
-            mPresenter.onUserRegistered();
         } else {
+            Log.i(TAG, "Authentication without success");
             mPresenter.onLoginError();
         }
-    }
-
-    @Override
-    protected void onCancelled() {
-        mPresenter.onLoginCancelled();
     }
 }

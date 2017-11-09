@@ -24,7 +24,7 @@ public class LoginPresenter implements Login.Presenter {
         try {
             LoginCredentials credentials = new LoginCredentials(email, password);
             mLoginTask = new LoginTask(this, credentials);
-            mLoginTask.execute();
+            mLoginTask.executeLogin();
         } catch (EmptyEmailException e) {
             mView.onEmptyEmail();
         } catch (EmptyPasswordException e) {
@@ -44,21 +44,6 @@ public class LoginPresenter implements Login.Presenter {
     @Override
     public void onLoginOk() {
         mView.onLoginOk();
-    }
-
-    @Override
-    public void onCancelLogin() {
-        mLoginTask.cancel(true);
-    }
-
-    @Override
-    public void onUserRegistered() {
-        mView.onUserRegistered();
-    }
-
-    @Override
-    public void onLoginCancelled() {
-        mView.onLoginCancelled();
     }
 
 }

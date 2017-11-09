@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="com.github.zjywill:OverwatchProgress-1.5">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/OverwatchProgress-1.5.aar/ed04ca66d9d2b9929b55c316a2660de8/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/OverwatchProgress-1.5.aar/ed04ca66d9d2b9929b55c316a2660de8/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/OverwatchProgress-1.5.aar/3b8f83a1f20041e7b53088d38edc6103/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/OverwatchProgress-1.5.aar/3b8f83a1f20041e7b53088d38edc6103/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
