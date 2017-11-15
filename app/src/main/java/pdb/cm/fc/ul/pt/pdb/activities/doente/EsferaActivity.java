@@ -1,41 +1,41 @@
 package pdb.cm.fc.ul.pt.pdb.activities.doente;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 
-import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.Accelerometer;
+import pdb.cm.fc.ul.pt.pdb.Maze;
+import pdb.cm.fc.ul.pt.pdb.MazeCreator;
+import pdb.cm.fc.ul.pt.pdb.views.MazeView;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
-import pdb.cm.fc.ul.pt.pdb.views.BallView;
 
 public class EsferaActivity extends AppCompatActivity implements AccelerometerListener.onSensorChanged {
 
     private static final String TAG = EsferaActivity.class.getSimpleName();
-    private BallView mBallView;
+    private MazeView mMazeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_esfera);
         setup();
-        setContentView(mBallView);
+        setContentView(mMazeView);
     }
 
     private void setup() {
-        mBallView = new BallView(this);
+        int mazeNum = 1 + (int)(Math.random() * ((3 - 1) + 1));
+        Maze maze = MazeCreator.getMaze(mazeNum);
+        mMazeView = new MazeView(this,maze);
+        //mBallView = new BallView(this);
         AccelerometerManager.registerListener(this);
     }
 
     @Override
     public void onSensorChanged(float xAccel, float yAccel, float zAccel) {
         Log.i(TAG, "xAccel: " + xAccel + " yAccel: " + yAccel);
-        mBallView.updateBall(xAccel, -yAccel);
+        mMazeView.updateBall(xAccel, -yAccel);
     }
 
     @Override

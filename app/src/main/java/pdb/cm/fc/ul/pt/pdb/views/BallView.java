@@ -32,26 +32,6 @@ public class BallView extends View {
         yMax = h - 100;
     }
 
-    public void updateBall(float xAccel, float yAccel) {
-        mVelX += (xAccel * FRAME_TIME);
-        mVelY += (yAccel * FRAME_TIME);
-        mPosX -= mVelX;
-        mPosY -= mVelY;
-
-        if (mPosX > xMax) {
-            mPosX = xMax;
-        } else if (mPosX < 0) {
-            mPosX = 0;
-        }
-
-        if (mPosY > yMax) {
-            mPosY = yMax;
-        } else if (mPosY < 0) {
-            mPosY = 0;
-        }
-
-    }
-
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
