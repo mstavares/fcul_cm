@@ -6,4 +6,22 @@
     android:layout_height="match_parent"
     tools:context="pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoMainActivity">
 
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/listViewDoentes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
