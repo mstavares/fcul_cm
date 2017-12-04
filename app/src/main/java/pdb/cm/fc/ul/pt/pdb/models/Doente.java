@@ -2,9 +2,6 @@ package pdb.cm.fc.ul.pt.pdb.models;
 
 import java.io.Serializable;
 
-/**
- * Created by nunonelas on 22/11/17.
- */
 
 public class Doente implements Serializable {
 

@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
         <ListView
-            android:id="@+id/listViewDoentes"
+            android:id="@+id/doentes"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

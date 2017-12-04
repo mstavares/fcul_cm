@@ -7,7 +7,7 @@ public interface Login {
 
     interface View extends TextView.OnEditorActionListener {
         void onLoginError();
-        void onLoginOk();
+        void onLoginOk(Class activity);
         void onEmptyEmail();
         void onInvalidEmail();
         void onEmptyPassword();
@@ -17,7 +17,7 @@ public interface Login {
 
     interface Presenter {
         void onLoginError();
-        void onLoginOk();
+        void onLoginOk(Class activity);
         void onAttemptLogin(String email, String password);
     }
 

@@ -7,21 +7,12 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
+import pdb.cm.fc.ul.pt.pdb.activities.doente.DoenteMainActivity;
 import pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoMainActivity;
 import pdb.cm.fc.ul.pt.pdb.interfaces.Login;
-import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.LoginCredentials;
-import pdb.cm.fc.ul.pt.pdb.views.ListViewAdapter;
-
-import static android.content.ContentValues.TAG;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
 
 public class LoginTask implements OnCompleteListener {
 
@@ -43,11 +34,19 @@ public class LoginTask implements OnCompleteListener {
                 .addOnCompleteListener(this);
     }
 
+    private Class getMainActivity() {
+        if(mLoginCredentials.isPaciente()) {
+            FirebaseDoente.setLastLogin(mLoginCredentials.getEmail());
+            return DoenteMainActivity.class;
+        }
+        return MedicoMainActivity.class;
+    }
+
     @Override
     public void onComplete(@NonNull Task task) {
         if(task.isSuccessful()) {
             Log.i(TAG, "Authentication successful");
-            mPresenter.onLoginOk();
+            mPresenter.onLoginOk(getMainActivity());
         } else {
             Log.i(TAG, "Authentication without success");
             mPresenter.onLoginError();

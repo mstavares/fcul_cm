@@ -8,6 +8,7 @@ import pdb.cm.fc.ul.pt.pdb.exceptions.InvalidPasswordException;
 
 public class LoginCredentials {
 
+    private static final String PACIENT_LABEL = "paciente";
     private static final int MIN_PASSWORD_LEN = 4;
     private String mEmail, mPassword;
 
@@ -52,6 +53,10 @@ public class LoginCredentials {
 
     public String getPassword() {
         return mPassword;
+    }
+
+    public boolean isPaciente() {
+        return mEmail.contains(PACIENT_LABEL);
     }
 
 }

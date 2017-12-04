@@ -7,47 +7,37 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.adapters.DoenteDetalhesPagerAdapter;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
-public class DoenteDetalhesActivity extends FragmentActivity implements ActionBar.TabListener {
+public class DoenteDetalhesActivity extends FragmentActivity implements ActionBar.TabListener,
+        ViewPager.OnPageChangeListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the
-     * three primary sections of the app. We use a {@link android.support.v4.app.FragmentPagerAdapter}
-     * derivative, which will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    AppSectionsPagerAdapter mAppSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will display the three primary sections of the app, one at a
-     * time.
-     */
+    DoenteDetalhesPagerAdapter mAppSectionsPagerAdapter;
     ViewPager mViewPager;
-
-    private static String emailDoenteStr;
+    private static String mEmailDoente;
+    private ActionBar actionBar;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doente_detalhes);
 
         Bundle bundle = getIntent().getExtras();
-        emailDoenteStr = bundle.getString("emailDoente");
+        mEmailDoente = bundle.getString("emailDoente");
 
         // Create the adapter that will return a fragment for each of the three primary sections
         // of the app.
-        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+        mAppSectionsPagerAdapter = new DoenteDetalhesPagerAdapter(getSupportFragmentManager(), mEmailDoente);
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
 
         // Specify that the Home/Up button should not be enabled, since there is no hierarchical
         // parent.
-        actionBar.setHomeButtonEnabled(false);
+        //actionBar.setHomeButtonEnabled(false);
 
         // Specify that we will be displaying tabs in the action bar.
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -57,15 +47,8 @@ public class DoenteDetalhesActivity extends FragmentActivity implements ActionBa
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mAppSectionsPagerAdapter);
         mViewPager.setCurrentItem(2);
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                // When swiping between different app sections, select the corresponding tab.
-                // We can also use ActionBar.Tab#select() to do this if we have a reference to the
-                // Tab.
-                actionBar.setSelectedNavigationItem(position);
-            }
-        });
+        mViewPager.addOnPageChangeListener(this);
+
 
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
@@ -79,9 +62,7 @@ public class DoenteDetalhesActivity extends FragmentActivity implements ActionBa
         }
     }
 
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
+
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -90,49 +71,21 @@ public class DoenteDetalhesActivity extends FragmentActivity implements ActionBa
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public void onPageSelected(int position) {
+        actionBar.setSelectedNavigationItem(position);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
-     * sections of the app.
-     */
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    /*******************************************************************************************/
 
-        public AppSectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
 
-        @Override
-        public Fragment getItem(int i) {
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
 
-            Bundle bundle = new Bundle();
-            bundle.putString("emailDoente", emailDoenteStr);
-            switch (i) {
-                case 0:
-                    NotesMedicoFragment mNotesMedicoFragment = new NotesMedicoFragment();
-                    mNotesMedicoFragment.setArguments(bundle);
-                    return mNotesMedicoFragment;
-                case 2:
-                    SettingsMedicoFragment mSettingsMedicoFragment = new SettingsMedicoFragment();
-                    mSettingsMedicoFragment.setArguments(bundle);
-                    return mSettingsMedicoFragment;
-                case 1:
-                default:
-                    DetalhesMedicoFragment mDetalhesMedicoFragment = new DetalhesMedicoFragment();
-                    mDetalhesMedicoFragment.setArguments(bundle);
-                    return mDetalhesMedicoFragment;
-            }
-        }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "" + (position + 1);
-        }
-    }
+    @Override
+    public void onPageScrollStateChanged(int state) {}
 }

@@ -7,7 +7,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.Random;
 
-import pdb.cm.fc.ul.pt.pdb.interfaces.Doente.Teclado;
+import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 

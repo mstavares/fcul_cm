@@ -21,8 +21,7 @@ import java.util.HashMap;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
-import pdb.cm.fc.ul.pt.pdb.views.ListViewAdapter;
-import pdb.cm.fc.ul.pt.pdb.views.NotesViewAdapter;
+import pdb.cm.fc.ul.pt.pdb.adapters.NotesViewAdapter;
 
 import static android.content.ContentValues.TAG;
 import static pdb.cm.fc.ul.pt.pdb.models.Constants.noteDate;

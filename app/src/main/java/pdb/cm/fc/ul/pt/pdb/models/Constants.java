@@ -1,8 +1,5 @@
 package pdb.cm.fc.ul.pt.pdb.models;
 
-/**
- * Created by nunonelas on 21/11/17.
- */
 
 public class Constants {
 

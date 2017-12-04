@@ -10,7 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.dialog.MessageDialogActivity;
-import pdb.cm.fc.ul.pt.pdb.interfaces.Doente.Teclado;
+import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
 import pdb.cm.fc.ul.pt.pdb.presenters.doente.TecladoPresenter;
 
 public class TecladoActivity extends AppCompatActivity implements Teclado.View, View.OnClickListener {

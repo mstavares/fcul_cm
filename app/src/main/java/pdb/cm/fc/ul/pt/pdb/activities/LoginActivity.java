@@ -3,7 +3,6 @@ package pdb.cm.fc.ul.pt.pdb.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -12,23 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.activities.doente.DoenteMainActivity;
-import pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoMainActivity;
 import pdb.cm.fc.ul.pt.pdb.interfaces.Login;
-import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.presenters.LoginPresenter;
 
 /**
@@ -48,9 +35,6 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
 
     /** MVP Presenter */
     private Login.Presenter mPresenter;
-
-    private DatabaseReference mDatabase;
-    private Doente doente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,39 +101,10 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
     }
 
     @Override
-    public void onLoginOk() {
+    public void onLoginOk(Class activity) {
         String email = mEmailView.getText().toString();
-        if(email.contains("medico")){
-            startActivity(new Intent(this, MedicoMainActivity.class).putExtra("email", email));
-        } else if (email.contains("paciente")) {
-            setLastLogin(email);
-            startActivity(new Intent(this, DoenteMainActivity.class));
-        }
+        startActivity(new Intent(this, activity).putExtra("email", email));
         finish();
-    }
-
-    public void setLastLogin(final String email){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy HH:mm:ss");
-        final String lastLogin = sdf.format(new Date());
-        mDatabase = FirebaseDatabase.getInstance().getReference("doentes");
-        mDatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot registosSnapshot: dataSnapshot.getChildren()) {
-                    doente = registosSnapshot.getValue(Doente.class);
-                    if (doente.getEmail().equals(email)) {
-                        mDatabase.child(doente.getId()).child("lastLogin").setValue(lastLogin);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
     }
 
     @Override

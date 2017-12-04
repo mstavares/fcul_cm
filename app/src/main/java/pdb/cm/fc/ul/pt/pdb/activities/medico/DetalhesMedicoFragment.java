@@ -19,10 +19,6 @@ import pdb.cm.fc.ul.pt.pdb.models.Doente;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by nunonelas on 22/11/17.
- */
-
 public class DetalhesMedicoFragment extends Fragment {
 
     private String mEmailDoente;
@@ -32,8 +28,7 @@ public class DetalhesMedicoFragment extends Fragment {
     private DatabaseReference mDatabaseDoentes;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detalhes, container, false);
 
         nameTV = (TextView) rootView.findViewById(R.id.name);

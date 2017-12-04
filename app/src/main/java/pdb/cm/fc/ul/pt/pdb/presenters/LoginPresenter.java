@@ -12,7 +12,6 @@ import pdb.cm.fc.ul.pt.pdb.tasks.LoginTask;
 public class LoginPresenter implements Login.Presenter {
 
     private Login.View mView;
-
     private LoginTask mLoginTask;
 
     public LoginPresenter(Login.View view) {
@@ -42,8 +41,8 @@ public class LoginPresenter implements Login.Presenter {
     }
 
     @Override
-    public void onLoginOk() {
-        mView.onLoginOk();
+    public void onLoginOk(Class activity) {
+        mView.onLoginOk(activity);
     }
 
 }
