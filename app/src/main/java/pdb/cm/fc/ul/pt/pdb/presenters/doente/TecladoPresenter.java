@@ -8,15 +8,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
+import pdb.cm.fc.ul.pt.pdb.models.WordScore;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
+
+import static pdb.cm.fc.ul.pt.pdb.utilities.Utilities.getTimestamp;
 
 public class TecladoPresenter implements Runnable, Teclado.Presenter, AccelerometerListener.onShake {
 
     private static final int ONE_SECOND = 1000;
     private boolean mIsShowingWinActivity = false;
     private Handler mHandler = new Handler();
-    private int mScore, mFaults, mTime;
+    private int mScore, mFaults, mTime, mChar;
     private ArrayList<String> words;
     private String mInput, mWord;
     private Teclado.View mView;
@@ -45,6 +49,7 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
     private void resetData() {
         mTime = 0;
         mFaults = 0;
+        mChar = 0;
         mInput = "";
     }
 
@@ -65,9 +70,18 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
     @Override
     public void onCharPressed(View view) {
         String selectedChar = ((Button) view).getText().toString();
-        mInput += selectedChar;
-        mView.onSetInput(mInput);
+        compareChars(selectedChar);
         compareStrings();
+    }
+
+    private void compareChars(String selectedChar){
+        if(selectedChar.charAt(0) == mWord.toUpperCase().charAt(mChar)){
+            mInput += selectedChar;
+            mView.onSetInput(mInput);
+            mChar++;
+        } else {
+            mFaults++;
+        }
     }
 
     private void compareStrings() {
@@ -75,9 +89,8 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
             mHandler.removeCallbacks(this);
             mIsShowingWinActivity = true;
             mScore++;
+            mView.onWin(mScore, mTime);
             prepareGame();
-            mView.onWin(mScore);
-
         }
     }
 
@@ -87,6 +100,16 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
         } else {
             mInput = "";
         }
+    }
+
+    public void newScore(String doente){
+        WordScore wordScore = new WordScore();
+        wordScore.setDate(getTimestamp());
+        wordScore.setScore(Integer.toString(mScore));
+        wordScore.setTime(Integer.toString(mTime));
+        wordScore.setFaults(Integer.toString(mFaults));
+        wordScore.setWord(mWord);
+        FirebaseDoente.setWordsScore(doente, wordScore);
     }
 
     @Override

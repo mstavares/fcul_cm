@@ -14,8 +14,8 @@ public class SensorNotFoundException extends Exception {
 
     public void showDialogError(Context context) {
         context.startActivity(new Intent(context, MessageDialogActivity.class)
-                .putExtra(MessageDialogActivity.EXTRA_TITLE, context.getString(R.string.error_sensor_not_found_title))
-                .putExtra(MessageDialogActivity.EXTRA_TITLE, getMessage())
+                .putExtra(MessageDialogActivity.TITLE, context.getString(R.string.error_sensor_not_found_title))
+                .putExtra(MessageDialogActivity.MESSAGE, getMessage())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         );
     }

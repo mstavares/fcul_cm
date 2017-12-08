@@ -15,6 +15,7 @@ import pdb.cm.fc.ul.pt.pdb.presenters.doente.TecladoPresenter;
 
 public class TecladoActivity extends AppCompatActivity implements Teclado.View, View.OnClickListener {
 
+    private static final String EXTRA_EMAIL = "email";
 
     @BindView(R.id.score) TextView mScoreView;
     @BindView(R.id.time) TextView mTimeView;
@@ -35,6 +36,10 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
         mPresenter = new TecladoPresenter(this);
     }
 
+    private String loadEmailFromExtras() {
+        return getIntent().getExtras().getString(EXTRA_EMAIL);
+    }
+
     @Override
     public void onClick(View view) {
         mPresenter.onCharPressed(view);
@@ -51,10 +56,12 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
     }
 
     @Override
-    public void onWin(int score) {
+    public void onWin(int score, int time) {
+        mPresenter.newScore(loadEmailFromExtras());
         startActivity(new Intent(this, MessageDialogActivity.class)
-                .putExtra(MessageDialogActivity.EXTRA_TITLE, getString(R.string.win_title))
-                .putExtra(MessageDialogActivity.EXTRA_TITLE, getString(R.string.win_message, score))
+                .putExtra(MessageDialogActivity.TITLE, getString(R.string.win_title))
+                .putExtra(MessageDialogActivity.MESSAGE, getString(R.string.win_message, score))
+                .putExtra(MessageDialogActivity.TIME, getString(R.string.win_time, time))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         );
     }
