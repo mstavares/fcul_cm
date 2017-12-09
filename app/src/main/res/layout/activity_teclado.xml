@@ -35,7 +35,6 @@
         android:layout_marginStart="124dp"
         android:layout_marginTop="35dp"
         android:layout_weight="1"
-        android:text="Banana"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

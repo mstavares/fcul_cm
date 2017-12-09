@@ -4,14 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Esfera;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 import pdb.cm.fc.ul.pt.pdb.views.PitchView;
 
-public class EsferaActivity extends AppCompatActivity implements AccelerometerListener.onSensorChanged {
+public class EsferaActivity extends AppCompatActivity implements AccelerometerListener.onSensorChanged, Esfera.View {
 
     private static final String TAG = EsferaActivity.class.getSimpleName();
+
+    @BindView(R.id.score) TextView mScoreView;
+    @BindView(R.id.time) TextView mTimeView;
 
     private PitchView mPitchView;
 
@@ -25,6 +32,16 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
     private void setup() {
         mPitchView = new PitchView(this);
         AccelerometerManager.registerListener(this);
+    }
+
+    @Override
+    public void onChangeTime(int time) {
+        mTimeView.setText(getString(R.string.time, time));
+    }
+
+    @Override
+    public void onChangeScore(int score) {
+        mScoreView.setText(getString(R.string.score, score));
     }
 
     @Override

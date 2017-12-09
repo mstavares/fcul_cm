@@ -12,6 +12,8 @@ import pdb.cm.fc.ul.pt.pdb.R;
 
 public class DoenteMainActivity extends AppCompatActivity {
 
+    private static final String EXTRA_EMAIL = "email";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,14 +23,18 @@ public class DoenteMainActivity extends AppCompatActivity {
 
     @OnClick(R.id.button1)
     public void button1() {
-        startActivity(new Intent(this, TecladoActivity.class));
+        startActivity(new Intent(this, TecladoActivity.class).putExtra("email", loadEmailFromExtras()));
         finish();
     }
 
     @OnClick(R.id.button2)
     public void button2() {
-        startActivity(new Intent(this, EsferaActivity.class));
+        startActivity(new Intent(this, EsferaActivity.class).putExtra("email", loadEmailFromExtras()));
         finish();
+    }
+
+    private String loadEmailFromExtras() {
+        return getIntent().getExtras().getString(EXTRA_EMAIL);
     }
 
 }

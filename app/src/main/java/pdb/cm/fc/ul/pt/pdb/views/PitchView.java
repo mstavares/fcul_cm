@@ -4,14 +4,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
 import java.util.Random;
 
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Esfera;
+import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
 
-public class PitchView extends View {
+public class PitchView extends View implements Runnable {
+
+    private static final int ONE_SECOND = 1000;
+    private Handler mHandler = new Handler();
+    private int mScore, mTime;
 
     private static final float FRAME_TIME = 0.266f;
     private static final double GOAL_DISTANCE = 70;
@@ -24,6 +31,7 @@ public class PitchView extends View {
     private float mPosY, mVelY = 0.0f;
     private float xMax, yMax;
     private float x, y;
+
 
     public PitchView(Context context) {
         super(context);
@@ -68,6 +76,7 @@ public class PitchView extends View {
     private void checkWin() {
         if(mPosX != 0 && mPosY != 0) {
             if(euclidianDistance() <= GOAL_DISTANCE) {
+                mScore++;
                 Toast.makeText(mContext, "GOAL", Toast.LENGTH_LONG).show();
                 placeGoal();
             }
@@ -91,6 +100,12 @@ public class PitchView extends View {
         canvas.drawBitmap(mBallSrc, mPosX, mPosY, null);
         canvas.drawBitmap(mGoalSrc, x, y, null);
         invalidate();
+    }
+
+    @Override
+    public void run() {
+        ++mTime;
+        mHandler.postDelayed(this, ONE_SECOND);
     }
 
 }

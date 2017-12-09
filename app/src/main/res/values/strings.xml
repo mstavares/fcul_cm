@@ -35,6 +35,7 @@
     <string name="faults">Faults: %1$d</string>
     <string name="win_title">Congratulations!</string>
     <string name="win_message">Your score is %1$d.</string>
+    <string name="win_time">Your time was %1$d seconds.</string>
 
     <string name="welcome_doctor">Bem-vindo, %s</string>
 
