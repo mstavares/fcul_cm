@@ -22,7 +22,6 @@
         <activity
             android:name=".activities.medico.DoenteDetalhesActivity"
             android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
-
         <activity
             android:name=".activities.doente.TecladoActivity"
             android:screenOrientation="portrait" />
@@ -35,7 +34,13 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/CustomDialog" />
+
         <service android:name=".services.android.ApplicationService" />
+
+        <activity
+            android:name=".activities.medico.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

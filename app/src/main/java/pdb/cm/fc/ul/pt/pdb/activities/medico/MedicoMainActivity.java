@@ -18,11 +18,13 @@ import pdb.cm.fc.ul.pt.pdb.interfaces.medico.MedicoMain;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.presenters.medico.MedicoMainActivityPresenter;
 
+import static pdb.cm.fc.ul.pt.pdb.activities.medico.DoenteDetalhesActivity.EXTRA_DOENTE;
+
 public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.View,
         AdapterView.OnItemClickListener {
 
     private static final String EXTRA_EMAIL = "email";
-    @BindView(R.id.doentes) ListView mDoentes;
+    @BindView(R.id.doentes) ListView mDoentesListView;
     private MedicoMain.Presenter mPresenter;
 
     @Override
@@ -34,7 +36,7 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
 
     private void setup() {
         ButterKnife.bind(this);
-        mDoentes.setOnItemClickListener(this);
+        mDoentesListView.setOnItemClickListener(this);
         mPresenter = new MedicoMainActivityPresenter(this);
         defineWelcomeMessage();
     }
@@ -54,14 +56,18 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     }
 
     @Override
-    public void loadDoentes(ArrayList<Doente> doentes) {
-        mDoentes.setAdapter(new DoentesAdapter(this, doentes));
+    public void DoentesLoaded(ArrayList<Doente> doentes) {
+        mDoentesListView.setAdapter(new DoentesAdapter(this, doentes));
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        String emailDoente = ((TextView) view.findViewById(R.id.email)).getText().toString();
-        startActivity(new Intent(this, DoenteDetalhesActivity.class).putExtra("emailDoente", emailDoente));
+    public void DoenteLoaded(Doente doente) {
+        startActivity(new Intent(this, DoenteDetalhesActivity.class).putExtra(EXTRA_DOENTE, doente));
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        mPresenter.fetchDoente(position);
     }
 
 }

@@ -6,13 +6,13 @@ import pdb.cm.fc.ul.pt.pdb.exceptions.EmptyPasswordException;
 import pdb.cm.fc.ul.pt.pdb.exceptions.InvalidEmailException;
 import pdb.cm.fc.ul.pt.pdb.exceptions.InvalidPasswordException;
 
-public class LoginCredentials {
+public class LoginCredential {
 
     private static final String PACIENT_LABEL = "paciente";
     private static final int MIN_PASSWORD_LEN = 4;
     private String mEmail, mPassword;
 
-    public LoginCredentials(String email, String password) throws EmptyEmailException,
+    public LoginCredential(String email, String password) throws EmptyEmailException,
             EmptyPasswordException, InvalidEmailException, InvalidPasswordException {
         validateCredentials(email, password);
         mEmail = email;

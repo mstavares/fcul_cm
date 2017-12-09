@@ -42,27 +42,4 @@ public abstract class FirebaseDoente {
         });
     }
 
-    public static void fetchAllDoentes(final Firebase.Doente callback, final String medico) {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Doente> doentes = new ArrayList<>();
-                for (DataSnapshot doentesSnapshot: dataSnapshot.getChildren()) {
-                    Doente doente = doentesSnapshot.getValue(Doente.class);
-                    if (doente.getMedicoAssign().equals(medico)) {
-                        doentes.add(doente);
-                    }
-                }
-                callback.doentesLoaded(doentes);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
-
 }

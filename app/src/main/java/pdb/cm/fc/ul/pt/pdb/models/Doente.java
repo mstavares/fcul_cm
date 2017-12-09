@@ -17,6 +17,11 @@ public class Doente implements Serializable {
 
     }
 
+    public Doente(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+
     public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin) {
         this.id = id;
         this.name = name;

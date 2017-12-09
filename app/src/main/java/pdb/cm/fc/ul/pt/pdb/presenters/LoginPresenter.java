@@ -6,7 +6,7 @@ import pdb.cm.fc.ul.pt.pdb.exceptions.EmptyPasswordException;
 import pdb.cm.fc.ul.pt.pdb.exceptions.InvalidEmailException;
 import pdb.cm.fc.ul.pt.pdb.exceptions.InvalidPasswordException;
 import pdb.cm.fc.ul.pt.pdb.interfaces.Login;
-import pdb.cm.fc.ul.pt.pdb.models.LoginCredentials;
+import pdb.cm.fc.ul.pt.pdb.models.LoginCredential;
 import pdb.cm.fc.ul.pt.pdb.tasks.LoginTask;
 
 public class LoginPresenter implements Login.Presenter {
@@ -21,7 +21,7 @@ public class LoginPresenter implements Login.Presenter {
     @Override
     public void onAttemptLogin(String email, String password) {
         try {
-            LoginCredentials credentials = new LoginCredentials(email, password);
+            LoginCredential credentials = new LoginCredential(email, password);
             mLoginTask = new LoginTask(this, credentials);
             mLoginTask.executeLogin();
         } catch (EmptyEmailException e) {

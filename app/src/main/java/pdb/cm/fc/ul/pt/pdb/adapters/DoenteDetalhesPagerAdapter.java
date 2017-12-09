@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,20 +14,23 @@ import pdb.cm.fc.ul.pt.pdb.activities.medico.NotesMedicoFragment;
 import pdb.cm.fc.ul.pt.pdb.activities.medico.SettingsMedicoFragment;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 
+import static pdb.cm.fc.ul.pt.pdb.activities.medico.DoenteDetalhesActivity.EXTRA_DOENTE;
+
 public class DoenteDetalhesPagerAdapter extends FragmentPagerAdapter {
 
-    private String mEmailDoente;
+    private Doente mDoente;
 
-    public DoenteDetalhesPagerAdapter(FragmentManager fm, String emailDoente) {
+    public DoenteDetalhesPagerAdapter(FragmentManager fm, Doente doente) {
         super(fm);
-        mEmailDoente = emailDoente;
+        mDoente = doente;
     }
 
 
     @Override
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
-        bundle.putString("emailDoente", mEmailDoente);
+        bundle.putSerializable(EXTRA_DOENTE, mDoente);
+
         switch (position) {
             case 0:
                 NotesMedicoFragment mNotesMedicoFragment = new NotesMedicoFragment();
@@ -42,6 +46,7 @@ public class DoenteDetalhesPagerAdapter extends FragmentPagerAdapter {
                 mDetalhesMedicoFragment.setArguments(bundle);
                 return mDetalhesMedicoFragment;
         }
+
     }
 
     @Override
