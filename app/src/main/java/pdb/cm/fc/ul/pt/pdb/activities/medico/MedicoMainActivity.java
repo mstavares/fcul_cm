@@ -18,7 +18,7 @@ import pdb.cm.fc.ul.pt.pdb.interfaces.medico.MedicoMain;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.presenters.medico.MedicoMainActivityPresenter;
 
-import static pdb.cm.fc.ul.pt.pdb.activities.medico.DoenteDetalhesActivity.EXTRA_DOENTE;
+import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardActivity.EXTRA_DOENTE;
 
 public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.View,
         AdapterView.OnItemClickListener {
@@ -30,7 +30,7 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doentes);
+        setContentView(R.layout.activity_medico_doentes);
         setup();
     }
 
@@ -62,7 +62,7 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
 
     @Override
     public void DoenteLoaded(Doente doente) {
-        startActivity(new Intent(this, DoenteDetalhesActivity.class).putExtra(EXTRA_DOENTE, doente));
+        startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente));
     }
 
     @Override

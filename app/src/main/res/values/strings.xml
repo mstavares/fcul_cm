@@ -31,7 +31,7 @@
     <string name="time">Time: %1$d</string>
     <string name="score">Score: %1$d</string>
 
-    <!-- Keyboard -->
+    <!-- Keyboard Game -->
     <string name="faults">Faults: %1$d</string>
     <string name="win_title">Congratulations!</string>
     <string name="win_message">Your score is %1$d.</string>
@@ -45,6 +45,21 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Navigation Drawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_dashboard">Dashboard</string>
+    <string name="navigation_drawer_notes">Notes</string>
+    <string name="navigation_drawer_rawData">Raw Data</string>
+    <string name="navigation_drawer_patientPreferences">Change Patient Settings </string>
+
+    <string name="navigation_drawer_title_gameSettings">Games Settings</string>
+    <string name="navigation_drawer_addWords">Add Words</string>
+
+    <!-- Dashboard Medico -->
+    <string name="dashboard_wordsgame_title">Words Game Results</string>
+    <string name="dashboard_ballgame_title">Ball Game Results</string>
 
 
 </resources>

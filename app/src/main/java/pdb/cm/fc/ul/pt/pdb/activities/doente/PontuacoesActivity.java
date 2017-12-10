@@ -10,6 +10,6 @@ public class PontuacoesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pontuacoes);
+        setContentView(R.layout.activity_doente_pontuacoes);
     }
 }

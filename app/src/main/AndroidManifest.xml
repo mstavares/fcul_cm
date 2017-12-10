@@ -18,10 +18,6 @@
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.doente.PontuacoesActivity" />
-        <activity android:name=".activities.medico.MedicoMainActivity" />
-        <activity
-            android:name=".activities.medico.DoenteDetalhesActivity"
-            android:theme="@android:style/Theme.Holo.Light.DarkActionBar"/>
         <activity
             android:name=".activities.doente.TecladoActivity"
             android:screenOrientation="portrait" />
@@ -30,6 +26,15 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activities.doente.DoenteMainActivity" />
         <activity
+            android:name=".activities.medico.MedicoMainActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.medico.MedicoDashboardActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.medico.MedicoNotesActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activities.dialog.MessageDialogActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
@@ -37,10 +42,6 @@
 
         <service android:name=".services.android.ApplicationService" />
 
-        <activity
-            android:name=".activities.medico.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

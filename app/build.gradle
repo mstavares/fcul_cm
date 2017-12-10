@@ -42,4 +42,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
 
+dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+}
+
 apply plugin: 'com.google.gms.google-services'
