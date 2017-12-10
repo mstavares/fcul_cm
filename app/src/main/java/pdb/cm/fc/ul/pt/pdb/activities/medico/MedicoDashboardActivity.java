@@ -26,10 +26,12 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Medico;
 
@@ -38,9 +40,13 @@ public class MedicoDashboardActivity extends AppCompatActivity
 
     public static final String EXTRA_DOENTE = "doente";
     public static final String EXTRA_MEDICO = "medico";
+
     private LineChart mChart;
+
     private Doente doente;
     private Medico medico;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,8 @@ public class MedicoDashboardActivity extends AppCompatActivity
         medico = (Medico) getIntent().getExtras().getSerializable(EXTRA_MEDICO);
         ((TextView) findViewById(R.id.name)).setText(doente.getName());
         ((TextView) findViewById(R.id.age)).setText(doente.getAge());
+
+        mAuth = FirebaseAuth.getInstance();
 
         mChart = (LineChart) findViewById(R.id.chart1);
 
@@ -107,7 +115,10 @@ public class MedicoDashboardActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_dashboard){
+
+        if (id == R.id.nav_home) {
+            startActivity(new Intent(this, MedicoMainActivity.class));
+        } else if (id == R.id.nav_dashboard){
             startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente).putExtra(EXTRA_MEDICO, medico));
         } else if (id == R.id.nav_notes) {
             startActivity(new Intent(this, MedicoNotesActivity.class).putExtra(EXTRA_DOENTE, doente));
@@ -117,6 +128,10 @@ public class MedicoDashboardActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_addWords) {
 
+        } else if (id == R.id.nav_logout) {
+            mAuth.signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

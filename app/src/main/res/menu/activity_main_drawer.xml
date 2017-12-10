@@ -5,6 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_home"
+            android:title="@string/navigation_drawer_home" />
+        <item
             android:id="@+id/nav_dashboard"
             android:title="@string/navigation_drawer_dashboard" />
         <item
@@ -23,6 +26,14 @@
             <item
                 android:id="@+id/nav_addWords"
                 android:title="@string/navigation_drawer_addWords" />
+        </menu>
+    </item>
+
+    <item android:title="@string/navigation_drawer_title_personal">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:title="@string/navigation_drawer_logout" />
         </menu>
     </item>
 

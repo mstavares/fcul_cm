@@ -49,6 +49,7 @@
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_home">Home</string>
     <string name="navigation_drawer_dashboard">Dashboard</string>
     <string name="navigation_drawer_notes">Notes</string>
     <string name="navigation_drawer_rawData">Raw Data</string>
@@ -56,10 +57,13 @@
 
     <string name="navigation_drawer_title_gameSettings">Games Settings</string>
     <string name="navigation_drawer_addWords">Add Words</string>
+    <string name="navigation_drawer_title_personal">About Me</string>
+    <string name="navigation_drawer_logout">Sign out</string>
 
     <!-- Dashboard Medico -->
     <string name="dashboard_wordsgame_title">Words Game Results</string>
     <string name="dashboard_ballgame_title">Ball Game Results</string>
+
 
 
 </resources>
