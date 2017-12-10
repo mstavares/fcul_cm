@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -30,19 +31,23 @@ import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Medico;
 
 public class MedicoDashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnChartValueSelectedListener {
 
     public static final String EXTRA_DOENTE = "doente";
+    public static final String EXTRA_MEDICO = "medico";
     private LineChart mChart;
     private Doente doente;
+    private Medico medico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medico_dashboard);
         doente = (Doente) getIntent().getExtras().getSerializable(EXTRA_DOENTE);
+        medico = (Medico) getIntent().getExtras().getSerializable(EXTRA_MEDICO);
         ((TextView) findViewById(R.id.name)).setText(doente.getName());
         ((TextView) findViewById(R.id.age)).setText(doente.getAge());
 
@@ -60,6 +65,9 @@ public class MedicoDashboardActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        ((TextView) headerView.findViewById(R.id.medicoNome)).setText(medico.getName());
+        ((TextView) headerView.findViewById(R.id.medicoEmail)).setText(medico.getEmail());
     }
 
     @Override
@@ -100,7 +108,7 @@ public class MedicoDashboardActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_dashboard){
-            startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente));
+            startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente).putExtra(EXTRA_MEDICO, medico));
         } else if (id == R.id.nav_notes) {
             startActivity(new Intent(this, MedicoNotesActivity.class).putExtra(EXTRA_DOENTE, doente));
         } else if (id == R.id.nav_patient_settings) {

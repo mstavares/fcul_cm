@@ -4,6 +4,7 @@ package pdb.cm.fc.ul.pt.pdb.services.firebase;
 import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
 
 public interface Firebase {
@@ -18,6 +19,10 @@ public interface Firebase {
 
     interface LoadNotes {
         void loadNotes(ArrayList<Note> notes);
+    }
+
+    interface LoadMedico {
+        void loadMedico(Medico medico);
     }
 
 }

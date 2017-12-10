@@ -16,9 +16,11 @@ import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.DoentesAdapter;
 import pdb.cm.fc.ul.pt.pdb.interfaces.medico.MedicoMain;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.presenters.medico.MedicoMainActivityPresenter;
 
 import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardActivity.EXTRA_DOENTE;
+import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardActivity.EXTRA_MEDICO;
 
 public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.View,
         AdapterView.OnItemClickListener {
@@ -48,6 +50,7 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     @Override
     public void onResume() {
         mPresenter.fetchDoentes(loadEmailFromExtras());
+        mPresenter.fetchMedico(loadEmailFromExtras());
         super.onResume();
     }
 
@@ -61,8 +64,8 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     }
 
     @Override
-    public void DoenteLoaded(Doente doente) {
-        startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente));
+    public void DoenteLoaded(Doente doente, Medico medico) {
+        startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente).putExtra(EXTRA_MEDICO, medico));
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
 
 import static pdb.cm.fc.ul.pt.pdb.utilities.Utilities.getTimestamp;
@@ -20,7 +21,30 @@ public abstract class FirebaseMedico {
 
     private static final String TAG = FirebaseMedico.class.getSimpleName();
     private static final String TBL_DOENTES = "doentes";
+    private static final String TBL_MEDICOS = "medicos";
     private static final String TBL_NOTES = "notes";
+
+    public static void fetchMedico(final Firebase.LoadMedico callback, final String emailMedico){
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_MEDICOS);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot medicosSnapshot : dataSnapshot.getChildren()) {
+                    Medico medico = medicosSnapshot.getValue(Medico.class);
+                    if (medico.getEmail().equals(emailMedico)) {
+                        callback.loadMedico(medico);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read value. ", error.toException());
+            }
+        });
+    }
 
     public static void fetchAllDoentes(final Firebase.LoadDoentes callback, final String medico) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
