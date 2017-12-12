@@ -68,7 +68,9 @@
     <!-- NotificationModule -->
     <string name="title">Let\'s play a little bit!</string>
     <string name="message">You stopped to play a long time ago, click me and let\'s have some fun!</string>
-
+    <string name="jogo_teclado">Jogo Teclado</string>
+    <string name="jogo_esfera">Jogo Esfera</string>
+    <string name="sair">Sair</string>
 
 
 </resources>

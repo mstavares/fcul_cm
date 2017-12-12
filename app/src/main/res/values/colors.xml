@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#1e88e5</color>
+    <color name="colorPrimaryDark">#005cb2</color>
+    <color name="colorAccent">#ff5722</color>
     <color name="lollipop_green">#80AA</color>
     <color name="hard_gray">#727272</color>
-    <color name="white">#FFFFFF</color>
+    <color name="white">#ffffff</color>
     <color name="black">#212121</color>
     <color name="game_bg">#dddddd</color>
     <color name="line">#000000</color>
     <color name="position">#ff0000</color>
+    <color name="appBackground">#e1f0ff</color>
+    <color name="primary_text_material_dark">#ffffff</color>
+    <color name="background_material_light">#e1f0ff</color>
 </resources>

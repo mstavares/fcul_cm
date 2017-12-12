@@ -6,18 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@drawable/home"
             android:title="@string/navigation_drawer_home" />
         <item
             android:id="@+id/nav_dashboard"
+            android:icon="@drawable/dashboard"
             android:title="@string/navigation_drawer_dashboard" />
         <item
             android:id="@+id/nav_notes"
+            android:icon="@drawable/sticky_note"
             android:title="@string/navigation_drawer_notes" />
         <item
             android:id="@+id/nav_patient_settings"
+            android:icon="@drawable/cogs"
             android:title="@string/navigation_drawer_patientPreferences" />
         <item
             android:id="@+id/nav_rawData"
+            android:icon="@drawable/file_text"
             android:title="@string/navigation_drawer_rawData" />
     </group>
 
@@ -25,6 +30,7 @@
         <menu>
             <item
                 android:id="@+id/nav_addWords"
+                android:icon="@drawable/pencil_square"
                 android:title="@string/navigation_drawer_addWords" />
         </menu>
     </item>
@@ -33,6 +39,7 @@
         <menu>
             <item
                 android:id="@+id/nav_logout"
+                android:icon="@drawable/power_button_off"
                 android:title="@string/navigation_drawer_logout" />
         </menu>
     </item>
