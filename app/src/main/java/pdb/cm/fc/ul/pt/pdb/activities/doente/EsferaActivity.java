@@ -9,6 +9,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Esfera;
+import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 import pdb.cm.fc.ul.pt.pdb.views.PitchView;
@@ -21,6 +22,7 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
     @BindView(R.id.time) TextView mTimeView;
 
     private PitchView mPitchView;
+    private String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
     private void setup() {
         mPitchView = new PitchView(this);
         AccelerometerManager.registerListener(this);
+        mEmail = UserPreferences.getEmail(this);
     }
 
     @Override
@@ -58,7 +61,7 @@ public class EsferaActivity extends AppCompatActivity implements AccelerometerLi
 
     @Override
     public void onDestroy() {
-        AccelerometerManager.unRegisterListener(this);
+        AccelerometerManager.unregisterListener(this);
         super.onDestroy();
     }
 

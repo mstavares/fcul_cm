@@ -25,13 +25,7 @@ public class SplashActivity extends AppCompatActivity implements Runnable {
     }
 
     private void setup() {
-        startService();
         new Handler().postDelayed(this, SPLASH_TIMER);
-    }
-
-    private void startService() {
-        Log.i(TAG, "startService was invoked");
-        startService(new Intent(this, ApplicationService.class));
     }
 
     @Override

@@ -14,17 +14,24 @@ import android.view.View;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.SplashActivity;
 import pdb.cm.fc.ul.pt.pdb.exceptions.SensorNotFoundException;
-import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.Accelerometer;
+import pdb.cm.fc.ul.pt.pdb.inferenceModules.NotificationModule;
+import pdb.cm.fc.ul.pt.pdb.inferenceModules.ShakeModule;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
+import pdb.cm.fc.ul.pt.pdb.sensors.proximity.Proximity;
+import pdb.cm.fc.ul.pt.pdb.sensors.proximity.ProximityManager;
+import pdb.cm.fc.ul.pt.pdb.sensors.screen.ScreenManager;
 
 
 public class ApplicationService extends Service {
 
     private static final String TAG = ApplicationService.class.getSimpleName();
-
     private static final int SERVICE_ID = 112;
 
     private AccelerometerManager mAccelerometerManager;
+    private ProximityManager mProximityManager;
+    private ScreenManager mScreenManager;
+    private NotificationModule mNotificationModule;
+    private ShakeModule mShakeModule;
 
     @Nullable
     @Override
@@ -40,6 +47,10 @@ public class ApplicationService extends Service {
             runAsForeground();
 			/* Initializing the sensors */
             mAccelerometerManager = new AccelerometerManager(this);
+            //mProximityManager = new ProximityManager(this);
+            mScreenManager = new ScreenManager(this);
+            mShakeModule = new ShakeModule(this);
+            mNotificationModule = new NotificationModule(this);
         } catch (SensorNotFoundException e) {
             e.showDialogError(this);
         }
@@ -75,6 +86,14 @@ public class ApplicationService extends Service {
     public void close() {
         if(mAccelerometerManager != null)
             mAccelerometerManager.close();
+        if(mProximityManager != null)
+            mScreenManager.close();
+        if(mScreenManager != null)
+            mScreenManager.close();
+        if(mShakeModule != null)
+            mShakeModule.close();
+        if(mNotificationModule != null)
+            mNotificationModule.close();
     }
 
     @Override

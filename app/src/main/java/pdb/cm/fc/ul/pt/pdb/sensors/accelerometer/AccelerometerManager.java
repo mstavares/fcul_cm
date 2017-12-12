@@ -24,7 +24,7 @@ public class AccelerometerManager implements AccelerometerListener.onSensorChang
         sListeners.add(listener);
     }
 
-    public static void unRegisterListener(AccelerometerListener listener) {
+    public static void unregisterListener(AccelerometerListener listener) {
         sListeners.remove(listener);
     }
 

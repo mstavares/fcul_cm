@@ -22,6 +22,7 @@
     <string name="sensor_not_found_message">Parkinson Daily Basis did not find the %s on your device. \n
         Parkinson Daily Basis cannot proceed without it.</string>
     <string name="Accelerometer">accelerometer</string>
+    <string name="Light">light</string>
 
     <!-- App description -->
     <string name="app_name">Parkinson Daily Basis</string>
@@ -63,6 +64,10 @@
     <!-- Dashboard Medico -->
     <string name="dashboard_wordsgame_title">Words Game Results</string>
     <string name="dashboard_ballgame_title">Ball Game Results</string>
+
+    <!-- NotificationModule -->
+    <string name="title">Let\'s play a little bit!</string>
+    <string name="message">You stopped to play a long time ago, click me and let\'s have some fun!</string>
 
 
 

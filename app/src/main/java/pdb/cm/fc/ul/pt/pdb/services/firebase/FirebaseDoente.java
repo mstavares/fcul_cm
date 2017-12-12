@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Shake;
 import pdb.cm.fc.ul.pt.pdb.models.WordScore;
 
 import static pdb.cm.fc.ul.pt.pdb.utilities.Utilities.getTimestamp;
@@ -24,6 +25,7 @@ public abstract class FirebaseDoente {
     private static final String TBL_DOENTES = "doentes";
     private static final String TBL_WORDSSCORES = "wordscores";
     private static final String TBL_BALLSCORES = "ballscores";
+    private static final String TBL_SHAKE = "shake";
 
     public static void setLastLogin(final String email) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
@@ -56,6 +58,12 @@ public abstract class FirebaseDoente {
         doente = checkUserID(doente);
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES + "/" + doente);
         databaseReference.push().setValue(ballScore);
+    }
+
+    public static void pushShakeData(final String doente, final Shake shake) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKE + "/" + doente);
+        databaseReference.push().setValue(shake);
+
     }
 
     public static String checkUserID(String doente){

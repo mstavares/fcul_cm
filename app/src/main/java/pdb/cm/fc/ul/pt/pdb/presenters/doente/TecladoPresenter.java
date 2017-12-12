@@ -130,7 +130,7 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
     @Override
     public void onDestroy() {
         mHandler.removeCallbacks(this);
-        AccelerometerManager.unRegisterListener(this);
+        AccelerometerManager.unregisterListener(this);
     }
 
     @Override

@@ -102,8 +102,7 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
 
     @Override
     public void onLoginOk(Class activity) {
-        String email = mEmailView.getText().toString();
-        startActivity(new Intent(this, activity).putExtra("email", email));
+        startActivity(new Intent(this, activity));
         finish();
     }
 

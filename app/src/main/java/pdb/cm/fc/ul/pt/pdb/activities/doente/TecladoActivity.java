@@ -11,11 +11,10 @@ import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.dialog.MessageDialogActivity;
 import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
+import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
 import pdb.cm.fc.ul.pt.pdb.presenters.doente.TecladoPresenter;
 
 public class TecladoActivity extends AppCompatActivity implements Teclado.View, View.OnClickListener {
-
-    private static final String EXTRA_EMAIL = "email";
 
     @BindView(R.id.score) TextView mScoreView;
     @BindView(R.id.time) TextView mTimeView;
@@ -23,6 +22,7 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
     @BindView(R.id.word) TextView mWordView;
 
     private TecladoPresenter mPresenter;
+    private String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +34,7 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
     private void setup() {
         ButterKnife.bind(this);
         mPresenter = new TecladoPresenter(this);
-    }
-
-    private String loadEmailFromExtras() {
-        return getIntent().getExtras().getString(EXTRA_EMAIL);
+        mEmail = UserPreferences.getEmail(this);
     }
 
     @Override
@@ -57,7 +54,7 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
 
     @Override
     public void onWin(int score, int time) {
-        mPresenter.newScore(loadEmailFromExtras());
+        mPresenter.newScore(mEmail);
         startActivity(new Intent(this, MessageDialogActivity.class)
                 .putExtra(MessageDialogActivity.TITLE, getString(R.string.win_title))
                 .putExtra(MessageDialogActivity.MESSAGE, getString(R.string.win_message, score))
