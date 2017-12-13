@@ -123,15 +123,6 @@
                 android:textSize="16sp"
                 android:textColor="@color/appBackground"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/no_account"
-                android:textColor="@color/hard_gray"
-                android:textSize="16sp"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="16dp"/>
-
         </LinearLayout>
 
     </ScrollView>
