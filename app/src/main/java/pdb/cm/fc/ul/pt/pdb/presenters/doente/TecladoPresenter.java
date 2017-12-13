@@ -109,7 +109,7 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter {
 
     private void timeUp() {
         String doente = UserPreferences.getUser(mContext);
-        FirebaseDoente.sendWordsScore(doente, new WordScore(mTime, mScore, mFaults));
+        FirebaseDoente.sendWordsScore(doente, new WordScore(GAME_TIME, mScore, mFaults));
         mView.onWin(mScore, mFaults, GAME_TIME);
     }
 

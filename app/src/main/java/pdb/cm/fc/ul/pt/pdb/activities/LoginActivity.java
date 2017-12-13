@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements Login.View {
 
     private void setup() {
         ButterKnife.bind(this);
-        mPresenter = new LoginPresenter(this);
+        mPresenter = new LoginPresenter(this,this);
         mPasswordView.setOnEditorActionListener(this);
     }
 

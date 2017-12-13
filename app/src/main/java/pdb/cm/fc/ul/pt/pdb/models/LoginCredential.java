@@ -59,4 +59,8 @@ public class LoginCredential {
         return mEmail.contains(PACIENT_LABEL);
     }
 
+    public String getUser() {
+        return mEmail.split("@")[0];
+    }
+
 }

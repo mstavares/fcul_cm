@@ -19,4 +19,5 @@ public abstract class Utilities {
             sum += value;
         return sum / data.size();
     }
+
 }

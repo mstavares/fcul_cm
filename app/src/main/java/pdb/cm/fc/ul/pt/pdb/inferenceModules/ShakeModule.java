@@ -18,16 +18,16 @@ import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 public class ShakeModule implements ScreenListener, AccelerometerListener.onSensorChanged {
 
     private static final String TAG = ShakeModule.class.getSimpleName();
-    private static final int SAMPLING_EVALUATION = 50;
+    private static final int SAMPLING_EVALUATION = 100;
     private ArrayList<Integer> xData = new ArrayList<>();
     private ArrayList<Integer> yData = new ArrayList<>();
     private ArrayList<Integer> zData = new ArrayList<>();
     private boolean isRegistered = false;
-    private String mUserPaciente;
+    private String mUser;
 
     public ShakeModule(Context context) {
         ScreenManager.registerListener(this);
-        mUserPaciente = UserPreferences.getUser(context);
+        mUser = UserPreferences.getUser(context);
         AccelerometerManager.registerListener(this);
     }
 
@@ -75,7 +75,7 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
             double zAverage = Utilities.computeAverage(zData);
             Log.i(TAG, "xAverage = " + xAverage + " yAverage = " + yAverage + " zAverage = " + zAverage);
             xData.clear(); yData.clear(); zData.clear();
-            FirebaseDoente.sendShakeData(mUserPaciente, new Shake(xAverage, yAverage, zAverage));
+            FirebaseDoente.sendShakeData(mUser, new Shake(xAverage, yAverage, zAverage));
         }
     }
 

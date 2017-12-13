@@ -3,6 +3,7 @@ package pdb.cm.fc.ul.pt.pdb.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -12,9 +13,9 @@ public class UserPreferences {
     private static final String EMAIL = "email";
 
 
-    public static void pushLogin(Context context, String login) {
-        pushData(context, EMAIL, login);
-        pushData(context, USER, getUserId(login));
+    public static void pushLogin(Context context, String email, String user) {
+        pushData(context, EMAIL, email);
+        pushData(context, USER, user);
 
     }
 
@@ -34,16 +35,16 @@ public class UserPreferences {
     }
 
     public static void clearLogin(Context context) {
-        pushLogin(context, "null");
+        SharedPreferences mySPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = mySPrefs.edit();
+        editor.remove(EMAIL);
+        editor.remove(USER);
+        editor.apply();
     }
 
     private static String getData(Context context, String flag) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(flag, MODE_PRIVATE);
         return sharedPreferences.getString(flag, "null");
-    }
-
-    private static String getUserId(String login) {
-        return login.split("@")[0];
     }
 
 }
