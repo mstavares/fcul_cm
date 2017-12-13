@@ -1,5 +1,6 @@
 package pdb.cm.fc.ul.pt.pdb.activities.dialog;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.activities.doente.DoenteMainActivity;
 
 public class MessageDialogActivity extends AppCompatActivity {
 
@@ -35,6 +37,13 @@ public class MessageDialogActivity extends AppCompatActivity {
         title.setText(getIntent().getExtras().getString(TITLE));
         message.setText(getIntent().getExtras().getString(MESSAGE));
         time.setText(getIntent().getExtras().getString(TIME));
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, DoenteMainActivity.class));
+        finishAffinity();
+        super.onBackPressed();
     }
 
 }

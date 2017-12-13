@@ -9,8 +9,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Shake;
@@ -27,7 +25,7 @@ public abstract class FirebaseDoente {
     private static final String TBL_BALLSCORES = "ballscores";
     private static final String TBL_SHAKE = "shake";
 
-    public static void setLastLogin(final String email) {
+    public static void sendLastLogin(final String email) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
         databaseReference.addValueEventListener(new ValueEventListener() {
 
@@ -48,30 +46,20 @@ public abstract class FirebaseDoente {
         });
     }
 
-    public static void setWordsScore(String doente, final WordScore wordScore) {
-        doente = checkUserID(doente);
+    public static void sendWordsScore(String doente, final WordScore wordScore) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDSSCORES + "/" + doente);
         databaseReference.push().setValue(wordScore);
     }
 
-    public static void setBallScore(String doente, final BallScore ballScore) {
-        doente = checkUserID(doente);
+    public static void sendBallScore(String doente, final BallScore ballScore) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES + "/" + doente);
         databaseReference.push().setValue(ballScore);
     }
 
-    public static void pushShakeData(final String doente, final Shake shake) {
+    public static void sendShakeData(final String doente, final Shake shake) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKE + "/" + doente);
         databaseReference.push().setValue(shake);
 
-    }
-
-    public static String checkUserID(String doente){
-        if(doente.contains("@")){
-            String[] output = doente.split("@");
-            doente = output[0];
-        }
-        return doente;
     }
 
 }

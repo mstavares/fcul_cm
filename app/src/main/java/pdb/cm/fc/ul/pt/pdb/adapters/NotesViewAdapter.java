@@ -6,17 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
-
-import static pdb.cm.fc.ul.pt.pdb.models.Constants.noteDate;
-import static pdb.cm.fc.ul.pt.pdb.models.Constants.noteName;
 
 
 public class NotesViewAdapter extends ArrayAdapter<Note> {

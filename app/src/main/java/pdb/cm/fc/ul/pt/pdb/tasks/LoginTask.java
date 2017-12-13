@@ -13,7 +13,6 @@ import pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoMainActivity;
 import pdb.cm.fc.ul.pt.pdb.interfaces.Login;
 import pdb.cm.fc.ul.pt.pdb.models.LoginCredential;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
-import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
 
 public class LoginTask implements OnCompleteListener {
 
@@ -37,7 +36,7 @@ public class LoginTask implements OnCompleteListener {
 
     private Class getMainActivity() {
         if(mLoginCredential.isPaciente()) {
-            FirebaseDoente.setLastLogin(mLoginCredential.getEmail());
+            FirebaseDoente.sendLastLogin(mLoginCredential.getEmail());
             return DoenteMainActivity.class;
         }
         return MedicoMainActivity.class;

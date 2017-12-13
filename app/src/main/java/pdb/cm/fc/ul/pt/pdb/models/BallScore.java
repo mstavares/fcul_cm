@@ -2,36 +2,40 @@ package pdb.cm.fc.ul.pt.pdb.models;
 
 import java.io.Serializable;
 
-/**
- * Created by nunonelas on 08/12/17.
- */
+import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
+
 
 public class BallScore implements Serializable {
 
-    private String score;
-    private String time;
+    private String mDate;
+    private int mScore, mTime;
 
     public BallScore() {
     }
 
-    public BallScore(String score, String time) {
-        this.score = score;
-        this.time = time;
+    public BallScore(int score, int time) {
+        mScore = score;
+        mTime = time;
+        mDate = Utilities.getTimestamp();
     }
 
-    public String getScore() {
-        return score;
+    public String getDate() {
+        return mDate;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public int getScore() {
+        return mScore;
     }
 
-    public String getTime() {
-        return time;
+    public void setScore(int score) {
+        mScore = score;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public int getTime() {
+        return mTime;
+    }
+
+    public void setTime(int time) {
+        mTime = time;
     }
 }

@@ -12,24 +12,32 @@ import android.util.Log;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
+import pdb.cm.fc.ul.pt.pdb.sensors.screen.ScreenListener;
 
-public class NotificationModule implements Runnable {
+public class NotificationModule implements Runnable, ScreenListener {
 
     private static final String TAG = NotificationModule.class.getSimpleName();
     private static final int NOTIFICATION_TIME_WINDOW = 120 * 1000;
-    private boolean mDoNotDisturbeEnabled = false;
     private Handler mHander = new Handler();
     private Context mContext;
 
     public NotificationModule(Context context) {
         mContext = context;
+    }
+
+    @Override
+    public void screenIsOn() {
+        mHander.removeCallbacks(this);
+    }
+
+    @Override
+    public void screenIsOff() {
         mHander.postDelayed(this, NOTIFICATION_TIME_WINDOW);
     }
 
     @Override
     public void run() {
-        if(!mDoNotDisturbeEnabled)
-            createNotification(new Intent(mContext, LoginActivity.class));
+        createNotification(new Intent(mContext, LoginActivity.class));
         mHander.postDelayed(this, NOTIFICATION_TIME_WINDOW);
     }
 
@@ -53,4 +61,5 @@ public class NotificationModule implements Runnable {
     public void close() {
         mHander.removeCallbacks(this);
     }
+
 }

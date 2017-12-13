@@ -6,6 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <pdb.cm.fc.ul.pt.pdb.views.PitchView
+        android:id="@+id/pitch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/score"
         android:layout_width="wrap_content"
@@ -13,6 +18,8 @@
         android:layout_weight="1"
         android:text="@string/score"
         android:textSize="20sp"
+        android:textColor="@color/red"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,8 +29,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/time"
+        android:textColor="@color/red"
+        android:textStyle="bold"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
 
 </android.support.constraint.ConstraintLayout>

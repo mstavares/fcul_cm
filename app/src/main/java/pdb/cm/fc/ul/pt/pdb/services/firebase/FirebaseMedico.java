@@ -15,8 +15,6 @@ import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
 
-import static pdb.cm.fc.ul.pt.pdb.utilities.Utilities.getTimestamp;
-
 public abstract class FirebaseMedico {
 
     private static final String TAG = FirebaseMedico.class.getSimpleName();

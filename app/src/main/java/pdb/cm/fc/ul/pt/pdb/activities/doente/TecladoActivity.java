@@ -21,8 +21,7 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
     @BindView(R.id.input) TextView mInputView;
     @BindView(R.id.word) TextView mWordView;
 
-    private TecladoPresenter mPresenter;
-    private String mEmail;
+    private Teclado.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +32,7 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
 
     private void setup() {
         ButterKnife.bind(this);
-        mPresenter = new TecladoPresenter(this);
-        mEmail = UserPreferences.getEmail(this);
+        mPresenter = new TecladoPresenter(this, this);
     }
 
     @Override
@@ -53,11 +51,11 @@ public class TecladoActivity extends AppCompatActivity implements Teclado.View, 
     }
 
     @Override
-    public void onWin(int score, int time) {
-        mPresenter.newScore(mEmail);
+    public void onWin(int score, int faults, int time) {
+
         startActivity(new Intent(this, MessageDialogActivity.class)
                 .putExtra(MessageDialogActivity.TITLE, getString(R.string.win_title))
-                .putExtra(MessageDialogActivity.MESSAGE, getString(R.string.win_message, score))
+                .putExtra(MessageDialogActivity.MESSAGE, getString(R.string.win_message_and_faults, score, faults))
                 .putExtra(MessageDialogActivity.TIME, getString(R.string.win_time, time))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         );

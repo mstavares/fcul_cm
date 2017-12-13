@@ -17,6 +17,7 @@ import pdb.cm.fc.ul.pt.pdb.adapters.DoentesAdapter;
 import pdb.cm.fc.ul.pt.pdb.interfaces.medico.MedicoMain;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Medico;
+import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
 import pdb.cm.fc.ul.pt.pdb.presenters.medico.MedicoMainActivityPresenter;
 
 import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardActivity.EXTRA_DOENTE;
@@ -25,9 +26,9 @@ import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardActivity.EXTR
 public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.View,
         AdapterView.OnItemClickListener {
 
-    private static final String EXTRA_EMAIL = "email";
     @BindView(R.id.doentes) ListView mDoentesListView;
     private MedicoMain.Presenter mPresenter;
+    private String mEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +41,19 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
         ButterKnife.bind(this);
         mDoentesListView.setOnItemClickListener(this);
         mPresenter = new MedicoMainActivityPresenter(this);
+        mEmail = UserPreferences.getEmail(this);
         defineWelcomeMessage();
-    }
-
-    private String loadEmailFromExtras() {
-        return getIntent().getExtras().getString(EXTRA_EMAIL);
     }
 
     @Override
     public void onResume() {
-        mPresenter.fetchDoentes(loadEmailFromExtras());
-        mPresenter.fetchMedico(loadEmailFromExtras());
+        mPresenter.fetchDoentes(mEmail);
+        mPresenter.fetchMedico(mEmail);
         super.onResume();
     }
 
     private void defineWelcomeMessage() {
-        ((TextView) findViewById(R.id.welcome)).setText(getString(R.string.welcome_doctor, loadEmailFromExtras()));
+        ((TextView) findViewById(R.id.welcome)).setText(getString(R.string.welcome_doctor, mEmail));
     }
 
     @Override

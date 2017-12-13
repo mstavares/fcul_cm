@@ -22,6 +22,7 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
     private ArrayList<Integer> xData = new ArrayList<>();
     private ArrayList<Integer> yData = new ArrayList<>();
     private ArrayList<Integer> zData = new ArrayList<>();
+    private boolean isRegistered = false;
     private String mUserPaciente;
 
     public ShakeModule(Context context) {
@@ -33,19 +34,37 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
     @Override
     public void screenIsOn() {
         Log.i(TAG, "screenIsOn");
-        AccelerometerManager.registerListener(this);
+        registerListener();
     }
 
     @Override
     public void screenIsOff() {
         Log.i(TAG, "screenIsOff");
-        AccelerometerManager.unregisterListener(this);
+        unregisterListener();
     }
 
     @Override
     public void onSensorChanged(float xAccel, float yAccel, float zAccel) {
         xData.add((int) xAccel); yData.add((int) yAccel); zData.add((int) zAccel);
         evaluateData();
+
+    }
+
+    private synchronized void registerListener() {
+        if(!isRegistered) {
+            Log.i(TAG, "Register listener");
+            isRegistered = true;
+            AccelerometerManager.registerListener(this);
+        }
+
+    }
+
+    private synchronized void unregisterListener() {
+        if(isRegistered) {
+            Log.i(TAG, "Unregister listener");
+            isRegistered = false;
+            AccelerometerManager.unregisterListener(this);
+        }
 
     }
 
@@ -56,7 +75,7 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
             double zAverage = Utilities.computeAverage(zData);
             Log.i(TAG, "xAverage = " + xAverage + " yAverage = " + yAverage + " zAverage = " + zAverage);
             xData.clear(); yData.clear(); zData.clear();
-            //FirebaseDoente.pushShakeData(mUserPaciente, new Shake(xAverage, yAverage, zAverage));
+            FirebaseDoente.sendShakeData(mUserPaciente, new Shake(xAverage, yAverage, zAverage));
         }
     }
 

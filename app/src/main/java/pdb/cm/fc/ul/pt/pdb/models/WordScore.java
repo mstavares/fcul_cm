@@ -2,66 +2,37 @@ package pdb.cm.fc.ul.pt.pdb.models;
 
 import java.io.Serializable;
 
-/**
- * Created by nunonelas on 08/12/17.
- */
+import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
 public class WordScore implements Serializable {
 
-    private String date;
-    private String score;
-    private String time;
-    private String faults;
-    private String word;
 
-    public WordScore() {
-    }
+    private String mDate;
+    private int mScore, mTime, mFaults;
 
-    public WordScore(String date, String score, String time, String faults, String word) {
-        this.date = date;
-        this.score = score;
-        this.time = time;
-        this.faults = faults;
-        this.word = word;
+    public WordScore() {}
+
+    public WordScore(int time, int score, int faults) {
+        mTime = time;
+        mScore = score;
+        mFaults = faults;
+        mDate = Utilities.getTimestamp();
     }
 
     public String getDate() {
-        return date;
+        return mDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public int getScore() {
+        return mScore;
     }
 
-    public String getScore() {
-        return score;
+    public int getTime() {
+        return mTime;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public int getFaults() {
+        return mFaults;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getFaults() {
-        return faults;
-    }
-
-    public void setFaults(String faults) {
-        this.faults = faults;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
-    }
 }

@@ -11,9 +11,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.adapters.NotesViewAdapter;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
-import pdb.cm.fc.ul.pt.pdb.adapters.NotesViewAdapter;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.Firebase;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
 

@@ -1,6 +1,8 @@
 package pdb.cm.fc.ul.pt.pdb.presenters.doente;
 
+import android.content.Context;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
@@ -9,31 +11,36 @@ import java.util.Random;
 
 import pdb.cm.fc.ul.pt.pdb.interfaces.doente.Teclado;
 import pdb.cm.fc.ul.pt.pdb.models.WordScore;
+import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerListener;
 import pdb.cm.fc.ul.pt.pdb.sensors.accelerometer.AccelerometerManager;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
 
 import static pdb.cm.fc.ul.pt.pdb.utilities.Utilities.getTimestamp;
 
-public class TecladoPresenter implements Runnable, Teclado.Presenter, AccelerometerListener.onShake {
+public class TecladoPresenter implements Runnable, Teclado.Presenter {
 
     private static final int ONE_SECOND = 1000;
+    private static final int GAME_TIME = 90;
     private boolean mIsShowingWinActivity = false;
     private Handler mHandler = new Handler();
     private int mScore, mFaults, mTime, mChar;
     private ArrayList<String> words;
     private String mInput, mWord;
     private Teclado.View mView;
+    private Vibrator mVibrator;
+    private Context mContext;
 
-    public TecladoPresenter(Teclado.View view) {
+    public TecladoPresenter(Context context, Teclado.View view) {
+        mContext = context;
         mView = view;
         setup();
     }
 
     private void setup() {
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         createListOfWords();
         prepareGame();
-        AccelerometerManager.registerListener(this);
     }
 
     private void prepareGame() {
@@ -47,10 +54,17 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
     }
 
     private void resetData() {
-        mTime = 0;
+        mTime = GAME_TIME;
         mFaults = 0;
         mChar = 0;
         mInput = "";
+    }
+
+    private void prepareNextWord() {
+        mChar = 0;
+        mInput = "";
+        mView.onClearInput();
+        chooseRandomWord();
     }
 
     private void createListOfWords() {
@@ -79,44 +93,24 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
             mInput += selectedChar;
             mView.onSetInput(mInput);
             mChar++;
+            mView.onChangeScore(++mScore);
         } else {
             mFaults++;
+            mVibrator.vibrate(1000);
         }
     }
 
     private void compareStrings() {
         if(mInput.equalsIgnoreCase(mWord)) {
-            mHandler.removeCallbacks(this);
-            mIsShowingWinActivity = true;
-            mScore++;
-            mView.onWin(mScore, mTime);
-            prepareGame();
+            /** Win */
+            prepareNextWord();
         }
     }
 
-    private void deleteLastChar() {
-        if(mInput.length() > 0) {
-            mInput = mInput.substring(0, mInput.length() - 1);
-        } else {
-            mInput = "";
-        }
-    }
-
-    public void newScore(String doente){
-        WordScore wordScore = new WordScore();
-        wordScore.setDate(getTimestamp());
-        wordScore.setScore(Integer.toString(mScore));
-        wordScore.setTime(Integer.toString(mTime));
-        wordScore.setFaults(Integer.toString(mFaults));
-        wordScore.setWord(mWord);
-        FirebaseDoente.setWordsScore(doente, wordScore);
-    }
-
-    @Override
-    public void onShake() {
-        mFaults++;
-        deleteLastChar();
-        mView.onSetInput(mInput);
+    private void timeUp() {
+        String doente = UserPreferences.getUser(mContext);
+        FirebaseDoente.sendWordsScore(doente, new WordScore(mTime, mScore, mFaults));
+        mView.onWin(mScore, mFaults, GAME_TIME);
     }
 
     @Override
@@ -130,12 +124,15 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter, Accelerome
     @Override
     public void onDestroy() {
         mHandler.removeCallbacks(this);
-        AccelerometerManager.unregisterListener(this);
     }
 
     @Override
     public void run() {
-        mView.onChangeTime(++mTime);
-        mHandler.postDelayed(this, ONE_SECOND);
+        if(mTime > 0) {
+            mView.onChangeTime(--mTime);
+            mHandler.postDelayed(this, ONE_SECOND);
+        } else {
+            timeUp();
+        }
     }
 }

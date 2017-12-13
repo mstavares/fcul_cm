@@ -5,7 +5,7 @@ public interface Teclado {
 
     interface View {
         void onClearInput();
-        void onWin(int score, int time);
+        void onWin(int score, int faults, int time);
         void onChangeTime(int time);
         void onSetWord(String word);
         void onSetInput(String input);

@@ -1,8 +1,6 @@
 package pdb.cm.fc.ul.pt.pdb.models;
 
 
-import java.sql.Timestamp;
-
 import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
 public class Shake {
