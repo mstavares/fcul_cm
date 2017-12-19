@@ -52,4 +52,11 @@ public class DoenteMainActivity extends AppCompatActivity {
         finish();
     }
 
+    @OnClick(R.id.button4)
+    public void button4() {
+        startActivity(new Intent(this, PontuacoesActivity.class));
+        finish();
+    }
+
+
 }
