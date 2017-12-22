@@ -13,7 +13,7 @@ public abstract class Utilities {
         return new SimpleDateFormat(TIMESTAMP_FORMAT).format(new Date());
     }
 
-    public static double computeAverage(ArrayList<Integer> data) {
+    public static double computeAverage(ArrayList<Double> data) {
         double sum = 0.0;
         for(double value : data)
             sum += value;

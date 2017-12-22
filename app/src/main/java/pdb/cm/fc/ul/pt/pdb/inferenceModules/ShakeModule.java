@@ -2,6 +2,7 @@ package pdb.cm.fc.ul.pt.pdb.inferenceModules;
 
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -15,19 +16,20 @@ import pdb.cm.fc.ul.pt.pdb.sensors.screen.ScreenManager;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
 import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
-public class ShakeModule implements ScreenListener, AccelerometerListener.onSensorChanged {
+public class ShakeModule implements Runnable, ScreenListener, AccelerometerListener.onSensorChanged {
 
     private static final String TAG = ShakeModule.class.getSimpleName();
-    private static final int SAMPLING_EVALUATION = 100;
-    private ArrayList<Integer> xData = new ArrayList<>();
-    private ArrayList<Integer> yData = new ArrayList<>();
-    private ArrayList<Integer> zData = new ArrayList<>();
+    private static final int SAMPLING_EVALUATION = 5 * 1000;
+    private ArrayList<Double> mData = new ArrayList<>();
+    private Handler mHandler = new Handler();
     private boolean isRegistered = false;
+    private boolean isEvaluating = false;
     private String mUser;
 
     public ShakeModule(Context context) {
         ScreenManager.registerListener(this);
         mUser = UserPreferences.getUser(context);
+        mHandler.postDelayed(this, SAMPLING_EVALUATION);
         AccelerometerManager.registerListener(this);
     }
 
@@ -45,9 +47,19 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
 
     @Override
     public void onSensorChanged(float xAccel, float yAccel, float zAccel) {
-        xData.add((int) xAccel); yData.add((int) yAccel); zData.add((int) zAccel);
-        evaluateData();
+        if(!isEvaluating)
+            mData.add(Math.sqrt(xAccel * xAccel + yAccel * yAccel + zAccel * zAccel));
+    }
 
+    @Override
+    public void run() {
+        if(mData.size() > 0) {
+            isEvaluating = true;
+            double average = Utilities.computeAverage(mData);
+            FirebaseDoente.sendShakeData(mUser, new Shake(average));
+            mHandler.postDelayed(this, SAMPLING_EVALUATION);
+            isEvaluating = false;
+        }
     }
 
     private synchronized void registerListener() {
@@ -55,8 +67,8 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
             Log.i(TAG, "Register listener");
             isRegistered = true;
             AccelerometerManager.registerListener(this);
+            mHandler.postDelayed(this, SAMPLING_EVALUATION);
         }
-
     }
 
     private synchronized void unregisterListener() {
@@ -65,21 +77,10 @@ public class ShakeModule implements ScreenListener, AccelerometerListener.onSens
             isRegistered = false;
             AccelerometerManager.unregisterListener(this);
         }
-
-    }
-
-    private synchronized void evaluateData() {
-        if(xData.size() == SAMPLING_EVALUATION) {
-            double xAverage = Utilities.computeAverage(xData);
-            double yAverage = Utilities.computeAverage(yData);
-            double zAverage = Utilities.computeAverage(zData);
-            Log.i(TAG, "xAverage = " + xAverage + " yAverage = " + yAverage + " zAverage = " + zAverage);
-            xData.clear(); yData.clear(); zData.clear();
-            FirebaseDoente.sendShakeData(mUser, new Shake(xAverage, yAverage, zAverage));
-        }
     }
 
     public void close() {
+        mHandler.removeCallbacks(this);
         ScreenManager.unregisterListener(this);
         AccelerometerManager.unregisterListener(this);
     }

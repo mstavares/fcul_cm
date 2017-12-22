@@ -6,27 +6,17 @@ import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 public class Shake {
 
     private String mDate;
-    private double mXvalue, mYvalue, mZvalue;
+    private double mShake;
 
     public Shake() {}
 
-    public Shake(double xValue, double yValue, double zValue) {
-        mXvalue = xValue;
-        mYvalue = yValue;
-        mZvalue = zValue;
+    public Shake(double shake) {
+        mShake = shake;
         mDate = Utilities.getTimestamp();
     }
 
-    public double getXvalue() {
-        return mXvalue;
-    }
-
-    public double getYvalue() {
-        return mYvalue;
-    }
-
-    public double getZvalue() {
-        return mZvalue;
+    public double getShake() {
+        return mShake;
     }
 
     public String getDate() {
