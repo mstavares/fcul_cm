@@ -14,9 +14,9 @@ import pdb.cm.fc.ul.pt.pdb.R;
 
 public class PitchView extends View {
 
+    private static final int BALL_DIAMETER = 100, GOAL_DIAMETER = 150;
     private static final float FRAME_TIME = 0.266f;
-    private static final double GOAL_DISTANCE = 70;
-    private static final int BALL_DIAMETER = 100;
+    private static final double GOAL_DISTANCE = 80;
     private PitchViewListener mListener;
     private Context mContext;
     private Bitmap mBallSrc;
@@ -26,7 +26,6 @@ public class PitchView extends View {
     private float mPosY, mVelY = 0.0f;
     private float xMax, yMax;
     private float x, y;
-
 
     public PitchView(Context context) {
         super(context);
@@ -47,8 +46,8 @@ public class PitchView extends View {
         setBackground(getResources().getDrawable(R.drawable.grass));
         Bitmap ballBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.golf);
         mBallSrc = Bitmap.createScaledBitmap(ballBitMap, BALL_DIAMETER, BALL_DIAMETER, true);
-        Bitmap ballBitMap2 = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
-        mGoalSrc = Bitmap.createScaledBitmap(ballBitMap2, BALL_DIAMETER, BALL_DIAMETER, true);
+        Bitmap goalBitMap = BitmapFactory.decodeResource(getResources(), R.drawable.hole);
+        mGoalSrc = Bitmap.createScaledBitmap(goalBitMap, GOAL_DIAMETER, GOAL_DIAMETER, true);
         mContext = context;
     }
 
@@ -71,12 +70,14 @@ public class PitchView extends View {
 
         if (mPosX > xMax) {
             mPosX = xMax;
+            mVelX = 0;
         } else if (mPosX < 0) {
             mPosX = 0;
         }
 
         if (mPosY > yMax) {
             mPosY = yMax;
+            mVelY = 0;
         } else if (mPosY < 0) {
             mPosY = 0;
         }
@@ -88,7 +89,7 @@ public class PitchView extends View {
 
     private void checkWin() {
         if(mPosX != 0 && mPosY != 0) {
-            if(euclidianDistance() <= GOAL_DISTANCE) {
+            if(euclideanDistance() <= GOAL_DISTANCE) {
                 Toast.makeText(mContext, "GOAL", Toast.LENGTH_LONG).show();
                 mListener.onGoal();
                 placeGoal();
@@ -96,7 +97,7 @@ public class PitchView extends View {
         }
     }
 
-    private double euclidianDistance() {
+    private double euclideanDistance() {
         return Math.sqrt(Math.pow((x - mPosX), 2) + Math.pow((y - mPosY), 2));
     }
 
