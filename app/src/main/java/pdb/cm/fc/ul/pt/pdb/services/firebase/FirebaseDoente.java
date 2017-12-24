@@ -9,8 +9,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.Note;
 import pdb.cm.fc.ul.pt.pdb.models.Shake;
 import pdb.cm.fc.ul.pt.pdb.models.WordScore;
 
@@ -59,7 +62,11 @@ public abstract class FirebaseDoente {
     public static void sendShakeData(final String doente, final Shake shake) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKE + "/" + doente);
         databaseReference.push().setValue(shake);
-
     }
 
+    public static void sendTimeGameData(final String doente, final String timeBall, final String timeWords) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES + "/" + doente);
+        databaseReference.child("timeBall").setValue(timeBall);
+        databaseReference.child("timeWords").setValue(timeWords);
+    }
 }

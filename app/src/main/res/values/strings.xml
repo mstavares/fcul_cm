@@ -42,12 +42,7 @@
 
     <string name="welcome_doctor">Bem-vindo, %s</string>
 
-    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
-    <string name="demo_external_activity">Demo External Activity</string>
-    <string name="demo_collection">Demo Collection</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- Navigation Drawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -66,6 +61,8 @@
     <!-- Dashboard Medico -->
     <string name="dashboard_wordsgame_title">Words Game Results</string>
     <string name="dashboard_ballgame_title">Ball Game Results</string>
+    <string name="patient_settings_wordsgame_current_time">Current Time: %s</string>
+    <string name="patient_settings_ballgame_current_time">Current Time: %s</string>
 
     <!-- NotificationModule -->
     <string name="title">Let\'s play a little bit!</string>

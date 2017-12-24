@@ -12,6 +12,8 @@ public class Doente implements Serializable {
     private String photo;
     private String medicoAssign;
     private String lastLogin;
+    private String timeBall;
+    private String timeWord;
 
     public Doente (){
 
@@ -22,7 +24,7 @@ public class Doente implements Serializable {
         this.age = age;
     }
 
-    public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin) {
+    public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin, String timeBall, String timeWord) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -30,6 +32,8 @@ public class Doente implements Serializable {
         this.photo = photo;
         this.medicoAssign = medicoAssign;
         this.lastLogin = lastLogin;
+        this.timeBall = timeBall;
+        this.timeWord = timeWord;
     }
 
     public String getId() {
@@ -86,5 +90,21 @@ public class Doente implements Serializable {
 
     public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public String getTimeBall() {
+        return timeBall;
+    }
+
+    public void setTimeBall(String timeBall) {
+        this.timeBall = timeBall;
+    }
+
+    public String getTimeWord() {
+        return timeWord;
+    }
+
+    public void setTimeWord(String timeWord) {
+        this.timeWord = timeWord;
     }
 }

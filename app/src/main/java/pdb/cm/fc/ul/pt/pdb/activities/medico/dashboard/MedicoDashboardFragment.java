@@ -1,19 +1,12 @@
-package pdb.cm.fc.ul.pt.pdb.activities.medico;
+package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -26,117 +19,47 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
-import pdb.cm.fc.ul.pt.pdb.models.Medico;
 
-public class MedicoDashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnChartValueSelectedListener {
+import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_DOENTE;
 
-    public static final String EXTRA_DOENTE = "doente";
-    public static final String EXTRA_MEDICO = "medico";
+/**
+ * Created by nunonelas on 24/12/17.
+ */
+
+public class MedicoDashboardFragment extends Fragment implements OnChartValueSelectedListener {
 
     private LineChart mChart;
 
-    private Doente doente;
-    private Medico medico;
-
-    private FirebaseAuth mAuth;
+    public static MedicoDashboardFragment newInstance() {
+        MedicoDashboardFragment fragment = new MedicoDashboardFragment();
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medico_dashboard);
-        doente = (Doente) getIntent().getExtras().getSerializable(EXTRA_DOENTE);
-        medico = (Medico) getIntent().getExtras().getSerializable(EXTRA_MEDICO);
-        ((TextView) findViewById(R.id.name)).setText(doente.getName());
-        ((TextView) findViewById(R.id.age)).setText(doente.getAge());
+    }
 
-        mAuth = FirebaseAuth.getInstance();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_medico_dashboard, container, false);
 
-        mChart = (LineChart) findViewById(R.id.chart1);
+        Doente doente = (Doente) getActivity().getIntent().getExtras().getSerializable(EXTRA_DOENTE);
+
+        ((TextView) view.findViewById(R.id.name)).setText(doente.getName());
+        ((TextView) view.findViewById(R.id.age)).setText(doente.getAge());
+
+        mChart = (LineChart) view.findViewById(R.id.chart1);
 
         createChart();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        View headerView = navigationView.getHeaderView(0);
-        ((TextView) headerView.findViewById(R.id.medicoNome)).setText(medico.getName());
-        ((TextView) headerView.findViewById(R.id.medicoEmail)).setText(medico.getEmail());
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(this, MedicoMainActivity.class));
-        } else if (id == R.id.nav_dashboard){
-            startActivity(new Intent(this, MedicoDashboardActivity.class).putExtra(EXTRA_DOENTE, doente).putExtra(EXTRA_MEDICO, medico));
-        } else if (id == R.id.nav_notes) {
-            startActivity(new Intent(this, MedicoNotesActivity.class).putExtra(EXTRA_DOENTE, doente));
-        } else if (id == R.id.nav_patient_settings) {
-
-        } else if (id == R.id.nav_rawData) {
-
-        } else if (id == R.id.nav_addWords) {
-
-        } else if (id == R.id.nav_logout) {
-            mAuth.signOut();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        return view;
     }
 
     private void createChart(){

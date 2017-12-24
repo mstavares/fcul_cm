@@ -38,7 +38,7 @@
             android:name=".activities.medico.MedicoMainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.medico.MedicoDashboardActivity"
+            android:name=".activities.medico.MedicoDashboardMainActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.medico.MedicoNotesActivity"
