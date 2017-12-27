@@ -13,7 +13,7 @@ public class Doente implements Serializable {
     private String medicoAssign;
     private String lastLogin;
     private String timeBall;
-    private String timeWord;
+    private String timeWords;
 
     public Doente (){
 
@@ -24,7 +24,7 @@ public class Doente implements Serializable {
         this.age = age;
     }
 
-    public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin, String timeBall, String timeWord) {
+    public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin, String timeBall, String timeWords) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -33,7 +33,7 @@ public class Doente implements Serializable {
         this.medicoAssign = medicoAssign;
         this.lastLogin = lastLogin;
         this.timeBall = timeBall;
-        this.timeWord = timeWord;
+        this.timeWords = timeWords;
     }
 
     public String getId() {
@@ -100,11 +100,11 @@ public class Doente implements Serializable {
         this.timeBall = timeBall;
     }
 
-    public String getTimeWord() {
-        return timeWord;
+    public String getTimeWords() {
+        return timeWords;
     }
 
-    public void setTimeWord(String timeWord) {
-        this.timeWord = timeWord;
+    public void setTimeWords(String timeWords) {
+        this.timeWords = timeWords;
     }
 }

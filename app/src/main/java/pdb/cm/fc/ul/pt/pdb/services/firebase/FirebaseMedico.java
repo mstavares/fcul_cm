@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
+import pdb.cm.fc.ul.pt.pdb.models.Shake;
 
 public abstract class FirebaseMedico {
 
@@ -21,6 +22,7 @@ public abstract class FirebaseMedico {
     private static final String TBL_DOENTES = "doentes";
     private static final String TBL_MEDICOS = "medicos";
     private static final String TBL_NOTES = "notes";
+    private static final String TBL_WORDS = "words";
 
     public static void fetchMedico(final Firebase.LoadMedico callback, final String emailMedico){
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_MEDICOS);
@@ -90,7 +92,7 @@ public abstract class FirebaseMedico {
     }
 
     public static void fetchAllNotes(final Firebase.LoadNotes callback, final String nomeDoente) {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES + "/" + nomeDoente);
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES + "/" + nomeDoente);
         databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -109,4 +111,13 @@ public abstract class FirebaseMedico {
         });
     }
 
+    public static void sendNewWord(final String word) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDS);
+        databaseReference.push().setValue(word);
+    }
+
+    public static void removeWord(final String word) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDS);
+        databaseReference.child(word).removeValue();
+    }
 }

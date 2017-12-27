@@ -1,5 +1,6 @@
 package pdb.cm.fc.ul.pt.pdb.activities.doente;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -42,7 +43,8 @@ public class PontuacoesActivity extends FragmentActivity {
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
+            startActivity(new Intent(this, DoenteMainActivity.class));
+            finish();
         } else {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);

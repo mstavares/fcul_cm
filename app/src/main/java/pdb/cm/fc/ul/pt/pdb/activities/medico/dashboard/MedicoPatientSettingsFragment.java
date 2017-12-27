@@ -53,7 +53,7 @@ public class MedicoPatientSettingsFragment extends Fragment {
         currentWordsTime = (TextView) view.findViewById(R.id.str_current_wordstime);
 
         currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
-        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWord()));
+        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
 
         Button btnSave = (Button) view.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +69,6 @@ public class MedicoPatientSettingsFragment extends Fragment {
 
     public void refreshContent(){
         currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
-        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWord()));
+        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
     }
 }

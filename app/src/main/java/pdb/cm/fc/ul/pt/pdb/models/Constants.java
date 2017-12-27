@@ -12,4 +12,8 @@ public class Constants {
     // List Notes
     public static final String noteName = "NomeNota";
     public static final String noteDate = "DataNota";
+
+    // List scores
+    public static final String pos = "Position";
+    public static final String score = "Score";
 }

@@ -49,7 +49,6 @@ public class MedicoDashboardMainActivity extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -160,6 +159,4 @@ public class MedicoDashboardMainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
-
-
 }

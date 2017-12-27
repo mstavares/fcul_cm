@@ -29,7 +29,7 @@
         android:background="@android:color/darker_gray" />
 
     <ListView
-        android:id="@+id/listViewScoresBall"
+        android:id="@+id/listViewScoresWords"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

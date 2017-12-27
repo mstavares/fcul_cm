@@ -63,6 +63,7 @@
     <string name="dashboard_ballgame_title">Ball Game Results</string>
     <string name="patient_settings_wordsgame_current_time">Current Time: %s</string>
     <string name="patient_settings_ballgame_current_time">Current Time: %s</string>
+    <string name="add_word">Add New Word</string>
 
     <!-- NotificationModule -->
     <string name="title">Let\'s play a little bit!</string>
