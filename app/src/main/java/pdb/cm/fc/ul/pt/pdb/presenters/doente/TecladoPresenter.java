@@ -51,8 +51,7 @@ public class TecladoPresenter implements Runnable, Teclado.Presenter {
     private void setup() {
         mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
         createListOfWords();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 prepareGame();

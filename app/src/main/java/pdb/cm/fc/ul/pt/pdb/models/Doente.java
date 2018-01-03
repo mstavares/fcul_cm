@@ -24,6 +24,16 @@ public class Doente implements Serializable {
         this.age = age;
     }
 
+    public Doente(String id, String name, String age, String email, String medicoAssign, String timeBall, String timeWords) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.medicoAssign = medicoAssign;
+        this.timeBall = timeBall;
+        this.timeWords = timeWords;
+    }
+
     public Doente(String id, String name, String age, String email, String photo, String medicoAssign, String lastLogin, String timeBall, String timeWords) {
         this.id = id;
         this.name = name;

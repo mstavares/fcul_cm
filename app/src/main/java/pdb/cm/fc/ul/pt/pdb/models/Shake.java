@@ -5,22 +5,22 @@ import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
 public class Shake {
 
-    private String mDate;
-    private double mShake;
+    private String date;
+    private double shake;
 
     public Shake() {}
 
     public Shake(double shake) {
-        mShake = shake;
-        mDate = Utilities.getTimestamp();
+        this.shake = shake;
+        date = Utilities.getTimestamp();
     }
 
     public double getShake() {
-        return mShake;
+        return shake;
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
 }

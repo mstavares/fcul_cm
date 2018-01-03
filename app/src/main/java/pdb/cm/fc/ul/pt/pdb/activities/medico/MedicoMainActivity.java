@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,33 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
-import pdb.cm.fc.ul.pt.pdb.adapters.DoentesAdapter;
-import pdb.cm.fc.ul.pt.pdb.interfaces.medico.MedicoMain;
-import pdb.cm.fc.ul.pt.pdb.models.Doente;
-import pdb.cm.fc.ul.pt.pdb.models.Medico;
+
 import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
-import pdb.cm.fc.ul.pt.pdb.presenters.medico.MedicoMainActivityPresenter;
 
-import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_DOENTE;
-import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_MEDICO;
 
-public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.View,
-        AdapterView.OnItemClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MedicoMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.doentes) ListView mDoentesListView;
-    private MedicoMain.Presenter mPresenter;
     private String mUser;
     private String mEmail;
 
@@ -49,17 +36,9 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medico_doentes);
-        setup();
-    }
-
-    private void setup() {
-        ButterKnife.bind(this);
-        mDoentesListView.setOnItemClickListener(this);
-        mPresenter = new MedicoMainActivityPresenter(this);
         mUser = UserPreferences.getUser(this);
         mEmail = UserPreferences.getEmail(this);
         setupNavigation();
-        defineWelcomeMessage();
     }
 
     private void setupNavigation(){
@@ -79,6 +58,12 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
         View headerView = navigationView.getHeaderView(0);
         ((TextView) headerView.findViewById(R.id.medicoNome)).setText(mUser);
         ((TextView) headerView.findViewById(R.id.medicoEmail)).setText(mEmail);
+
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = MedicoDoentesFragment.newInstance();
+        transaction.replace(R.id.flContent, fragment);
+        transaction.commit();
     }
 
     @Override
@@ -118,9 +103,16 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.nav_home) {
-            startActivity(new Intent(this, MedicoMainActivity.class));
+            fragment = MedicoDoentesFragment.newInstance();
+
+            replaceContent(fragment);
+        } else if (id == R.id.nav_user) {
+            fragment = MedicoAddDoenteFragment.newInstance();
+
+            replaceContent(fragment);
         } else if (id == R.id.nav_logout) {
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
@@ -132,30 +124,8 @@ public class MedicoMainActivity extends AppCompatActivity implements MedicoMain.
         return true;
     }
 
-    @Override
-    public void onResume() {
-        mPresenter.fetchDoentes(mEmail);
-        mPresenter.fetchMedico(mEmail);
-        super.onResume();
+    public void replaceContent(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
-
-    private void defineWelcomeMessage() {
-        ((TextView) findViewById(R.id.welcome)).setText(getString(R.string.welcome_doctor, mEmail));
-    }
-
-    @Override
-    public void DoentesLoaded(ArrayList<Doente> doentes) {
-        mDoentesListView.setAdapter(new DoentesAdapter(this, doentes));
-    }
-
-    @Override
-    public void DoenteLoaded(Doente doente, Medico medico) {
-        startActivity(new Intent(this, MedicoDashboardMainActivity.class).putExtra(EXTRA_DOENTE, doente).putExtra(EXTRA_MEDICO, medico));
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        mPresenter.fetchDoente(position);
-    }
-
 }

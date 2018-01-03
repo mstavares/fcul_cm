@@ -7,35 +7,35 @@ import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
 public class BallScore implements Serializable {
 
-    private String mDate;
-    private int mScore, mTime;
+    private String date;
+    private int score, time;
 
     public BallScore() {
     }
 
     public BallScore(int score, int time) {
-        mScore = score;
-        mTime = time;
-        mDate = Utilities.getTimestamp();
+        this.score = score;
+        this.time = time;
+        date = Utilities.getTimestamp();
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
     public int getScore() {
-        return mScore;
+        return score;
     }
 
     public void setScore(int score) {
-        mScore = score;
+        this.score = score;
     }
 
     public int getTime() {
-        return mTime;
+        return time;
     }
 
     public void setTime(int time) {
-        mTime = time;
+        this.time = time;
     }
 }

@@ -7,32 +7,32 @@ import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 public class WordScore implements Serializable {
 
 
-    private String mDate;
-    private int mScore, mTime, mFaults;
+    private String date;
+    private int score, time, faults;
 
     public WordScore() {}
 
     public WordScore(int time, int score, int faults) {
-        mTime = time;
-        mScore = score;
-        mFaults = faults;
-        mDate = Utilities.getTimestamp();
+        this.time = time;
+        this.score = score;
+        this.faults = faults;
+        date = Utilities.getTimestamp();
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
     public int getScore() {
-        return mScore;
+        return score;
     }
 
     public int getTime() {
-        return mTime;
+        return time;
     }
 
     public int getFaults() {
-        return mFaults;
+        return faults;
     }
 
 }

@@ -50,6 +50,7 @@
     <string name="navigation_drawer_home">Home</string>
     <string name="navigation_drawer_dashboard">Dashboard</string>
     <string name="navigation_drawer_notes">Notes</string>
+    <string name="navigation_drawer_patients">Add Patients</string>
     <string name="navigation_drawer_rawData">Raw Data</string>
     <string name="navigation_drawer_patientPreferences">Change Patient Settings </string>
 
@@ -61,6 +62,7 @@
     <!-- Dashboard Medico -->
     <string name="dashboard_wordsgame_title">Words Game Results</string>
     <string name="dashboard_ballgame_title">Ball Game Results</string>
+    <string name="dashboard_shake_title">Shake Results</string>
     <string name="patient_settings_wordsgame_current_time">Current Time: %s</string>
     <string name="patient_settings_ballgame_current_time">Current Time: %s</string>
     <string name="add_word">Add New Word</string>
