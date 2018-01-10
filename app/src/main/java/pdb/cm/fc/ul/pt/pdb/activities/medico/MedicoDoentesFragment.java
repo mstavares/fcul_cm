@@ -82,6 +82,8 @@ public class MedicoDoentesFragment extends Fragment implements MedicoMain.View,
 
     @Override
     public void DoentesLoaded(ArrayList<Doente> doentes) {
+        (getView().findViewById(R.id.login_progress)).setVisibility(View.GONE);
+        (getView().findViewById(R.id.wait_message)).setVisibility(View.GONE);
         mDoentes = doentes;
         mDoentesListView.setAdapter(new DoentesAdapter(getActivity(), doentes));
     }

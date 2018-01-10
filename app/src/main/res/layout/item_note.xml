@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:maxLength="20"/>
 
     <TextView
         android:id="@+id/date"

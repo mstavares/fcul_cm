@@ -1,19 +1,12 @@
 package pdb.cm.fc.ul.pt.pdb.services.firebase;
 
-
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -21,7 +14,6 @@ import java.util.ArrayList;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Medico;
 import pdb.cm.fc.ul.pt.pdb.models.Note;
-import pdb.cm.fc.ul.pt.pdb.models.Shake;
 
 public abstract class FirebaseMedico {
 
@@ -78,6 +70,7 @@ public abstract class FirebaseMedico {
 
     public static void fetchDoente(final Firebase.LoadDoente callback, final String emailDoente) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -125,11 +118,50 @@ public abstract class FirebaseMedico {
 
     public static void removeWord(final String word) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDS);
-        databaseReference.child(word).removeValue();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot wordsSnapshot: dataSnapshot.getChildren()) {
+                    if(wordsSnapshot.getValue().equals(word)) {
+                        databaseReference.child(wordsSnapshot.getKey()).removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read value. ", error.toException());
+            }
+        });
     }
 
     public static void addUserToTable(Doente doente){
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
         databaseReference.push().setValue(doente);
+    }
+
+    public static void insertNote(Note note, Doente doente) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES+"/"+doente.getId());
+        databaseReference.push().setValue(note);
+    }
+
+    public static void removeNote(Note note, Doente doente){
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES+"/"+doente.getId());
+        Query deleteQuery = databaseReference.orderByChild("date").equalTo(note.getDate());
+        deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot notesSnapshot: dataSnapshot.getChildren()) {
+                    databaseReference.child(notesSnapshot.getKey()).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read value. ", error.toException());
+            }
+        });
     }
 }

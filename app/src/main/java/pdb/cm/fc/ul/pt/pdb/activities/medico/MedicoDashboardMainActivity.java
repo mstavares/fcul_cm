@@ -137,7 +137,10 @@ public class MedicoDashboardMainActivity extends AppCompatActivity
 
             replaceContent(fragment);
         } else if (id == R.id.nav_rawData) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(EXTRA_DOENTE, doente);
             fragment = MedicoRawDataFragment.newInstance();
+            fragment.setArguments(bundle);
 
             replaceContent(fragment);
         } else if (id == R.id.nav_addWords) {

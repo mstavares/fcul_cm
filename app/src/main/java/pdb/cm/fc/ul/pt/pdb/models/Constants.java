@@ -16,4 +16,11 @@ public class Constants {
     // List scores
     public static final String pos = "Position";
     public static final String score = "Score";
+
+    // List RawData
+    public static final String rawDataScore = "Score";
+    public static final String rawDataFaults = "Faults";
+    public static final String rawDataTime = "Time";
+    public static final String rawDataShake = "Shake";
+    public static final String rawDataDate = "Date";
 }

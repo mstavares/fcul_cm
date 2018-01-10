@@ -2,6 +2,7 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -37,7 +38,6 @@ import static android.content.ContentValues.TAG;
 public class MedicoAddWordFragment extends Fragment {
 
     private ListView listView;
-    private Button btnAddWord;
     private List<String> wordsList;
 
     private static final String TBL_WORDS = "words";
@@ -57,9 +57,10 @@ public class MedicoAddWordFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medico_addwords, container, false);
 
-        btnAddWord = (Button) view.findViewById(R.id.btn_add_word);
-        btnAddWord.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 openPopUpInsertNewWord();
             }
         });
@@ -106,8 +107,6 @@ public class MedicoAddWordFragment extends Fragment {
                 String selectedItem = (String) arg0.getItemAtPosition(position);
                 openPopUpRemoveWord(selectedItem);
 
-                FirebaseMedico.removeWord(selectedItem);
-
             }
         });
     }
@@ -121,7 +120,6 @@ public class MedicoAddWordFragment extends Fragment {
                         Toast.makeText(getContext(),
                                 "Word "+word+" was successfully removed successfully from database!",
                                 Toast.LENGTH_SHORT).show();
-                        refreshList();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
@@ -131,12 +129,11 @@ public class MedicoAddWordFragment extends Fragment {
     }
 
     private void getWordsFromFirebase() {
-        wordsList = new ArrayList<String>();
-
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDS);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                wordsList = new ArrayList<String>();
                 for (DataSnapshot wordsSnapshot : dataSnapshot.getChildren()) {
                     wordsList.add(wordsSnapshot.getValue().toString());
                 }

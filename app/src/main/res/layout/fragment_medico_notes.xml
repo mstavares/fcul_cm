@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/userData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -49,19 +51,13 @@
         android:layout_width="192dp"
         android:layout_height="192dp"
         android:layout_gravity="center"
-        android:visibility="gone"
         app:hive_animDuration="5000"
         app:hive_color="@color/colorPrimary"
         app:hive_maxAlpha="255"
         app:hive_cornerRadius="20"
         app:hive_shrink="true"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="109dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
 
     <TextView
         android:id="@+id/wait_message"
@@ -69,23 +65,15 @@
         android:layout_height="wrap_content"
         android:text="@string/wait_connecting_with_server"
         android:textSize="17sp"
-        android:visibility="gone"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintVertical_bias="0.665" />
+        android:layout_below="@id/login_progress"
+        android:layout_centerHorizontal="true"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/fab_margin"
         android:tint="@color/white"
         app:srcCompat="@drawable/plus" />
@@ -93,13 +81,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_below="@+id/userData">
 
         <ListView
             android:id="@+id/listViewNotes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>
