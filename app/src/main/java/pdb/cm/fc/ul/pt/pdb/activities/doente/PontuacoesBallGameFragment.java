@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.PontuacoesListAdapter;
@@ -36,10 +37,17 @@ public class PontuacoesBallGameFragment extends Fragment {
 
     private static final String TAG = PontuacoesBallGameFragment.class.getSimpleName();
 
+    private static final int MAX_LENGHT_SCORES = 10;
+
     private static final String TBL_BALLSCORES = "ballscores";
     private static final String TBL_DOENTES = "doentes";
     private ArrayList<HashMap<String, String>> list;
     private ListView listView;
+
+    private ArrayList<String> listNames;
+    private ArrayList<String> listScores;
+
+    private int mNumProccessedPatients = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,28 +57,36 @@ public class PontuacoesBallGameFragment extends Fragment {
 
         listView=(ListView) rootView.findViewById(R.id.listViewScoresBall);
 
-        list = new ArrayList<HashMap<String,String>>();
-
-        HashMap<String,String> temp = new HashMap<String, String>();
-        temp.put(pos, "Position");
-        temp.put(name, "Name");
-        temp.put(score, "Score");
-        list.add(temp);
-
         getAllUsers();
 
         return rootView;
     }
 
-    public void getAllUsers(){
+    private void configureListView(){
+        PontuacoesListAdapter adapter = new PontuacoesListAdapter(getActivity(), list);
+        listView.setAdapter(adapter);
+    }
+
+    private void getAllUsers(){
+        listNames = new ArrayList<>();
+        listScores = new ArrayList<>();
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
         databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> doenteId = new ArrayList<>();
+                ArrayList<String> doenteName = new ArrayList<>();
+
                 for (DataSnapshot registosSnapshot : dataSnapshot.getChildren()) {
                     Doente doente = registosSnapshot.getValue(Doente.class);
-                    getScore(doente.getId(), doente.getName());
+                    doenteId.add(doente.getId());
+                    doenteName.add(doente.getName());
+                }
+
+                for(int i = 0; i < doenteId.size(); i++){
+                    getScore(doenteId.get(i), doenteName.get(i), doenteId.size());
                 }
             }
 
@@ -81,7 +97,8 @@ public class PontuacoesBallGameFragment extends Fragment {
         });
     }
 
-    public void getScore(String id, final String mName){
+    private void getScore(String id, final String mName, final int mNumOfPatients){
+        mNumProccessedPatients++;
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES+"/"+id);
 
         Query query = reference.orderByChild("score").limitToLast(10);
@@ -89,20 +106,15 @@ public class PontuacoesBallGameFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    int i = 1;
                     for (DataSnapshot scoresSnapshot : dataSnapshot.getChildren()) {
                         BallScore scores = scoresSnapshot.getValue(BallScore.class);
-
-                        HashMap<String,String> temp = new HashMap<String, String>();
-                        temp.put(pos, Integer.toString(i));
-                        temp.put(name, mName);
-                        temp.put(score, Integer.toString(scores.getScore()));
-                        list.add(temp);
-                        i++;
+                        listNames.add(mName);
+                        listScores.add(Integer.toString(scores.getScore()));
                     }
 
-                    PontuacoesListAdapter adapter = new PontuacoesListAdapter(getActivity(), list);
-                    listView.setAdapter(adapter);
+                    if(mNumOfPatients == mNumProccessedPatients) {
+                        orderList();
+                    }
                 }
             }
 
@@ -111,5 +123,36 @@ public class PontuacoesBallGameFragment extends Fragment {
 
             }
         });
+    }
+
+    private void orderList(){
+        Collections.reverse(listNames);
+        Collections.reverse(listScores);
+
+        list = new ArrayList<HashMap<String,String>>();
+
+        HashMap<String,String> temp = new HashMap<String, String>();
+        temp.put(pos, "Position");
+        temp.put(name, "Name");
+        temp.put(score, "Score");
+        list.add(temp);
+
+        for (int i = 0; i < listNames.size(); i++){
+            HashMap<String,String> data = new HashMap<String, String>();
+            data.put(pos, Integer.toString(i+1));
+            data.put(name, listNames.get(i));
+            data.put(score, listScores.get(i));
+            list.add(data);
+        }
+
+        for (int i = listNames.size(); i < MAX_LENGHT_SCORES; i++) {
+            HashMap<String,String> data = new HashMap<String, String>();
+            data.put(pos, Integer.toString(i+1));
+            data.put(name, "Empty");
+            data.put(score, "0");
+            list.add(data);
+        }
+
+        configureListView();
     }
 }

@@ -16,12 +16,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.PontuacoesListAdapter;
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
+import pdb.cm.fc.ul.pt.pdb.models.WordScore;
 
 import static pdb.cm.fc.ul.pt.pdb.models.Constants.name;
 import static pdb.cm.fc.ul.pt.pdb.models.Constants.pos;
@@ -34,6 +36,7 @@ import static pdb.cm.fc.ul.pt.pdb.models.Constants.score;
 public class PontuacoesWordsGameFragment extends Fragment {
 
     private static final String TBL_WORDSSCORES = "wordscores";
+    private static final int MAX_LENGHT_SCORES = 10;
 
     private static final String TAG = PontuacoesBallGameFragment.class.getSimpleName();
 
@@ -41,13 +44,93 @@ public class PontuacoesWordsGameFragment extends Fragment {
     private ArrayList<HashMap<String, String>> list;
     private ListView listView;
 
+    private ArrayList<String> listNames;
+    private ArrayList<String> listScores;
+
+    private int mNumProccessedPatients = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_doente_pontuacoes_wordsgame, container, false);
 
-        listView=(ListView) rootView.findViewById(R.id.listViewScoresWords);
+        listView = (ListView) rootView.findViewById(R.id.listViewScoresWords);
+
+        getAllUsers();
+
+        return rootView;
+    }
+
+    private void configureListView(){
+        PontuacoesListAdapter adapter = new PontuacoesListAdapter(getActivity(), list);
+        listView.setAdapter(adapter);
+    }
+
+    private void getAllUsers(){
+        listNames = new ArrayList<>();
+        listScores = new ArrayList<>();
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> doenteId = new ArrayList<>();
+                ArrayList<String> doenteName = new ArrayList<>();
+
+                for (DataSnapshot registosSnapshot : dataSnapshot.getChildren()) {
+                    Doente doente = registosSnapshot.getValue(Doente.class);
+                    doenteId.add(doente.getId());
+                    doenteName.add(doente.getName());
+                }
+
+                for(int i = 0; i < doenteId.size(); i++){
+                    getScore(doenteId.get(i), doenteName.get(i), doenteId.size());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value. ", error.toException());
+            }
+        });
+
+    }
+
+    private void getScore(String id, final String mName, final int mNumOfPatients){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_WORDSSCORES+"/"+id);
+
+        Query query = reference.orderByChild("score").limitToLast(10);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot scoresSnapshot : dataSnapshot.getChildren()) {
+                        WordScore scores = scoresSnapshot.getValue(WordScore.class);
+
+                        listNames.add(mName);
+                        listScores.add(Integer.toString(scores.getScore()));
+                    }
+
+                    if(mNumOfPatients == mNumProccessedPatients) {
+                        orderList();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mNumProccessedPatients++;
+
+    }
+
+    private void orderList(){
+        Collections.reverse(listNames);
+        Collections.reverse(listScores);
 
         list = new ArrayList<HashMap<String,String>>();
 
@@ -57,59 +140,22 @@ public class PontuacoesWordsGameFragment extends Fragment {
         temp.put(score, "Score");
         list.add(temp);
 
-        getAllUsers();
+        for (int i = 0; i < listNames.size(); i++){
+            HashMap<String,String> data = new HashMap<String, String>();
+            data.put(pos, Integer.toString(i+1));
+            data.put(name, listNames.get(i));
+            data.put(score, listScores.get(i));
+            list.add(data);
+        }
 
-        return rootView;
-    }
+        for (int i = listNames.size(); i < MAX_LENGHT_SCORES; i++) {
+            HashMap<String,String> data = new HashMap<String, String>();
+            data.put(pos, Integer.toString(i+1));
+            data.put(name, "Empty");
+            data.put(score, "0");
+            list.add(data);
+        }
 
-    public void getAllUsers(){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot registosSnapshot : dataSnapshot.getChildren()) {
-                    Doente doente = registosSnapshot.getValue(Doente.class);
-                    getScore(doente.getId(), doente.getName());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
-
-    public void getScore(String id, final String mName){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_WORDSSCORES+"/"+id);
-
-        Query query = reference.orderByChild("score").limitToLast(10);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    int i = 1;
-                    for (DataSnapshot scoresSnapshot : dataSnapshot.getChildren()) {
-                        BallScore scores = scoresSnapshot.getValue(BallScore.class);
-
-                        HashMap<String,String> temp = new HashMap<String, String>();
-                        temp.put(pos, Integer.toString(i));
-                        temp.put(name, mName);
-                        temp.put(score, Integer.toString(scores.getScore()));
-                        list.add(temp);
-                        i++;
-                    }
-
-                    PontuacoesListAdapter adapter = new PontuacoesListAdapter(getActivity(), list);
-                    listView.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        configureListView();
     }
 }
