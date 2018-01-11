@@ -23,6 +23,8 @@ public abstract class FirebaseMedico {
     private static final String TBL_NOTES = "notes";
     private static final String TBL_WORDS = "words";
 
+    private static final String ATR_NOTE = "note";
+
     public static void fetchMedico(final Firebase.LoadMedico callback, final String emailMedico){
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_MEDICOS);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -155,6 +157,25 @@ public abstract class FirebaseMedico {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot notesSnapshot: dataSnapshot.getChildren()) {
                     databaseReference.child(notesSnapshot.getKey()).removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read value. ", error.toException());
+            }
+        });
+    }
+
+    public static void updateNote(final Note newNote, Note oldNote, Doente doente){
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES+"/"+doente.getId());
+        Query deleteQuery = databaseReference.orderByChild("date").equalTo(oldNote.getDate());
+        deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot notesSnapshot: dataSnapshot.getChildren()) {
+                    databaseReference.child(notesSnapshot.getKey()).child(ATR_NOTE).setValue(newNote.getNote());
                 }
             }
 

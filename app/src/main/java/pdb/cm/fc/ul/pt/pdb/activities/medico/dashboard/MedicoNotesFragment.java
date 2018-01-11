@@ -142,9 +142,37 @@ public class MedicoNotesFragment extends Fragment implements Firebase.LoadNotes 
         new AlertDialog.Builder(getActivity())
                 .setTitle("Note")
                 .setMessage("Note: "+note.getNote()+"\n\n"+"Date: "+note.getDate())
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        openPopUpEditNote(note);
                     }
                 }).show();
+    }
+
+    private void openPopUpEditNote(final Note note){
+        final EditText input = new EditText(getContext());
+        input.setText(note.getNote());
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Edit note")
+                .setView(input)
+                .setPositiveButton("Edit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        editNote(input.getText().toString(), note);
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Do nothing.
+            }
+        }).show();
+    }
+
+    private void editNote(final String mNoteText, Note note){
+        Note newNote = new Note(mNoteText, note.getDate());
+
+        FirebaseMedico.updateNote(newNote, note, doente);
+        Toast.makeText(getContext(),
+                "Note successfully edited!",
+                Toast.LENGTH_SHORT).show();
     }
 }
