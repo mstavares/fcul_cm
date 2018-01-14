@@ -75,6 +75,10 @@
     <string name="sair">Sair</string>
     <string name="highscore">Pontuações</string>
     <string name="no_account">No account yet? Create one</string>
+    <string name="name">Name</string>
+    <string name="id_prompt">ID (eg. p3)</string>
+    <string name="password">Password</string>
+    <string name="add_user">Add User</string>
 
 
 </resources>
