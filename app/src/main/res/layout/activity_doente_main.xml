@@ -26,10 +26,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableBottom="@drawable/keyboard"
-            android:drawableTint="@color/white"
             android:gravity="center"
             android:text="@string/jogo_teclado"
-            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <Button
@@ -39,9 +37,7 @@
             android:layout_weight="1"
             android:drawableBottom="@drawable/record"
             android:gravity="center"
-            android:drawableTint="@color/white"
             android:text="@string/jogo_esfera"
-            android:textColor="@color/white"
             android:textSize="24sp" />
 
     </LinearLayout>
@@ -60,9 +56,7 @@
             android:layout_weight="1"
             android:elevation="0dp"
             android:drawableBottom="@drawable/star"
-            android:drawableTint="@color/white"
             android:text="@string/highscore"
-            android:textColor="@color/white"
             android:textSize="24sp" />
 
         <Button
@@ -72,9 +66,7 @@
             android:layout_weight="1"
             android:drawableBottom="@drawable/power_button_off"
             android:elevation="0dp"
-            android:drawableTint="@color/white"
             android:text="@string/sair"
-            android:textColor="@color/white"
             android:textSize="24sp" />
 
     </LinearLayout>
