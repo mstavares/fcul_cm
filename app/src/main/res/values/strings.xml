@@ -40,7 +40,7 @@
     <string name="win_message_and_faults">Your score is %1$d. \nYou missed %2$d times.</string>
     <string name="win_time">Your time was %1$d seconds.</string>
 
-    <string name="welcome_doctor">Bem-vindo, %s</string>
+    <string name="welcome_doctor">Welcome, %s</string>
 
     <string name="action_settings">Settings</string>
 
@@ -70,10 +70,10 @@
     <!-- NotificationModule -->
     <string name="title">Let\'s play a little bit!</string>
     <string name="message">You stopped to play a long time ago, click me and let\'s have some fun!</string>
-    <string name="jogo_teclado">Jogo Teclado</string>
-    <string name="jogo_esfera">Jogo Esfera</string>
+    <string name="jogo_teclado">Keyboard Game</string>
+    <string name="jogo_esfera">Sphere Game</string>
     <string name="sair">Sair</string>
-    <string name="highscore">Pontuações</string>
+    <string name="highscore">Scores</string>
     <string name="no_account">No account yet? Create one</string>
     <string name="name">Name</string>
     <string name="id_prompt">ID (eg. p3)</string>
