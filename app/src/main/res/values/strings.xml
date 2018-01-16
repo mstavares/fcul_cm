@@ -72,13 +72,13 @@
     <string name="message">You stopped to play a long time ago, click me and let\'s have some fun!</string>
     <string name="jogo_teclado">Keyboard Game</string>
     <string name="jogo_esfera">Sphere Game</string>
-    <string name="sair">Sair</string>
     <string name="highscore">Scores</string>
     <string name="no_account">No account yet? Create one</string>
     <string name="name">Name</string>
     <string name="id_prompt">ID (eg. p3)</string>
     <string name="password">Password</string>
     <string name="add_user">Add User</string>
+    <string name="sair">Logout</string>
 
 
 </resources>
