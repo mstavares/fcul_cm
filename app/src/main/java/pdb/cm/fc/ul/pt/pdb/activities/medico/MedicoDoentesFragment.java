@@ -37,7 +37,6 @@ import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.
 public class MedicoDoentesFragment extends Fragment implements MedicoMain.View,
         AdapterView.OnItemClickListener {
 
-    private ArrayList<Doente> mDoentes;
     private ListView mDoentesListView;
     private MedicoMain.Presenter mPresenter;
     private String mEmail;
@@ -84,7 +83,6 @@ public class MedicoDoentesFragment extends Fragment implements MedicoMain.View,
     public void DoentesLoaded(ArrayList<Doente> doentes) {
         (getView().findViewById(R.id.login_progress)).setVisibility(View.GONE);
         (getView().findViewById(R.id.wait_message)).setVisibility(View.GONE);
-        mDoentes = doentes;
         mDoentesListView.setAdapter(new DoentesAdapter(getActivity(), doentes));
     }
 

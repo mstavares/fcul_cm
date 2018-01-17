@@ -20,6 +20,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
@@ -40,15 +46,16 @@ public class MedicoAddDoenteFragment extends Fragment {
     private static final String DOMAIN = "@paciente.pdb.pt";
     private static final int DEFAULT_TIMEBALL = 90;
     private static final int DEFAULT_TIMEWORDS = 90;
+    private static final String TBL_DOENTES = "doentes";
 
     private String mMedicoEmail;
 
     private EditText mName;
-    private EditText mID;
     private EditText mPassword;
     private EditText mAge;
 
     private TextView mEmail;
+    private String mID;
 
     private Button mAddUser;
 
@@ -68,47 +75,33 @@ public class MedicoAddDoenteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_medico_add_doentes, container, false);
         mAuth = FirebaseAuth.getInstance();
 
+        fetchLastPatientID();
         mMedicoEmail = UserPreferences.getEmail(getContext());
 
         mName = (EditText) view.findViewById(R.id.str_name);
-        mID = (EditText) view.findViewById(R.id.str_id);
         mPassword = (EditText) view.findViewById(R.id.str_password);
         mAge = (EditText) view.findViewById(R.id.str_age);
 
         mEmail = (TextView) view.findViewById(R.id.str_email);
 
-        mID.addTextChangedListener(new TextWatcher() {
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //This sets a textview to the current length
-                mEmail.setText(String.valueOf(s).concat(DOMAIN));
-            }
-
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
         mAddUser = (Button) view.findViewById(R.id.btn_add_user);
         mAddUser.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addPatient(createEmail(mID.getText().toString()), mPassword.getText().toString());
+                addPatient(createEmail(mID), mPassword.getText().toString());
             }
         });
 
         return view;
     }
 
-    public void addPatient(final String email, String password){
+    private void addPatient(final String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d(TAG, "createUserWithEmail:success");
-                            addPatientToTable(mID.getText().toString(),
+                            addPatientToTable(mID,
                                             mName.getText().toString(),
                                             mAge.getText().toString(),
                                             email,
@@ -123,12 +116,39 @@ public class MedicoAddDoenteFragment extends Fragment {
                 });
     }
 
-    public void addPatientToTable(String id, String name, String age, String email, String medicoAssign, String timeBall, String timeWords){
+    private void addPatientToTable(String id, String name, String age, String email, String medicoAssign, String timeBall, String timeWords){
         Doente doente = new Doente(id, name, age, email, medicoAssign, timeBall, timeWords);
         FirebaseMedico.addUserToTable(doente);
     }
 
-    public String createEmail(String id){
+    private String createEmail(String id){
         return id.concat(DOMAIN);
+    }
+
+    private void fetchLastPatientID(){
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
+        Query deleteQuery = databaseReference.orderByChild("id").limitToLast(1);
+        deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot doentesSnapshot: dataSnapshot.getChildren()) {
+                    Doente lastDoenteOnFirebase = doentesSnapshot.getValue(Doente.class);
+                    getNewID(lastDoenteOnFirebase);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.e(TAG, "Failed to read value. ", error.toException());
+            }
+        });
+    }
+
+    private void getNewID(Doente lastDoenteOnFirebase){
+        String lastID = lastDoenteOnFirebase.getId().substring(1);
+        int newID = Integer.valueOf(lastID) + 1;
+        mID = "p"+String.valueOf(newID);
+        mEmail.setText(createEmail(mID));
     }
 }

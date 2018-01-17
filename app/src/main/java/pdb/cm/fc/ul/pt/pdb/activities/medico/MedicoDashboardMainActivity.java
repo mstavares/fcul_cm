@@ -157,4 +157,6 @@ public class MedicoDashboardMainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
+
+
 }

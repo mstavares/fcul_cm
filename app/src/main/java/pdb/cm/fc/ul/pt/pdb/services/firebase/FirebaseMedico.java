@@ -93,8 +93,8 @@ public abstract class FirebaseMedico {
         });
     }
 
-    public static void fetchAllNotes(final Firebase.LoadNotes callback, final String nomeDoente) {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES + "/" + nomeDoente);
+    public static void fetchAllNotes(final Firebase.LoadNotes callback, final String doenteID) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_NOTES + "/" + doenteID);
         databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -140,7 +140,7 @@ public abstract class FirebaseMedico {
 
     public static void addUserToTable(Doente doente){
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
-        databaseReference.push().setValue(doente);
+        databaseReference.child(doente.getId()).setValue(doente);
     }
 
     public static void insertNote(Note note, Doente doente) {
