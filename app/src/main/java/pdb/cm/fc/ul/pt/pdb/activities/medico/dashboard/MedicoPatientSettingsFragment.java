@@ -22,6 +22,9 @@ import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.
 
 public class MedicoPatientSettingsFragment extends Fragment {
 
+    private static final int MIN_WORDSGAME_TIME = 10;
+    private static final int MIN_BALLGAME_TIME = 10;
+
     private Doente doente;
     private EditText ballTime;
     private EditText wordsTime;
@@ -58,9 +61,38 @@ public class MedicoPatientSettingsFragment extends Fragment {
         Button btnSave = (Button) view.findViewById(R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FirebaseDoente.sendTimeGameData(doente.getId(), ballTime.getText().toString(), wordsTime.getText().toString());
-                Toast.makeText(getContext(), "Content Saved!", Toast.LENGTH_SHORT).show();
-                refreshContent();
+                if (!wordsTime.getText().toString().trim().equals("") &&
+                        !ballTime.getText().toString().trim().equals("")){
+                    if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME &&
+                            Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
+                        FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
+                        FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
+                        Toast.makeText(getContext(), "Both words game and ball game time successfuly changed to " + wordsTime.getText().toString() + " and " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                        refreshContent();
+                    } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME &&
+                            Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
+                        Toast.makeText(getContext(), "Minimum time required for both keyboard game and ball game is " + String.valueOf(MIN_WORDSGAME_TIME) + " and " + String.valueOf(MIN_BALLGAME_TIME) + "!", Toast.LENGTH_SHORT).show();
+                    }
+                } else if(!wordsTime.getText().toString().trim().equals("")) {
+                    if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME) {
+                        FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
+                        Toast.makeText(getContext(), "Words game time successfuly changed to " + wordsTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                        refreshContent();
+                    } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME){
+                        Toast.makeText(getContext(), "Minimum time required for keyboard game is " + String.valueOf(MIN_WORDSGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else if (!ballTime.getText().toString().trim().equals("")) {
+                    if(Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
+                        FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
+                        Toast.makeText(getContext(), "Ball game time successfuly changed to " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                        refreshContent();
+                    } else if (Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
+                        Toast.makeText(getContext(), "Minimum time required for ball game is " + String.valueOf(MIN_BALLGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
             }
         });
 
@@ -68,7 +100,20 @@ public class MedicoPatientSettingsFragment extends Fragment {
     }
 
     public void refreshContent(){
-        currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
-        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
+        if (!wordsTime.getText().toString().trim().equals("") &&
+                !ballTime.getText().toString().trim().equals("")){
+            currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, wordsTime.getText().toString()));
+            currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, ballTime.getText().toString()));
+
+        } else if(!wordsTime.getText().toString().trim().equals("")){
+            currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, wordsTime.getText().toString()));
+
+        } else if (!ballTime.getText().toString().trim().equals("")){
+            currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, ballTime.getText().toString()));
+
+        } else {
+            currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
+            currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
+        }
     }
 }

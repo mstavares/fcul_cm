@@ -2,10 +2,12 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +55,13 @@ public class MedicoRawDataFragment extends Fragment {
     private ArrayList<HashMap<String, String>> listBall;
     private ArrayList<HashMap<String, String>> listShake;
 
+    private NestedScrollView scrollViewWords;
+    private NestedScrollView scrollViewBall;
+    private NestedScrollView scrollViewShake;
+
+    private TextView emptyWords;
+    private TextView emptyBall;
+    private TextView emptyShake;
 
     private Doente doente;
 
@@ -70,10 +81,20 @@ public class MedicoRawDataFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_medico_rawdata, container, false);
 
         doente = (Doente) getActivity().getIntent().getExtras().getSerializable(EXTRA_DOENTE);
+        ((TextView) view.findViewById(R.id.name)).setText(doente.getName());
+        ((TextView) view.findViewById(R.id.age)).setText(doente.getAge());
 
         wordList = (ListView) view.findViewById(R.id.rawdata_word);
         ballList = (ListView) view.findViewById(R.id.rawdata_ball);
         shakeList = (ListView) view.findViewById(R.id.rawdata_shake);
+
+        scrollViewWords = (NestedScrollView) view.findViewById(R.id.scrollview_wordsgame);
+        scrollViewBall = (NestedScrollView) view.findViewById(R.id.scrollview_ballgame);
+        scrollViewShake = (NestedScrollView) view.findViewById(R.id.scrollview_shake);
+
+        emptyWords = (TextView) view.findViewById(R.id.empty_wordsgame);
+        emptyBall = (TextView) view.findViewById(R.id.empty_ballgame);
+        emptyShake = (TextView) view.findViewById(R.id.empty_shake);
 
         listWords = new ArrayList<HashMap<String,String>>();
         listBall = new ArrayList<HashMap<String,String>>();
@@ -86,7 +107,46 @@ public class MedicoRawDataFragment extends Fragment {
         return view;
     }
 
-    public void getRawDataWords(String id){
+    private void checkRawDataWords(){
+        if(listWords.size() == 0){
+            scrollViewShake.setVisibility(View.GONE);
+            emptyWords.setVisibility(View.VISIBLE);
+        } else {
+            scrollViewShake.setVisibility(View.VISIBLE);
+            emptyWords.setVisibility(View.GONE);
+
+            RawDataWordsAdapter adapter = new RawDataWordsAdapter(getActivity(), listWords);
+            wordList.setAdapter(adapter);
+        }
+    }
+
+    private void checkRawDataBall(){
+        if(listBall.size() == 0){
+            scrollViewBall.setVisibility(View.GONE);
+            emptyBall.setVisibility(View.VISIBLE);
+        } else {
+            scrollViewBall.setVisibility(View.VISIBLE);
+            emptyBall.setVisibility(View.GONE);
+
+            RawDataBallAdapter adapter = new RawDataBallAdapter(getActivity(), listBall);
+            ballList.setAdapter(adapter);
+        }
+    }
+
+    private void checkRawDataShake(){
+        if(listShake.size() == 0){
+            scrollViewShake.setVisibility(View.GONE);
+            emptyShake.setVisibility(View.VISIBLE);
+        } else {
+            scrollViewShake.setVisibility(View.VISIBLE);
+            emptyShake.setVisibility(View.GONE);
+
+            RawDataShakeAdapter adapter = new RawDataShakeAdapter(getActivity(), listShake);
+            shakeList.setAdapter(adapter);
+        }
+    }
+
+    private void getRawDataWords(String id){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_WORDSCORES+"/"+id);
 
         Query query = reference.orderByChild("date");
@@ -105,8 +165,7 @@ public class MedicoRawDataFragment extends Fragment {
                         listWords.add(temp);
                     }
 
-                    RawDataWordsAdapter adapter = new RawDataWordsAdapter(getActivity(), listWords);
-                    wordList.setAdapter(adapter);
+                    checkRawDataWords();
                 }
             }
 
@@ -117,7 +176,7 @@ public class MedicoRawDataFragment extends Fragment {
         });
     }
 
-    public void getRawDataBall(String id){
+    private void getRawDataBall(String id){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES+"/"+id);
 
         Query query = reference.orderByChild("date");
@@ -135,8 +194,7 @@ public class MedicoRawDataFragment extends Fragment {
                         listBall.add(temp);
                     }
 
-                    RawDataBallAdapter adapter = new RawDataBallAdapter(getActivity(), listBall);
-                    ballList.setAdapter(adapter);
+                    checkRawDataBall();
                 }
             }
 
@@ -147,7 +205,7 @@ public class MedicoRawDataFragment extends Fragment {
         });
     }
 
-    public void getRawDataShake(String id){
+    private void getRawDataShake(String id){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_SHAKESCORES+"/"+id);
 
         Query query = reference.orderByChild("date");
@@ -164,8 +222,7 @@ public class MedicoRawDataFragment extends Fragment {
                         listShake.add(temp);
                     }
 
-                    RawDataShakeAdapter adapter = new RawDataShakeAdapter(getActivity(), listShake);
-                    shakeList.setAdapter(adapter);
+                    checkRawDataShake();
                 }
             }
 

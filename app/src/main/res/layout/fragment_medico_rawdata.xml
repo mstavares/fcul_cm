@@ -1,131 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/userData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="3">
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:tint="@color/white" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/white"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/dashboard_wordsgame_title"
-                android:textSize="30sp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:background="@android:color/darker_gray" />
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white" />
 
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
-
-                <ListView
-                    android:id="@+id/rawdata_word"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp" />
-            </android.support.v4.widget.NestedScrollView>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_height="300dp"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="3">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/dashboard_ballgame_title"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:background="@android:color/darker_gray" />
-
-            <android.support.v4.widget.NestedScrollView
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:fillViewport="true">
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/rawdata_ball"
+                <TextView
+                    android:id="@+id/title_wordsgame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/dashboard_wordsgame_title"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/separator_wordsgame"
+                    android:layout_below="@id/title_wordsgame"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:footerDividersEnabled="false" />
-            </android.support.v4.widget.NestedScrollView>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="16dp"
-            android:layout_height="300dp"
-            android:background="@color/white"
-            android:orientation="vertical">
+                    android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/dashboard_shake_title"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/empty_wordsgame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:text="@string/data_not_available" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:background="@android:color/darker_gray" />
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/scrollview_wordsgame"
+                    android:layout_below="@id/separator_wordsgame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
-            <android.support.v4.widget.NestedScrollView
+                    <ListView
+                        android:id="@+id/rawdata_word"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp" />
+                </android.support.v4.widget.NestedScrollView>
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:fillViewport="true">
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/rawdata_shake"
+                <TextView
+                    android:id="@+id/title_ballgame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp" />
-            </android.support.v4.widget.NestedScrollView>
+                    android:layout_marginStart="10dp"
+                    android:text="@string/dashboard_ballgame_title"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
+                <View
+                    android:id="@+id/separator_ballgame"
+                    android:layout_below="@id/title_ballgame"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/empty_ballgame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:text="@string/data_not_available" />
+
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/scrollview_ballgame"
+                    android:layout_below="@+id/separator_ballgame"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <ListView
+                        android:id="@+id/rawdata_ball"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp"
+                        android:footerDividersEnabled="false" />
+                </android.support.v4.widget.NestedScrollView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_shake"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/dashboard_shake_title"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/separator_shake"
+                    android:layout_below="@+id/title_shake"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/empty_shake"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    android:text="@string/data_not_available" />
+
+                <android.support.v4.widget.NestedScrollView
+                    android:id="@+id/scrollview_shake"
+                    android:layout_below="@id/separator_shake"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <ListView
+                        android:id="@+id/rawdata_shake"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="10dp" />
+                </android.support.v4.widget.NestedScrollView>
+
+            </RelativeLayout>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+</LinearLayout>

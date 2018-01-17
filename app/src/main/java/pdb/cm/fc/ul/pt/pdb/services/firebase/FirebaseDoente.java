@@ -64,9 +64,13 @@ public abstract class FirebaseDoente {
         databaseReference.push().setValue(shake);
     }
 
-    public static void sendTimeGameData(final String doente, final String timeBall, final String timeWords) {
+    public static void sendTimeGameWordsData(String doente, String timeWords) {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES + "/" + doente);
+        databaseReference.child("timeWords").setValue(timeWords);
+    }
+
+    public static void sendTimeGameBallData(String doente, String timeBall) {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES + "/" + doente);
         databaseReference.child("timeBall").setValue(timeBall);
-        databaseReference.child("timeWords").setValue(timeWords);
     }
 }

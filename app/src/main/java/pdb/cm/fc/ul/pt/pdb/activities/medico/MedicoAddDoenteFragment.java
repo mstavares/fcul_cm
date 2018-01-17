@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,8 +51,6 @@ public class MedicoAddDoenteFragment extends Fragment {
     private TextView mEmail;
 
     private Button mAddUser;
-
-    private Handler mHandler = new Handler();
 
     public static MedicoAddDoenteFragment newInstance() {
         MedicoAddDoenteFragment fragment = new MedicoAddDoenteFragment();
@@ -118,6 +117,7 @@ public class MedicoAddDoenteFragment extends Fragment {
                             startActivity(new Intent(getActivity(), LoginActivity.class));
                         } else {
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(getContext(), task.getException().toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -1,9 +1,10 @@
 package pdb.cm.fc.ul.pt.pdb.utilities;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public abstract class Utilities {
 
@@ -18,6 +19,15 @@ public abstract class Utilities {
         for(double value : data)
             sum += value;
         return sum / data.size();
+    }
+
+    public static String getFirstDayOfCurrentWeek(){
+        Calendar c = Calendar.getInstance(Locale.US);
+        c.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        return new SimpleDateFormat(TIMESTAMP_FORMAT).format(c.getTime());
     }
 
 }

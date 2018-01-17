@@ -2,7 +2,6 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,30 +10,36 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Shake;
 import pdb.cm.fc.ul.pt.pdb.models.WordScore;
+import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
 import static android.content.ContentValues.TAG;
 import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_DOENTE;
@@ -53,6 +58,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     private static final String TBL_WORDSSCORES = "wordscores";
     private static final String TBL_BALLSCORES = "ballscores";
 
+    private static final String ATR_DATE = "date";
+
     private ArrayList<Entry> shakes;
 
     private ArrayList<Entry> timeBall;
@@ -61,6 +68,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     private ArrayList<Entry> timeWords;
     private ArrayList<Entry> scoreWords;
     private ArrayList<Entry> faultsWords;
+
+    private HashMap<Integer, String> nameOfDayOfWeek;
 
     private Doente doente;
 
@@ -88,6 +97,7 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         mChartBall = (LineChart) view.findViewById(R.id.chartBall);
         mChartShake = (LineChart) view.findViewById(R.id.chartAcell);
 
+        getAxisLabel();
         fetchAllWordsGameData();
         fetchAllBallGameData();
         fetchAllShakeData();
@@ -114,7 +124,7 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
         // enable scaling and dragging
         mChartWords.setDragEnabled(true);
-        mChartWords.setScaleEnabled(true);
+        mChartWords.setScaleEnabled(false);
         mChartWords.setDrawGridBackground(false);
         mChartWords.setHighlightPerDragEnabled(true);
 
@@ -154,8 +164,14 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawGridLines(true);
         xAxis.setDrawAxisLine(false);
-        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMinimum(1f);
         xAxis.setAxisMaximum(7f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return nameOfDayOfWeek.get((int)value);
+            }
+        });
 
         YAxis leftAxis = mChartWords.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
@@ -254,7 +270,7 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
         // enable scaling and dragging
         mChartBall.setDragEnabled(true);
-        mChartBall.setScaleEnabled(true);
+        mChartBall.setScaleEnabled(false);
         mChartBall.setDrawGridBackground(false);
         mChartBall.setHighlightPerDragEnabled(true);
 
@@ -294,8 +310,14 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawGridLines(true);
         xAxis.setDrawAxisLine(false);
-        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMinimum(1f);
         xAxis.setAxisMaximum(7f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return nameOfDayOfWeek.get((int)value);
+            }
+        });
 
         YAxis leftAxis = mChartBall.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
@@ -381,7 +403,7 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
         // enable scaling and dragging
         mChartShake.setDragEnabled(true);
-        mChartShake.setScaleEnabled(true);
+        mChartShake.setScaleEnabled(false);
         mChartShake.setDrawGridBackground(false);
         mChartShake.setHighlightPerDragEnabled(true);
 
@@ -421,13 +443,17 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawGridLines(true);
         xAxis.setDrawAxisLine(false);
-        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMinimum(1f);
         xAxis.setAxisMaximum(7f);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return nameOfDayOfWeek.get((int)value);
+            }
+        });
 
         YAxis leftAxis = mChartShake.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        leftAxis.setAxisMaximum(20f);
-        leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawAxisLine(false);
         //leftAxis.setGranularityEnabled(true);
@@ -479,8 +505,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     public void onValueSelected(Entry e, Highlight h) {
         Log.i("Entry selected", e.toString());
 
-        mChartWords.centerViewToAnimated(e.getX(), e.getY(), mChartWords.getData().getDataSetByIndex(h.getDataSetIndex())
-                .getAxisDependency(), 500);
+        //mChartWords.centerViewToAnimated(e.getX(), e.getY(), mChartWords.getData().getDataSetByIndex(h.getDataSetIndex())
+        //        .getAxisDependency(), 500);
         //mChart.zoomAndCenterAnimated(2.5f, 2.5f, e.getX(), e.getY(), mChart.getData().getDataSetByIndex(dataSetIndex)
         // .getAxisDependency(), 1000);
         //mChart.zoomAndCenterAnimated(1.8f, 1.8f, e.getX(), e.getY(), mChart.getData().getDataSetByIndex(dataSetIndex)
@@ -494,7 +520,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
     private void fetchAllWordsGameData() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDSSCORES + "/" + doente.getId());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
+        query.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -507,10 +534,14 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                         Calendar c = Calendar.getInstance();
                         c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(wordScore.getDate()));
                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                        int hours = c.get(Calendar.HOUR_OF_DAY);
+                        int minutes = c.get(Calendar.MINUTE);
 
-                        scoreWords.add(new Entry(dayOfWeek, (float) wordScore.getScore()));
-                        timeWords.add(new Entry(dayOfWeek, (float) wordScore.getTime()));
-                        faultsWords.add(new Entry(dayOfWeek, (float) wordScore.getFaults()));
+                        float time = convertDate(dayOfWeek, hours, minutes);
+
+                        scoreWords.add(new Entry(time, (float) wordScore.getScore()));
+                        timeWords.add(new Entry(time, (float) wordScore.getTime()));
+                        faultsWords.add(new Entry(time, (float) wordScore.getFaults()));
 
                     } catch (java.text.ParseException e){
 
@@ -528,7 +559,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
     private void fetchAllBallGameData() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES + "/" + doente.getId());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
+        query.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -540,9 +572,13 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                         Calendar c = Calendar.getInstance();
                         c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(ballScore.getDate()));
                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                        int hours = c.get(Calendar.HOUR_OF_DAY);
+                        int minutes = c.get(Calendar.MINUTE);
 
-                        scoreBall.add(new Entry(dayOfWeek, (float) ballScore.getScore()));
-                        timeBall.add(new Entry(dayOfWeek, (float) ballScore.getTime()));
+                        float time = convertDate(dayOfWeek, hours, minutes);
+
+                        scoreBall.add(new Entry(time, (float) ballScore.getScore()));
+                        timeBall.add(new Entry(time, (float) ballScore.getTime()));
 
                     } catch (java.text.ParseException e){
 
@@ -560,7 +596,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
     private void fetchAllShakeData() {
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKES + "/" + doente.getId());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
+        query.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -571,8 +608,12 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                         Calendar c = Calendar.getInstance();
                         c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(shake.getDate()));
                         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+                        int hours = c.get(Calendar.HOUR_OF_DAY);
+                        int minutes = c.get(Calendar.MINUTE);
 
-                        shakes.add(new Entry(dayOfWeek, (float) shake.getShake()));
+                        float time = convertDate(dayOfWeek, hours, minutes);
+
+                        shakes.add(new Entry(time, (float) shake.getShake()));
                     } catch (java.text.ParseException e){
 
                     }
@@ -585,5 +626,25 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                 Log.e(TAG, "Failed to read value. ", error.toException());
             }
         });
+    }
+
+    private float convertDate (int dayOfWeek, int hour, int minute){
+        int maxHourOfDay = 2359;
+        int mHour = Integer.valueOf(String.valueOf(hour) + String.valueOf(minute));
+
+        double convHour = (mHour*0.99)/maxHourOfDay;
+        double hold = dayOfWeek + convHour;
+        return (float) hold;
+    }
+
+    private void getAxisLabel(){
+        nameOfDayOfWeek = new HashMap<>();
+        nameOfDayOfWeek.put(1, "Sunday");
+        nameOfDayOfWeek.put(2, "Monday");
+        nameOfDayOfWeek.put(3, "Tuesday");
+        nameOfDayOfWeek.put(4, "Wednesday");
+        nameOfDayOfWeek.put(5, "Thursday");
+        nameOfDayOfWeek.put(6, "Friday");
+        nameOfDayOfWeek.put(7, "Saturday");
     }
 }

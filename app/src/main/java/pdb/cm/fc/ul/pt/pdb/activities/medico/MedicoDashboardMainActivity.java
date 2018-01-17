@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
-import pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard.MedicoAddWordFragment;
 import pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard.MedicoDashboardFragment;
 import pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard.MedicoNotesFragment;
 import pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard.MedicoPatientSettingsFragment;
@@ -143,11 +142,7 @@ public class MedicoDashboardMainActivity extends AppCompatActivity
             fragment.setArguments(bundle);
 
             replaceContent(fragment);
-        } else if (id == R.id.nav_addWords) {
-            fragment = MedicoAddWordFragment.newInstance();
-
-            replaceContent(fragment);
-        } else if (id == R.id.nav_logout) {
+        }  else if (id == R.id.nav_logout) {
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();

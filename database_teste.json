@@ -1,0 +1,290 @@
+{
+  "doentes" : {
+    "p1" : {
+      "age" : "26",
+      "email" : "p1@paciente.pdb.pt",
+      "id" : "p1",
+      "lastLogin" : "17/1/2018 00:16:40",
+      "medicoAssign" : "m1@medico.pdb.pt",
+      "name" : "António Silva",
+      "timeBall" : "90",
+      "timeWords" : "90"
+    },
+    "p2" : {
+      "age" : "78",
+      "email" : "p2@paciente.pdb.pt",
+      "id" : "p2",
+      "lastLogin" : "26/12/2017 23:04:16",
+      "medicoAssign" : "m1@medico.pdb.pt",
+      "name" : "Manuel Joaquim",
+      "timeBall" : "90",
+      "timeWords" : "90"
+    }
+  },
+  "medicos" : {
+    "m1" : {
+      "email" : "m1@medico.pdb.pt",
+      "id" : "m1",
+      "name" : "Zé"
+    }
+  },
+  "shake" : {
+    "p2" : {
+      "-L1K3NgBdqh7fOqT8OXy" : {
+        "date" : "14/1/2018 00:17:09",
+        "shake" : 9.836349836032275
+      },
+      "-L1K3Ov6LYLsRHbAjZfb" : {
+        "date" : "14/1/2018 02:17:19",
+        "shake" : 9.850879258961127
+      },
+      "-L1K3Q7RjXcfO85nhTHF" : {
+        "date" : "14/1/2018 04:17:24",
+        "shake" : 9.85317994307544
+      },
+      "-L1K3Q8Ipa3iXMJwfwSU" : {
+        "date" : "14/1/2018 06:17:29",
+        "shake" : 9.854175283912465
+      },
+      "-L1K3RLdwXfrmANiG3i5" : {
+        "date" : "14/1/2018 08:17:34",
+        "shake" : 9.855477493210016
+      },
+      "-L1K3RMWHDy6bGEihoSt" : {
+        "date" : "14/1/2018 10:17:39",
+        "shake" : 9.856289090530982
+      },
+      "-L1K3SZxlhb1xnO_Fvql" : {
+        "date" : "14/1/2018 13:17:44",
+        "shake" : 9.857434701671536
+      },
+      "-L1K3S_r5IabwWCkJMtI" : {
+        "date" : "14/1/2018 16:17:49",
+        "shake" : 9.857576768167336
+      },
+      "-L1K3TnFzhFWuAjGzuQG" : {
+        "date" : "14/1/2018 19:17:54",
+        "shake" : 9.85782919654083
+      },
+      "-L1K3To8vgUdQ4WIhTeb" : {
+        "date" : "14/1/2018 22:17:59",
+        "shake" : 9.858095137649785
+      },
+      "-L30TVNt6uD5oUgUqbJ5" : {
+        "date" : "15/1/2018 00:17:09",
+        "shake" : 9.836349836032275
+      },
+      "-L30TXn_8nxa4eGtSdgl" : {
+        "date" : "15/1/2018 02:17:19",
+        "shake" : 9.850879258961127
+      },
+      "-L30TZ0tmN3cCaaOMQY1" : {
+        "date" : "15/1/2018 04:17:24",
+        "shake" : 9.85317994307544
+      },
+      "-L30T_F5jXCCb6sC2gjH" : {
+        "date" : "15/1/2018 06:17:29",
+        "shake" : 9.854175283912465
+      },
+      "-L30TaTH6iMYVDoyelyT" : {
+        "date" : "15/1/2018 08:17:34",
+        "shake" : 9.855477493210016
+      },
+      "-L30Tbg_z8gcq12d8Eny" : {
+        "date" : "15/1/2018 10:17:39",
+        "shake" : 9.856289090530982
+      },
+      "-L30TcunVDVRJil7je0O" : {
+        "date" : "15/1/2018 13:17:44",
+        "shake" : 9.857434701671536
+      },
+      "-L30Te86fcgn3r2nJOGg" : {
+        "date" : "15/1/2018 16:17:49",
+        "shake" : 9.857576768167336
+      },
+      "-L30TfMRSBRI87ff3W_0" : {
+        "date" : "15/1/2018 19:17:54",
+        "shake" : 9.85782919654083
+      },
+      "-L30Tg_m4oU6udB7KoFb" : {
+        "date" : "15/1/2018 22:17:59",
+        "shake" : 9.858095137649785
+      },
+      "-L30ThoDSDI9fU_ER94t" : {
+        "date" : "16/1/2018 00:18:04",
+        "shake" : 9.858333918731645
+      },
+      "-L30Tj1aEPUjW5m4Ux3o" : {
+        "date" : "16/1/2018 02:18:09",
+        "shake" : 9.858461374313972
+      },
+      "-L30TkG-xkOGMXBo2PaU" : {
+        "date" : "16/1/2018 04:18:14",
+        "shake" : 9.858678910462462
+      },
+      "-L30TlUFiYuQ3GPj1Sua" : {
+        "date" : "16/1/2018 06:18:19",
+        "shake" : 9.858692873622129
+      },
+      "-L30Tmhg8loAg7uu9hDB" : {
+        "date" : "16/1/2018 08:18:24",
+        "shake" : 9.858722845606591
+      },
+      "-L30TnwCFAfeGDQ_3wZP" : {
+        "date" : "16/1/2018 10:18:29",
+        "shake" : 9.85887993954909
+      },
+      "-L30Tp9f1_BkathnlCdD" : {
+        "date" : "16/1/2018 13:18:34",
+        "shake" : 9.858985585001738
+      },
+      "-L30TqNvIpipWhqKM9V-" : {
+        "date" : "16/1/2018 16:18:39",
+        "shake" : 9.858971092856583
+      },
+      "-L30TrbPw3Bmy0lHEwyn" : {
+        "date" : "16/1/2018 19:18:44",
+        "shake" : 9.858955746399904
+      },
+      "-L30TsplIbB2YIsuqvaS" : {
+        "date" : "16/1/2018 22:18:49",
+        "shake" : 9.85891117388422
+      },
+      "-L30Tu3L1B2cg_P91kw5" : {
+        "date" : "17/1/2018 00:18:55",
+        "shake" : 9.859004127781281
+      },
+      "-L30TvHg2lfoxrR-jFta" : {
+        "date" : "17/1/2018 02:19:00",
+        "shake" : 9.858925280877173
+      },
+      "-L30TwJb2miNILqcdW_b" : {
+        "date" : "17/1/2018 04:19:04",
+        "shake" : 9.859045331693503
+      },
+      "-L30TwWAi1i6WuH5wfFF" : {
+        "date" : "17/1/2018 06:19:05",
+        "shake" : 9.85897891497093
+      },
+      "-L30TxXsHROZb1-fj9jk" : {
+        "date" : "17/1/2018 08:19:09",
+        "shake" : 9.859537869209937
+      },
+      "-L30Txjkr8sWc_wkQn3e" : {
+        "date" : "17/1/2018 10:19:10",
+        "shake" : 9.859052532990804
+      },
+      "-L30Tyy0E1WC_JUSRjcL" : {
+        "date" : "17/1/2018 13:19:15",
+        "shake" : 9.85920016169662
+      },
+      "-L30U-B_vgYBVomK65BA" : {
+        "date" : "17/1/2018 16:19:20",
+        "shake" : 9.859236997552413
+      },
+      "-L30U0Q5Svt0K52O_V3g" : {
+        "date" : "17/1/2018 19:19:25",
+        "shake" : 9.859343847105153
+      },
+      "-L30U1ddC07Ucm4PPOjc" : {
+        "date" : "17/1/2018 22:19:30",
+        "shake" : 9.859372116932866
+      },
+      "-L30U2sAEZ3kbKy-li_l" : {
+        "date" : "18/1/2018 00:19:35",
+        "shake" : 9.859393059737656
+      },
+      "-L30U45jFY8RFAevRH_u" : {
+        "date" : "18/1/2018 02:19:40",
+        "shake" : 9.859457289117756
+      },
+      "-L30U5KD-JdnFp2UngoN" : {
+        "date" : "18/1/2018 04:19:45",
+        "shake" : 9.85949133255254
+      },
+      "-L30U6YjuijQT0c3XqAe" : {
+        "date" : "18/1/2018 06:19:50",
+        "shake" : 9.859490745773527
+      },
+      "-L30U7m6CR3A-rqq9C9c" : {
+        "date" : "18/1/2018 08:19:55",
+        "shake" : 9.859502447381798
+      },
+      "-L30U9-mVszOU7Y_jv9R" : {
+        "date" : "18/1/2018 10:20:00",
+        "shake" : 9.859565887778022
+      },
+      "-L30UAEH4GqeKNshMWnK" : {
+        "date" : "18/1/2018 13:20:05",
+        "shake" : 9.859618897899134
+      },
+      "-L30UBSyArmxs5JCn3jP" : {
+        "date" : "18/1/2018 16:20:10",
+        "shake" : 9.859610219131579
+      },
+      "-L30UCgbh2s7FXYDgMmP" : {
+        "date" : "18/1/2018 19:20:15",
+        "shake" : 9.859625721338816
+      },
+      "-L30UDvCMsNchaT1G2S1" : {
+        "date" : "18/1/2018 22:20:20",
+        "shake" : 9.85958721336105
+      },
+      "-L30UF8vv6WoniPm4a29" : {
+        "date" : "19/1/2018 00:20:25",
+        "shake" : 9.859589533185725
+      },
+      "-L30UGNRPpUg8ygW_wg8" : {
+        "date" : "19/1/2018 02:20:30",
+        "shake" : 9.859557448899576
+      },
+      "-L30UHb26BBqj5fVFoeU" : {
+        "date" : "19/1/2018 04:20:35",
+        "shake" : 9.859539176254966
+      },
+      "-L30UIpdoqG3_5mZTX2E" : {
+        "date" : "19/1/2018 06:20:40",
+        "shake" : 9.859600123480169
+      },
+      "-L30UK3KpUa0UeSRUNYn" : {
+        "date" : "19/1/2018 08:20:45",
+        "shake" : 9.859637896399088
+      },
+      "-L30ULHlUBZU5G0NGiXg" : {
+        "date" : "19/1/2018 10:20:50",
+        "shake" : 9.859689732137623
+      },
+      "-L30UMW7LK4waJFBn2f4" : {
+        "date" : "19/1/2018 13:20:55",
+        "shake" : 9.859731591025252
+      },
+      "-L30UNjhH1HmgCgqbJQt" : {
+        "date" : "19/1/2018 16:21:00",
+        "shake" : 9.859732444226669
+      },
+      "-L30UOyPUIpBJE4gQJEc" : {
+        "date" : "19/1/2018 19:21:05",
+        "shake" : 9.859759822055846
+      },
+      "-L30VivqmxGH8OwMBvj_" : {
+        "date" : "19/1/2018 22:26:53",
+        "shake" : 9.860293247413857
+      }
+    }
+  },
+  "words" : {
+    "-L1KjnCitbXTb0cdL3sO" : "Palavra",
+    "-L1KkJKM4vuB27RBDkax" : "Outro",
+    "-L1KkNAcgttDaZ-v9L2J" : "Teste"
+  },
+  "wordscores" : {
+    "p1" : {
+      "-L30Ts0S1NMhJWZ0iQtz" : {
+        "date" : "17/1/2018 00:18:46",
+        "faults" : 1,
+        "score" : 38,
+        "time" : 90
+      }
+    }
+  }
+}

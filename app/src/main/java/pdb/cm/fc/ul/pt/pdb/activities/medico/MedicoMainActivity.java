@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
 
+import pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard.MedicoAddWordFragment;
 import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
 
 
@@ -111,6 +112,10 @@ public class MedicoMainActivity extends AppCompatActivity implements NavigationV
             replaceContent(fragment);
         } else if (id == R.id.nav_user) {
             fragment = MedicoAddDoenteFragment.newInstance();
+
+            replaceContent(fragment);
+        } else if (id == R.id.nav_addWords) {
+            fragment = MedicoAddWordFragment.newInstance();
 
             replaceContent(fragment);
         } else if (id == R.id.nav_logout) {

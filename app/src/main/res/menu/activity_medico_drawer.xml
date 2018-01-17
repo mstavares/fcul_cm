@@ -15,6 +15,15 @@
             android:title="@string/navigation_drawer_patients" />
     </group>
 
+    <item android:title="@string/navigation_drawer_title_gameSettings">
+        <menu>
+            <item
+                android:id="@+id/nav_addWords"
+                android:icon="@drawable/pencil_square"
+                android:title="@string/navigation_drawer_addWords" />
+        </menu>
+    </item>
+
     <item android:title="@string/navigation_drawer_title_personal">
         <menu>
             <item

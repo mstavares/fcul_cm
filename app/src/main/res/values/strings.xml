@@ -66,6 +66,7 @@
     <string name="patient_settings_wordsgame_current_time">Current Time: %s</string>
     <string name="patient_settings_ballgame_current_time">Current Time: %s</string>
     <string name="add_word">Add New Word</string>
+    <string name="data_not_available">Data not available</string>
 
     <!-- NotificationModule -->
     <string name="title">Let\'s play a little bit!</string>

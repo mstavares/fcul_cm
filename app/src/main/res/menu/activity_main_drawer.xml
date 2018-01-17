@@ -17,10 +17,6 @@
             android:icon="@drawable/sticky_note"
             android:title="@string/navigation_drawer_notes" />
         <item
-            android:id="@+id/nav_patient_settings"
-            android:icon="@drawable/cogs"
-            android:title="@string/navigation_drawer_patientPreferences" />
-        <item
             android:id="@+id/nav_rawData"
             android:icon="@drawable/file_text"
             android:title="@string/navigation_drawer_rawData" />
@@ -29,9 +25,9 @@
     <item android:title="@string/navigation_drawer_title_gameSettings">
         <menu>
             <item
-                android:id="@+id/nav_addWords"
-                android:icon="@drawable/pencil_square"
-                android:title="@string/navigation_drawer_addWords" />
+                android:id="@+id/nav_patient_settings"
+                android:icon="@drawable/cogs"
+                android:title="@string/navigation_drawer_patientPreferences" />
         </menu>
     </item>
 
