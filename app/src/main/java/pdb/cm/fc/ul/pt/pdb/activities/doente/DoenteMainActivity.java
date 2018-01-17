@@ -3,7 +3,6 @@ package pdb.cm.fc.ul.pt.pdb.activities.doente;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,39 +23,32 @@ public class DoenteMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_doente_main);
         ButterKnife.bind(this);
         mAuth = FirebaseAuth.getInstance();
-        startService();
     }
 
-    private void startService() {
-        Log.i(TAG, "startService was invoked");
-        startService(new Intent(this, ApplicationService.class));
-    }
-
-    @OnClick(R.id.button1)
-    public void button1() {
+    @OnClick(R.id.keyboard_btn)
+    public void openKeyboardGame() {
         startActivity(new Intent(this, TecladoActivity.class));
         finish();
     }
 
-    @OnClick(R.id.button2)
-    public void button2() {
+    @OnClick(R.id.sphere_btn)
+    public void openSphereGame() {
         startActivity(new Intent(this, EsferaActivity.class));
         finish();
     }
 
-    @OnClick(R.id.button3)
-    public void button3() {
+    @OnClick(R.id.scores_btn)
+    public void openScores() {
+        startActivity(new Intent(this, PontuacoesActivity.class));
+        finish();
+    }
+
+    @OnClick(R.id.signout_btn)
+    public void signOut() {
         mAuth.signOut();
         stopService(new Intent(this, ApplicationService.class));
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
-
-    @OnClick(R.id.button4)
-    public void button4() {
-        startActivity(new Intent(this, PontuacoesActivity.class));
-        finish();
-    }
-
 
 }

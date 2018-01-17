@@ -72,7 +72,7 @@ public class ApplicationService extends Service {
 
         int smallIconId = getResources().getIdentifier("right_icon", "id", android.R.class.getPackage().getName());
         if (smallIconId != 0) {
-            if (notification.contentView!=null)
+            if (notification.contentView != null)
                 notification.contentView.setViewVisibility(smallIconId, View.INVISIBLE);
         }
 
@@ -80,6 +80,7 @@ public class ApplicationService extends Service {
     }
 
     public void close() {
+        Log.i(TAG, "on ApplicationService close");
         if(mAccelerometerManager != null)
             mAccelerometerManager.close();
         if(mScreenManager != null)

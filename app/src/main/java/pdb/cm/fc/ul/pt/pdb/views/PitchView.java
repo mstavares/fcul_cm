@@ -73,6 +73,7 @@ public class PitchView extends View {
             mVelX = 0;
         } else if (mPosX < 0) {
             mPosX = 0;
+            mVelX = 0;
         }
 
         if (mPosY > yMax) {
@@ -80,6 +81,7 @@ public class PitchView extends View {
             mVelY = 0;
         } else if (mPosY < 0) {
             mPosY = 0;
+            mVelY = 0;
         }
 
         invalidate();

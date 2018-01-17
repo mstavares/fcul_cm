@@ -44,11 +44,9 @@
             android:name=".activities.medico.MedicoDashboardMainActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activities.medico.MedicoNotesActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activities.dialog.MessageDialogActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/CustomDialog"
             android:screenOrientation="portrait" />
 
         <service android:name=".services.android.ApplicationService" />

@@ -27,7 +27,7 @@ public class LoginPresenter implements Login.Presenter {
     public void onAttemptLogin(String email, String password) {
         try {
             mCredential = new LoginCredential(email, password);
-            new LoginTask(this, mCredential).executeLogin();
+            new LoginTask(this, mContext, mCredential).executeLogin();
         } catch (EmptyEmailException e) {
             mView.onEmptyEmail();
         } catch (EmptyPasswordException e) {
