@@ -1,5 +1,7 @@
 package pdb.cm.fc.ul.pt.pdb.utilities;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,17 @@ public abstract class Utilities {
         c.set(Calendar.MINUTE,0);
         c.set(Calendar.SECOND,0);
         return new SimpleDateFormat(TIMESTAMP_FORMAT).format(c.getTime());
+    }
+
+    public static String getLastDay(){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DATE, -1);
+        return new SimpleDateFormat(TIMESTAMP_FORMAT).format(c.getTime());
+    }
+
+    public static float getHourRightNow(){
+        Calendar c = Calendar.getInstance();
+        return c.get(Calendar.HOUR_OF_DAY);
     }
 
 }

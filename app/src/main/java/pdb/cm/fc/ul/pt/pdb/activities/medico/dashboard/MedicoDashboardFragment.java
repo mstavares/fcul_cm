@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,13 +62,14 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     private static final String ATR_DATE = "date";
 
     private ArrayList<Entry> shakes;
-
     private ArrayList<Entry> timeBall;
     private ArrayList<Entry> scoreBall;
 
     private ArrayList<Entry> timeWords;
     private ArrayList<Entry> scoreWords;
     private ArrayList<Entry> faultsWords;
+
+    private ArrayList<Integer> hoursList;
 
     private HashMap<Integer, String> nameOfDayOfWeek;
 
@@ -212,6 +214,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setFillColor(ColorTemplate.getHoloBlue());
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
+            set1.setDrawCircles(false);
+            set1.setDrawValues(false);
             //set1.setFillFormatter(new MyFillFormatter(0f));
             //set1.setDrawHorizontalHighlightIndicator(false);
             //set1.setVisible(false);
@@ -227,6 +231,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set2.setFillAlpha(65);
             set2.setFillColor(Color.RED);
             set2.setDrawCircleHole(false);
+            set2.setDrawCircles(false);
+            set2.setDrawValues(false);
             set2.setHighLightColor(Color.rgb(244, 117, 117));
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
@@ -239,6 +245,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set3.setFillAlpha(65);
             set3.setFillColor(ColorTemplate.colorWithAlpha(Color.YELLOW, 200));
             set3.setDrawCircleHole(false);
+            set3.setDrawCircles(false);
+            set3.setDrawValues(false);
             set3.setHighLightColor(Color.rgb(244, 117, 117));
 
             // create a data object with the datasets
@@ -356,6 +364,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setFillColor(ColorTemplate.getHoloBlue());
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
+            set1.setDrawCircles(false);
+            set1.setDrawValues(false);
             //set1.setFillFormatter(new MyFillFormatter(0f));
             //set1.setDrawHorizontalHighlightIndicator(false);
             //set1.setVisible(false);
@@ -371,6 +381,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set2.setFillAlpha(65);
             set2.setFillColor(Color.RED);
             set2.setDrawCircleHole(false);
+            set2.setDrawCircles(false);
+            set2.setDrawValues(false);
             set2.setHighLightColor(Color.rgb(244, 117, 117));
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
@@ -443,12 +455,15 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         xAxis.setTextColor(Color.BLACK);
         xAxis.setDrawGridLines(true);
         xAxis.setDrawAxisLine(false);
-        xAxis.setAxisMinimum(1f);
-        xAxis.setAxisMaximum(7f);
+        xAxis.setAxisMinimum(Utilities.getHourRightNow()-2f);
+        xAxis.setAxisMaximum(Utilities.getHourRightNow()+1f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return nameOfDayOfWeek.get((int)value);
+                //HH.MM
+                String hold = String.format("%02.02f", value);
+                hold = hold.replace(',', ':');
+                return hold+"h";
             }
         });
 
@@ -480,11 +495,13 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setColor(ColorTemplate.getHoloBlue());
             set1.setCircleColor(Color.BLACK);
             set1.setLineWidth(2f);
-            set1.setCircleRadius(3f);
+            set1.setCircleRadius(1f);
             set1.setFillAlpha(65);
             set1.setFillColor(ColorTemplate.getHoloBlue());
             set1.setHighLightColor(Color.rgb(244, 117, 117));
             set1.setDrawCircleHole(false);
+            set1.setDrawCircles(false);
+            set1.setDrawValues(false);
             //set1.setFillFormatter(new MyFillFormatter(0f));
             //set1.setDrawHorizontalHighlightIndicator(false);
             //set1.setVisible(false);
@@ -546,8 +563,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                     } catch (java.text.ParseException e){
 
                     }
-                    createChartWords();
                 }
+                createChartWords();
             }
 
             @Override
@@ -583,8 +600,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                     } catch (java.text.ParseException e){
 
                     }
-                    createChartBall();
                 }
+                createChartBall();
             }
 
             @Override
@@ -595,8 +612,10 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     }
 
     private void fetchAllShakeData() {
+        hoursList = new ArrayList<>();
+
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKES + "/" + doente.getId());
-        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
+        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getLastDay());
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -607,18 +626,22 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
                     try {
                         Calendar c = Calendar.getInstance();
                         c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(shake.getDate()));
-                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
                         int hours = c.get(Calendar.HOUR_OF_DAY);
                         int minutes = c.get(Calendar.MINUTE);
 
-                        float time = convertDate(dayOfWeek, hours, minutes);
+                        String hold = String.format("%02d.%02d", hours, minutes);
+
+                        float time = Float.valueOf(hold);
 
                         shakes.add(new Entry(time, (float) shake.getShake()));
+
+                        hoursList.add(hours);
                     } catch (java.text.ParseException e){
 
                     }
-                    createChartShake();
+
                 }
+                createChartShake();
             }
 
             @Override
