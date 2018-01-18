@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,69 +11,92 @@
     android:weightSum="3"
     tools:context="pdb.cm.fc.ul.pt.pdb.activities.doente.DoenteMainActivity">
 
-
     <LinearLayout
+        android:id="@+id/doctorInfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
 
-        <Button
-            android:id="@+id/keyboard_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableBottom="@drawable/keyboard"
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="doctor profile pic"
+            android:src="@drawable/user_patients" />
+        <TextView
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/jogo_teclado"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/sphere_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawableBottom="@drawable/record"
-            android:gravity="center"
-            android:text="@string/jogo_esfera"
-            android:textSize="24sp" />
-
+            android:id="@+id/welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"/>
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="40dp"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/scores_btn"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:elevation="0dp"
-            android:drawableBottom="@drawable/star"
-            android:text="@string/highscore"
-            android:textSize="24sp" />
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-        <Button
-            android:id="@+id/signout_btn"
+            <Button
+                android:id="@+id/keyboard_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/keyboard"
+                android:gravity="center"
+                android:text="@string/jogo_teclado"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/sphere_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/record"
+                android:gravity="center"
+                android:text="@string/jogo_esfera"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableBottom="@drawable/power_button_off"
-            android:elevation="0dp"
-            android:text="@string/sair"
-            android:textSize="24sp" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/scores_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:elevation="0dp"
+                android:drawableBottom="@drawable/star"
+                android:text="@string/highscore"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/signout_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/power_button_off"
+                android:elevation="0dp"
+                android:text="@string/sair"
+                android:textSize="24sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal" />
 
 </LinearLayout>
