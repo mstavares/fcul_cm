@@ -2,8 +2,6 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,6 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.NotesViewAdapter;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
@@ -55,6 +55,7 @@ public class MedicoNotesFragment extends Fragment implements Firebase.LoadNotes 
         FirebaseMedico.fetchAllNotes(this, doente.getId());
         ((TextView) view.findViewById(R.id.name)).setText(doente.getName());
         ((TextView) view.findViewById(R.id.age)).setText(doente.getAge());
+        ButterKnife.bind(this, view);
 
         listNotes = (ListView) view.findViewById(R.id.listViewNotes);
         listNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -79,14 +80,6 @@ public class MedicoNotesFragment extends Fragment implements Firebase.LoadNotes 
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUpInsertNewNote();
-            }
-        });
-
         return view;
     }
 
@@ -97,7 +90,8 @@ public class MedicoNotesFragment extends Fragment implements Firebase.LoadNotes 
         ((ListView) getView().findViewById(R.id.listViewNotes)).setAdapter(new NotesViewAdapter(getContext(), notes));
     }
 
-    private void openPopUpInsertNewNote(){
+    @OnClick(R.id.fab)
+    public void openPopUpInsertNewNote(){
         final EditText input = new EditText(getContext());
 
         new AlertDialog.Builder(getActivity())

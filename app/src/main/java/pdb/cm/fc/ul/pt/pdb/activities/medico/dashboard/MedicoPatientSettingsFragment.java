@@ -5,11 +5,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseDoente;
@@ -26,11 +28,12 @@ public class MedicoPatientSettingsFragment extends Fragment {
     private static final int MIN_BALLGAME_TIME = 10;
 
     private Doente doente;
-    private EditText ballTime;
-    private EditText wordsTime;
 
-    private TextView currentBallTime;
-    private TextView currentWordsTime;
+    @BindView(R.id.str_change_time_ball) EditText ballTime;
+    @BindView(R.id.str_change_time_words) EditText wordsTime;
+
+    @BindView(R.id.str_current_balltime) TextView currentBallTime;
+    @BindView(R.id.str_current_wordstime) TextView currentWordsTime;
 
     public static MedicoPatientSettingsFragment newInstance() {
         MedicoPatientSettingsFragment fragment = new MedicoPatientSettingsFragment();
@@ -49,57 +52,54 @@ public class MedicoPatientSettingsFragment extends Fragment {
 
         doente = (Doente) getActivity().getIntent().getExtras().getSerializable(EXTRA_DOENTE);
 
-        ballTime = (EditText) view.findViewById(R.id.str_change_time_ball);
-        wordsTime = (EditText) view.findViewById(R.id.str_change_time_words);
+        ButterKnife.bind(this, view);
 
-        currentBallTime = (TextView) view.findViewById(R.id.str_current_balltime);
-        currentWordsTime = (TextView) view.findViewById(R.id.str_current_wordstime);
-
-        currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
-        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
-
-        Button btnSave = (Button) view.findViewById(R.id.btn_save);
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (!wordsTime.getText().toString().trim().equals("") &&
-                        !ballTime.getText().toString().trim().equals("")){
-                    if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME &&
-                            Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
-                        FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
-                        FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
-                        Toast.makeText(getContext(), "Both words game and ball game time successfuly changed to " + wordsTime.getText().toString() + " and " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-                        refreshContent();
-                    } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME &&
-                            Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
-                        Toast.makeText(getContext(), "Minimum time required for both keyboard game and ball game is " + String.valueOf(MIN_WORDSGAME_TIME) + " and " + String.valueOf(MIN_BALLGAME_TIME) + "!", Toast.LENGTH_SHORT).show();
-                    }
-                } else if(!wordsTime.getText().toString().trim().equals("")) {
-                    if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME) {
-                        FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
-                        Toast.makeText(getContext(), "Words game time successfuly changed to " + wordsTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-                        refreshContent();
-                    } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME){
-                        Toast.makeText(getContext(), "Minimum time required for keyboard game is " + String.valueOf(MIN_WORDSGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
-                    }
-
-                } else if (!ballTime.getText().toString().trim().equals("")) {
-                    if(Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
-                        FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
-                        Toast.makeText(getContext(), "Ball game time successfuly changed to " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
-                        refreshContent();
-                    } else if (Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
-                        Toast.makeText(getContext(), "Minimum time required for ball game is " + String.valueOf(MIN_BALLGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                }
-            }
-        });
+        setup();
 
         return view;
     }
 
-    public void refreshContent(){
+    private void setup(){
+        currentBallTime.setText(getString(R.string.patient_settings_ballgame_current_time, doente.getTimeBall()));
+        currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, doente.getTimeWords()));
+    }
+
+    @OnClick(R.id.btn_save)
+    public void onClickSave() {
+        if (!wordsTime.getText().toString().trim().equals("") &&
+                !ballTime.getText().toString().trim().equals("")){
+            if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME &&
+                    Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
+                FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
+                FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
+                Toast.makeText(getContext(), "Both words game and ball game time successfuly changed to " + wordsTime.getText().toString() + " and " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                refreshContent();
+            } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME &&
+                    Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
+                Toast.makeText(getContext(), "Minimum time required for both keyboard game and ball game is " + String.valueOf(MIN_WORDSGAME_TIME) + " and " + String.valueOf(MIN_BALLGAME_TIME) + "!", Toast.LENGTH_SHORT).show();
+            }
+        } else if(!wordsTime.getText().toString().trim().equals("")) {
+            if(Integer.parseInt(wordsTime.getText().toString()) >= MIN_WORDSGAME_TIME) {
+                FirebaseDoente.sendTimeGameWordsData(doente.getId(), wordsTime.getText().toString());
+                Toast.makeText(getContext(), "Words game time successfuly changed to " + wordsTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                refreshContent();
+            } else if (Integer.parseInt(wordsTime.getText().toString()) < MIN_WORDSGAME_TIME){
+                Toast.makeText(getContext(), "Minimum time required for keyboard game is " + String.valueOf(MIN_WORDSGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
+            }
+
+        } else if (!ballTime.getText().toString().trim().equals("")) {
+            if(Integer.parseInt(ballTime.getText().toString()) >= MIN_BALLGAME_TIME) {
+                FirebaseDoente.sendTimeGameBallData(doente.getId(), ballTime.getText().toString());
+                Toast.makeText(getContext(), "Ball game time successfuly changed to " + ballTime.getText().toString() + "!", Toast.LENGTH_SHORT).show();
+                refreshContent();
+            } else if (Integer.parseInt(ballTime.getText().toString()) < MIN_BALLGAME_TIME){
+                Toast.makeText(getContext(), "Minimum time required for ball game is " + String.valueOf(MIN_BALLGAME_TIME)+"!", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+    }
+
+    private void refreshContent(){
         if (!wordsTime.getText().toString().trim().equals("") &&
                 !ballTime.getText().toString().trim().equals("")){
             currentWordsTime.setText(getString(R.string.patient_settings_wordsgame_current_time, wordsTime.getText().toString()));

@@ -2,45 +2,35 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico.dashboard;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pdb.cm.fc.ul.pt.pdb.R;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.Firebase;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by nunonelas on 24/12/17.
  */
 
-public class MedicoAddWordFragment extends Fragment {
+public class MedicoAddWordFragment extends Fragment implements Firebase.LoadWords {
 
-    private ListView listView;
-    private List<String> wordsList;
+    private ArrayList<String> wordsList;
 
-    private static final String TBL_WORDS = "words";
+    @BindView(R.id.listWords) ListView listView;
 
     public static MedicoAddWordFragment newInstance() {
         MedicoAddWordFragment fragment = new MedicoAddWordFragment();
@@ -56,23 +46,23 @@ public class MedicoAddWordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medico_addwords, container, false);
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUpInsertNewWord();
-            }
-        });
-
-        listView = (ListView) view.findViewById(R.id.listWords);
-
-        getWordsFromFirebase();
-
+        ButterKnife.bind(this, view);
+        setup();
         return view;
     }
 
-    private void openPopUpInsertNewWord(){
+    private void setup(){
+        FirebaseMedico.getWordsFromFirebase(this);
+    }
+
+    @Override
+    public void loadWords(ArrayList<String> wordsList){
+        this.wordsList = wordsList;
+        refreshList();
+    }
+
+    @OnClick(R.id.fab)
+    public void openPopUpInsertNewWord(){
         final EditText input = new EditText(getContext());
 
         new AlertDialog.Builder(getActivity())
@@ -126,25 +116,5 @@ public class MedicoAddWordFragment extends Fragment {
                 // Do nothing.
             }
         }).show();
-    }
-
-    private void getWordsFromFirebase() {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDS);
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                wordsList = new ArrayList<String>();
-                for (DataSnapshot wordsSnapshot : dataSnapshot.getChildren()) {
-                    wordsList.add(wordsSnapshot.getValue().toString());
-                }
-
-                refreshList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.w(TAG, "Failed to read value. ", error.toException());
-            }
-        });
     }
 }

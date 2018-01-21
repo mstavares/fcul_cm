@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 public abstract class Utilities {
@@ -42,5 +43,28 @@ public abstract class Utilities {
         Calendar c = Calendar.getInstance();
         return c.get(Calendar.HOUR_OF_DAY);
     }
+
+    public static HashMap<Integer, String> getWeekAxisLabel (){
+        HashMap<Integer, String> nameOfDayOfWeek = new HashMap<>();
+        nameOfDayOfWeek.put(1, "Sunday");
+        nameOfDayOfWeek.put(2, "Monday");
+        nameOfDayOfWeek.put(3, "Tuesday");
+        nameOfDayOfWeek.put(4, "Wednesday");
+        nameOfDayOfWeek.put(5, "Thursday");
+        nameOfDayOfWeek.put(6, "Friday");
+        nameOfDayOfWeek.put(7, "Saturday");
+        return nameOfDayOfWeek;
+    }
+
+    public static float convertDate (int dayOfWeek, int hour, int minute){
+        int maxHourOfDay = 2359;
+        int mHour = Integer.valueOf(String.valueOf(hour) + String.valueOf(minute));
+
+        double convHour = (mHour*0.99)/maxHourOfDay;
+        double hold = dayOfWeek + convHour;
+        return (float) hold;
+    }
+
+
 
 }

@@ -21,6 +21,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.RawDataBallAdapter;
 import pdb.cm.fc.ul.pt.pdb.adapters.RawDataShakeAdapter;
@@ -29,6 +31,8 @@ import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.models.Shake;
 import pdb.cm.fc.ul.pt.pdb.models.WordScore;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.Firebase;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
 
 import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_DOENTE;
 import static pdb.cm.fc.ul.pt.pdb.models.Constants.rawDataDate;
@@ -41,27 +45,23 @@ import static pdb.cm.fc.ul.pt.pdb.models.Constants.rawDataTime;
  * Created by nunonelas on 24/12/17.
  */
 
-public class MedicoRawDataFragment extends Fragment {
+public class MedicoRawDataFragment extends Fragment implements Firebase.LoadRawData {
 
-    private ListView wordList;
-    private ListView ballList;
-    private ListView shakeList;
+    @BindView(R.id.rawdata_word) ListView wordList;
+    @BindView(R.id.rawdata_ball) ListView ballList;
+    @BindView(R.id.rawdata_shake) ListView shakeList;
 
-    private static final String TBL_WORDSCORES = "wordscores";
-    private static final String TBL_BALLSCORES = "ballscores";
-    private static final String TBL_SHAKESCORES = "shake";
+    @BindView(R.id.scrollview_wordsgame) NestedScrollView scrollViewWords;
+    @BindView(R.id.scrollview_ballgame) NestedScrollView scrollViewBall;
+    @BindView(R.id.scrollview_shake) NestedScrollView scrollViewShake;
+
+    @BindView(R.id.empty_wordsgame) TextView emptyWords;
+    @BindView(R.id.empty_ballgame) TextView emptyBall;
+    @BindView(R.id.empty_shake) TextView emptyShake;
 
     private ArrayList<HashMap<String, String>> listWords;
     private ArrayList<HashMap<String, String>> listBall;
     private ArrayList<HashMap<String, String>> listShake;
-
-    private NestedScrollView scrollViewWords;
-    private NestedScrollView scrollViewBall;
-    private NestedScrollView scrollViewShake;
-
-    private TextView emptyWords;
-    private TextView emptyBall;
-    private TextView emptyShake;
 
     private Doente doente;
 
@@ -84,39 +84,49 @@ public class MedicoRawDataFragment extends Fragment {
         ((TextView) view.findViewById(R.id.name)).setText(doente.getName());
         ((TextView) view.findViewById(R.id.age)).setText(doente.getAge());
 
-        wordList = (ListView) view.findViewById(R.id.rawdata_word);
-        ballList = (ListView) view.findViewById(R.id.rawdata_ball);
-        shakeList = (ListView) view.findViewById(R.id.rawdata_shake);
-
-        scrollViewWords = (NestedScrollView) view.findViewById(R.id.scrollview_wordsgame);
-        scrollViewBall = (NestedScrollView) view.findViewById(R.id.scrollview_ballgame);
-        scrollViewShake = (NestedScrollView) view.findViewById(R.id.scrollview_shake);
-
-        emptyWords = (TextView) view.findViewById(R.id.empty_wordsgame);
-        emptyBall = (TextView) view.findViewById(R.id.empty_ballgame);
-        emptyShake = (TextView) view.findViewById(R.id.empty_shake);
-
-        listWords = new ArrayList<HashMap<String,String>>();
-        listBall = new ArrayList<HashMap<String,String>>();
-        listShake = new ArrayList<HashMap<String,String>>();
-
-        getRawDataWords(doente.getId());
-        getRawDataBall(doente.getId());
-        getRawDataShake(doente.getId());
+        ButterKnife.bind(this, view);
+        setup();
 
         return view;
     }
 
+    private void setup(){
+        listWords = new ArrayList<HashMap<String,String>>();
+        listBall = new ArrayList<HashMap<String,String>>();
+        listShake = new ArrayList<HashMap<String,String>>();
+
+        FirebaseMedico.getRawDataWords(this, doente);
+        FirebaseMedico.getRawDataBall(this, doente);
+        FirebaseMedico.getRawDataShake(this, doente);
+    }
+
+    @Override
+    public void loadRawDataWords(ArrayList<HashMap<String, String>> listWords){
+        this.listWords = listWords;
+        checkRawDataWords();
+    }
+
+    @Override
+    public void loadRawDataBall(ArrayList<HashMap<String, String>> listBall){
+        this.listBall = listBall;
+        checkRawDataBall();
+    }
+
+    @Override
+    public void loadRawDataShake(ArrayList<HashMap<String, String>> listShake){
+        this.listShake = listShake;
+        checkRawDataShake();
+    }
+
     private void checkRawDataWords(){
         if(listWords.size() == 0){
-            scrollViewShake.setVisibility(View.GONE);
+            scrollViewWords.setVisibility(View.GONE);
             emptyWords.setVisibility(View.VISIBLE);
         } else {
-            scrollViewShake.setVisibility(View.VISIBLE);
+            scrollViewWords.setVisibility(View.VISIBLE);
             emptyWords.setVisibility(View.GONE);
 
-            RawDataWordsAdapter adapter = new RawDataWordsAdapter(getActivity(), listWords);
-            wordList.setAdapter(adapter);
+            wordList.setAdapter(new RawDataWordsAdapter(getActivity(), listWords));
         }
     }
 
@@ -128,8 +138,7 @@ public class MedicoRawDataFragment extends Fragment {
             scrollViewBall.setVisibility(View.VISIBLE);
             emptyBall.setVisibility(View.GONE);
 
-            RawDataBallAdapter adapter = new RawDataBallAdapter(getActivity(), listBall);
-            ballList.setAdapter(adapter);
+            ballList.setAdapter(new RawDataBallAdapter(getActivity(), listBall));
         }
     }
 
@@ -141,95 +150,7 @@ public class MedicoRawDataFragment extends Fragment {
             scrollViewShake.setVisibility(View.VISIBLE);
             emptyShake.setVisibility(View.GONE);
 
-            RawDataShakeAdapter adapter = new RawDataShakeAdapter(getActivity(), listShake);
-            shakeList.setAdapter(adapter);
+            shakeList.setAdapter(new RawDataShakeAdapter(getActivity(), listShake));
         }
-    }
-
-    private void getRawDataWords(String id){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_WORDSCORES+"/"+id);
-
-        Query query = reference.orderByChild("date");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot scoresSnapshot : dataSnapshot.getChildren()) {
-                        WordScore scores = scoresSnapshot.getValue(WordScore.class);
-
-                        HashMap<String,String> temp = new HashMap<String, String>();
-                        temp.put(rawDataScore, Integer.toString(scores.getScore()));
-                        temp.put(rawDataFaults, Integer.toString(scores.getFaults()));
-                        temp.put(rawDataTime, Integer.toString(scores.getTime()));
-                        temp.put(rawDataDate, scores.getDate());
-                        listWords.add(temp);
-                    }
-
-                    checkRawDataWords();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getRawDataBall(String id){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES+"/"+id);
-
-        Query query = reference.orderByChild("date");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot scoresSnapshot : dataSnapshot.getChildren()) {
-                        BallScore scores = scoresSnapshot.getValue(BallScore.class);
-
-                        HashMap<String,String> temp = new HashMap<String, String>();
-                        temp.put(rawDataScore, Integer.toString(scores.getScore()));
-                        temp.put(rawDataTime, Integer.toString(scores.getTime()));
-                        temp.put(rawDataDate, scores.getDate());
-                        listBall.add(temp);
-                    }
-
-                    checkRawDataBall();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void getRawDataShake(String id){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(TBL_SHAKESCORES+"/"+id);
-
-        Query query = reference.orderByChild("date");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot shakesSnapshot : dataSnapshot.getChildren()) {
-                        Shake shakes = shakesSnapshot.getValue(Shake.class);
-
-                        HashMap<String,String> temp = new HashMap<String, String>();
-                        temp.put(rawDataShake, Double.toString(shakes.getShake()));
-                        temp.put(rawDataDate, shakes.getDate());
-                        listShake.add(temp);
-                    }
-
-                    checkRawDataShake();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }

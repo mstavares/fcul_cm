@@ -22,44 +22,28 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.models.BallScore;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
-import pdb.cm.fc.ul.pt.pdb.models.Shake;
-import pdb.cm.fc.ul.pt.pdb.models.WordScore;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.Firebase;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
 import pdb.cm.fc.ul.pt.pdb.utilities.Utilities;
 
-import static android.content.ContentValues.TAG;
 import static pdb.cm.fc.ul.pt.pdb.activities.medico.MedicoDashboardMainActivity.EXTRA_DOENTE;
 
 /**
  * Created by nunonelas on 24/12/17.
  */
 
-public class MedicoDashboardFragment extends Fragment implements OnChartValueSelectedListener {
+public class MedicoDashboardFragment extends Fragment implements OnChartValueSelectedListener, Firebase.LoadDashboardData {
 
-    private LineChart mChartWords;
-    private LineChart mChartBall;
-    private LineChart mChartShake;
-
-    private static final String TBL_SHAKES = "shake";
-    private static final String TBL_WORDSSCORES = "wordscores";
-    private static final String TBL_BALLSCORES = "ballscores";
-
-    private static final String ATR_DATE = "date";
+    @BindView(R.id.chartWords) LineChart mChartWords;
+    @BindView(R.id.chartBall) LineChart mChartBall;
+    @BindView(R.id.chartAcell) LineChart mChartShake;
 
     private ArrayList<Entry> shakes;
     private ArrayList<Entry> timeBall;
@@ -68,8 +52,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     private ArrayList<Entry> timeWords;
     private ArrayList<Entry> scoreWords;
     private ArrayList<Entry> faultsWords;
-
-    private ArrayList<Integer> hoursList;
 
     private HashMap<Integer, String> nameOfDayOfWeek;
 
@@ -95,16 +77,38 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         ((TextView) view.findViewById(R.id.name)).setText(doente.getName());
         ((TextView) view.findViewById(R.id.age)).setText(doente.getAge());
 
-        mChartWords = (LineChart) view.findViewById(R.id.chartWords);
-        mChartBall = (LineChart) view.findViewById(R.id.chartBall);
-        mChartShake = (LineChart) view.findViewById(R.id.chartAcell);
-
-        getAxisLabel();
-        fetchAllWordsGameData();
-        fetchAllBallGameData();
-        fetchAllShakeData();
+        ButterKnife.bind(this, view);
+        setup();
 
         return view;
+    }
+
+    private void setup(){
+        nameOfDayOfWeek = Utilities.getWeekAxisLabel();
+        FirebaseMedico.fetchAllWordsGameData(this, doente);
+        FirebaseMedico.fetchAllBallGameData(this, doente);
+        FirebaseMedico.fetchAllShakeData(this, doente);
+    }
+
+    @Override
+    public void loadWordsGameData(ArrayList<Entry> scoreWords, ArrayList<Entry> timeWords, ArrayList<Entry> faultsWords){
+        this.scoreWords = scoreWords;
+        this.timeWords = timeWords;
+        this.faultsWords = faultsWords;
+        createChartWords();
+    }
+
+    @Override
+    public void loadBallGameData(ArrayList<Entry> scoreBall, ArrayList<Entry> timeBall){
+        this.scoreBall = scoreBall;
+        this.timeBall = timeBall;
+        createChartBall();
+    }
+
+    @Override
+    public void loadShakeData(ArrayList<Entry> shakes){
+        this.shakes = shakes;
+        createChartShake();
     }
 
     /*
@@ -133,9 +137,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         // if disabled, scaling can be done on x- and y-axis separately
         mChartWords.setPinchZoom(true);
 
-        // set an alternative background color
-        //mChart.setBackgroundColor(Color.WHITE);
-
         // add data
         setDataWords();
 
@@ -157,7 +158,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
-//        l.setYOffset(11f);
     }
 
     private void configureAxisWords(){
@@ -177,11 +177,9 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
         YAxis leftAxis = mChartWords.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        //leftAxis.setAxisMaximum(200f);
         leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawAxisLine(false);
-        //leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = mChartWords.getAxisRight();
         rightAxis.setEnabled(false);
@@ -216,10 +214,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setDrawCircleHole(false);
             set1.setDrawCircles(false);
             set1.setDrawValues(false);
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
 
             // create a dataset and give it a type
             set2 = new LineDataSet(scoreWords, "Score");
@@ -234,7 +228,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set2.setDrawCircles(false);
             set2.setDrawValues(false);
             set2.setHighLightColor(Color.rgb(244, 117, 117));
-            //set2.setFillFormatter(new MyFillFormatter(900f));
 
             set3 = new LineDataSet(faultsWords, "Faults");
             set3.setAxisDependency(YAxis.AxisDependency.LEFT);
@@ -285,9 +278,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         // if disabled, scaling can be done on x- and y-axis separately
         mChartBall.setPinchZoom(true);
 
-        // set an alternative background color
-        //mChart.setBackgroundColor(Color.WHITE);
-
         // add data
         setDataBall();
 
@@ -309,7 +299,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
-//        l.setYOffset(11f);
     }
 
     private void configureAxisBall(){
@@ -329,11 +318,8 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
 
         YAxis leftAxis = mChartBall.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
-        //leftAxis.setAxisMaximum(200f);
-        //leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawAxisLine(false);
-        //leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = mChartBall.getAxisRight();
         rightAxis.setEnabled(false);
@@ -366,10 +352,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setDrawCircleHole(false);
             set1.setDrawCircles(false);
             set1.setDrawValues(false);
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
 
             // create a dataset and give it a type
             set2 = new LineDataSet(scoreBall, "Score");
@@ -384,7 +366,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set2.setDrawCircles(false);
             set2.setDrawValues(false);
             set2.setHighLightColor(Color.rgb(244, 117, 117));
-            //set2.setFillFormatter(new MyFillFormatter(900f));
 
             // create a data object with the datasets
             LineData data = new LineData(set1, set2);
@@ -422,9 +403,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         // if disabled, scaling can be done on x- and y-axis separately
         mChartShake.setPinchZoom(true);
 
-        // set an alternative background color
-        //mChart.setBackgroundColor(Color.WHITE);
-
         // add data
         setDataShake();
 
@@ -446,7 +424,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         l.setDrawInside(false);
-//        l.setYOffset(11f);
     }
 
     private void configureAxisShake(){
@@ -458,20 +435,20 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
         xAxis.setAxisMinimum(Utilities.getHourRightNow()-2f);
         xAxis.setAxisMaximum(Utilities.getHourRightNow()+1f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                //HH.MM
-                String hold = String.format("%02.02f", value);
-                hold = hold.replace(',', ':');
-                return hold+"h";
-            }
-        });
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    //HH.MM
+                    String hold = String.format("%02.02f", value);
+                    hold = hold.replace(',', ':');
+                    return hold+"h";
+                }
+            });
+
 
         YAxis leftAxis = mChartShake.getAxisLeft();
         leftAxis.setTextColor(Color.BLACK);
         leftAxis.setDrawGridLines(true);
         leftAxis.setDrawAxisLine(false);
-        //leftAxis.setGranularityEnabled(true);
 
         YAxis rightAxis = mChartShake.getAxisRight();
         rightAxis.setEnabled(false);
@@ -502,11 +479,6 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
             set1.setDrawCircleHole(false);
             set1.setDrawCircles(false);
             set1.setDrawValues(false);
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
-
 
             // create a data object with the datasets
             LineData data = new LineData(set1);
@@ -521,153 +493,10 @@ public class MedicoDashboardFragment extends Fragment implements OnChartValueSel
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         Log.i("Entry selected", e.toString());
-
-        //mChartWords.centerViewToAnimated(e.getX(), e.getY(), mChartWords.getData().getDataSetByIndex(h.getDataSetIndex())
-        //        .getAxisDependency(), 500);
-        //mChart.zoomAndCenterAnimated(2.5f, 2.5f, e.getX(), e.getY(), mChart.getData().getDataSetByIndex(dataSetIndex)
-        // .getAxisDependency(), 1000);
-        //mChart.zoomAndCenterAnimated(1.8f, 1.8f, e.getX(), e.getY(), mChart.getData().getDataSetByIndex(dataSetIndex)
-        // .getAxisDependency(), 1000);
     }
 
     @Override
     public void onNothingSelected() {
         Log.i("Nothing selected", "Nothing selected.");
-    }
-
-    private void fetchAllWordsGameData() {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_WORDSSCORES + "/" + doente.getId());
-        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
-        query.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                scoreWords = new ArrayList<>();
-                timeWords = new ArrayList<>();
-                faultsWords = new ArrayList<>();
-                for (DataSnapshot scoresSnapshot: dataSnapshot.getChildren()) {
-                    WordScore wordScore = scoresSnapshot.getValue(WordScore.class);
-                    try {
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(wordScore.getDate()));
-                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-                        int hours = c.get(Calendar.HOUR_OF_DAY);
-                        int minutes = c.get(Calendar.MINUTE);
-
-                        float time = convertDate(dayOfWeek, hours, minutes);
-
-                        scoreWords.add(new Entry(time, (float) wordScore.getScore()));
-                        timeWords.add(new Entry(time, (float) wordScore.getTime()));
-                        faultsWords.add(new Entry(time, (float) wordScore.getFaults()));
-
-                    } catch (java.text.ParseException e){
-
-                    }
-                }
-                createChartWords();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
-
-    private void fetchAllBallGameData() {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_BALLSCORES + "/" + doente.getId());
-        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getFirstDayOfCurrentWeek());
-        query.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                scoreBall = new ArrayList<>();
-                timeBall = new ArrayList<>();
-                for (DataSnapshot scoresSnapshot: dataSnapshot.getChildren()) {
-                    BallScore ballScore = scoresSnapshot.getValue(BallScore.class);
-                    try {
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(ballScore.getDate()));
-                        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-                        int hours = c.get(Calendar.HOUR_OF_DAY);
-                        int minutes = c.get(Calendar.MINUTE);
-
-                        float time = convertDate(dayOfWeek, hours, minutes);
-
-                        scoreBall.add(new Entry(time, (float) ballScore.getScore()));
-                        timeBall.add(new Entry(time, (float) ballScore.getTime()));
-
-                    } catch (java.text.ParseException e){
-
-                    }
-                }
-                createChartBall();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
-
-    private void fetchAllShakeData() {
-        hoursList = new ArrayList<>();
-
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_SHAKES + "/" + doente.getId());
-        Query query = databaseReference.orderByChild(ATR_DATE).startAt(Utilities.getLastDay());
-        query.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                shakes = new ArrayList<>();
-                for (DataSnapshot shakesSnapshot: dataSnapshot.getChildren()) {
-                    Shake shake = shakesSnapshot.getValue(Shake.class);
-                    try {
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(new SimpleDateFormat("dd/M/yyyy HH:mm:ss").parse(shake.getDate()));
-                        int hours = c.get(Calendar.HOUR_OF_DAY);
-                        int minutes = c.get(Calendar.MINUTE);
-
-                        String hold = String.format("%02d.%02d", hours, minutes);
-
-                        float time = Float.valueOf(hold);
-
-                        shakes.add(new Entry(time, (float) shake.getShake()));
-
-                        hoursList.add(hours);
-                    } catch (java.text.ParseException e){
-
-                    }
-
-                }
-                createChartShake();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
-
-    private float convertDate (int dayOfWeek, int hour, int minute){
-        int maxHourOfDay = 2359;
-        int mHour = Integer.valueOf(String.valueOf(hour) + String.valueOf(minute));
-
-        double convHour = (mHour*0.99)/maxHourOfDay;
-        double hold = dayOfWeek + convHour;
-        return (float) hold;
-    }
-
-    private void getAxisLabel(){
-        nameOfDayOfWeek = new HashMap<>();
-        nameOfDayOfWeek.put(1, "Sunday");
-        nameOfDayOfWeek.put(2, "Monday");
-        nameOfDayOfWeek.put(3, "Tuesday");
-        nameOfDayOfWeek.put(4, "Wednesday");
-        nameOfDayOfWeek.put(5, "Thursday");
-        nameOfDayOfWeek.put(6, "Friday");
-        nameOfDayOfWeek.put(7, "Saturday");
     }
 }

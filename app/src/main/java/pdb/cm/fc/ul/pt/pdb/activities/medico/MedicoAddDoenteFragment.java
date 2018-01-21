@@ -2,11 +2,8 @@ package pdb.cm.fc.ul.pt.pdb.activities.medico;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,25 +19,19 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
+import butterknife.BindView;
 import pdb.cm.fc.ul.pt.pdb.R;
-import pdb.cm.fc.ul.pt.pdb.activities.LoginActivity;
-import pdb.cm.fc.ul.pt.pdb.activities.SplashActivity;
 import pdb.cm.fc.ul.pt.pdb.models.Doente;
 import pdb.cm.fc.ul.pt.pdb.preferences.UserPreferences;
+import pdb.cm.fc.ul.pt.pdb.services.firebase.Firebase;
 import pdb.cm.fc.ul.pt.pdb.services.firebase.FirebaseMedico;
 
 /**
  * Created by nunonelas on 27/12/17.
  */
 
-public class MedicoAddDoenteFragment extends Fragment {
+public class MedicoAddDoenteFragment extends Fragment implements Firebase.LoadLastPatient {
 
     private static final String TAG = MedicoAddDoenteFragment.class.getSimpleName();
 
@@ -48,24 +39,22 @@ public class MedicoAddDoenteFragment extends Fragment {
     private FirebaseAuth mAuth2;
 
     private static final String DOMAIN = "@paciente.pdb.pt";
+
     private static final int DEFAULT_TIMEBALL = 90;
     private static final int DEFAULT_TIMEWORDS = 90;
-    private static final String TBL_DOENTES = "doentes";
+
     private static final String DATABASE_URL = "https://fcul-cm.firebaseio.com/";
     private static final String PROJECT_ID = "fcul-cm";
     private static final String WEB_API_KEY = "AIzaSyBesiKVzx8qlAF-udUvLIwgWQm6JbC5PLg";
     private static final String APP_NAME = "Secondary";
 
-    private String mMedicoEmail;
+    @BindView(R.id.str_name) EditText mName;
+    @BindView(R.id.str_password) EditText mPassword;
+    @BindView(R.id.str_age) EditText mAge;
+    @BindView(R.id.str_email) TextView mEmail;
 
-    private EditText mName;
-    private EditText mPassword;
-    private EditText mAge;
-
-    private TextView mEmail;
     private String mID;
-
-    private Button mAddUser;
+    private String mMedicoEmail;
 
     public static MedicoAddDoenteFragment newInstance() {
         MedicoAddDoenteFragment fragment = new MedicoAddDoenteFragment();
@@ -81,6 +70,32 @@ public class MedicoAddDoenteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medico_add_doentes, container, false);
+
+        mMedicoEmail = UserPreferences.getEmail(getContext());
+
+        setup();
+
+        Button mAddUser = (Button) view.findViewById(R.id.btn_add_user);
+        mAddUser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addPatient(createEmail(mID), mPassword.getText().toString());
+            }
+        });
+
+        return view;
+    }
+
+    private void setup () {
+        createNewInstanceOfFirebase();
+        FirebaseMedico.fetchLastPatientID(this);
+    }
+
+    @Override
+    public void loadLastPatient(Doente lastDoenteOnFirebase){
+        getNewID(lastDoenteOnFirebase);
+    }
+
+    private void createNewInstanceOfFirebase(){
         mAuth1 = FirebaseAuth.getInstance();
 
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
@@ -92,24 +107,6 @@ public class MedicoAddDoenteFragment extends Fragment {
                 APP_NAME);
 
         mAuth2 = FirebaseAuth.getInstance(myApp);
-
-        fetchLastPatientID();
-        mMedicoEmail = UserPreferences.getEmail(getContext());
-
-        mName = (EditText) view.findViewById(R.id.str_name);
-        mPassword = (EditText) view.findViewById(R.id.str_password);
-        mAge = (EditText) view.findViewById(R.id.str_age);
-
-        mEmail = (TextView) view.findViewById(R.id.str_email);
-
-        mAddUser = (Button) view.findViewById(R.id.btn_add_user);
-        mAddUser.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                addPatient(createEmail(mID), mPassword.getText().toString());
-            }
-        });
-
-        return view;
     }
 
     private void addPatient(final String email, String password){
@@ -144,25 +141,6 @@ public class MedicoAddDoenteFragment extends Fragment {
         return id.concat(DOMAIN);
     }
 
-    private void fetchLastPatientID(){
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(TBL_DOENTES);
-        Query deleteQuery = databaseReference.orderByChild("id").limitToLast(1);
-        deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot doentesSnapshot: dataSnapshot.getChildren()) {
-                    Doente lastDoenteOnFirebase = doentesSnapshot.getValue(Doente.class);
-                    getNewID(lastDoenteOnFirebase);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.e(TAG, "Failed to read value. ", error.toException());
-            }
-        });
-    }
 
     private void getNewID(Doente lastDoenteOnFirebase){
         String lastID = lastDoenteOnFirebase.getId().substring(1);

@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pdb.cm.fc.ul.pt.pdb.R;
 import pdb.cm.fc.ul.pt.pdb.adapters.PontuacoesListAdapter;
 import pdb.cm.fc.ul.pt.pdb.models.BallScore;
@@ -42,7 +44,8 @@ public class PontuacoesBallGameFragment extends Fragment {
     private static final String TBL_BALLSCORES = "ballscores";
     private static final String TBL_DOENTES = "doentes";
     private ArrayList<HashMap<String, String>> list;
-    private ListView listView;
+
+    @BindView(R.id.listViewScoresBall) ListView listView;
 
     private ArrayList<String> listNames;
     private ArrayList<String> listScores;
@@ -55,7 +58,7 @@ public class PontuacoesBallGameFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_doente_pontuacoes_ballgame, container, false);
 
-        listView=(ListView) rootView.findViewById(R.id.listViewScoresBall);
+        ButterKnife.bind(this, rootView);
 
         getAllUsers();
 
